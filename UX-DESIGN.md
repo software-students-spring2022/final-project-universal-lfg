@@ -7,7 +7,17 @@ Replace the contents of this file with the completed assignments, as described i
 - [app map & wireframe instructions](instructions-0a-app-map-wireframes.md).
 - [prototype instructions](instructions-0b-prototyping.md)
 
+# Site Map
+
 # Wireframes
+
+## Registration/Log In
+
+* Stuff
+
+## Home Page
+
+* Stuff
 
 ## Post Creation, Browsing, and Joining Groups
 
