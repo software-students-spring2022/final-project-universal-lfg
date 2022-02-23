@@ -15,7 +15,18 @@ Replace the contents of this file with the completed assignments, as described i
 
 ## Registration/Log In
 
-* Stuff
+User opens app:
+
+![Login Page](ux-design/login.png)
+
+For new users, they need to create an account:
+
+![Registration Page](ux-design/signup.png)
+
+After a new account is created, the user can populate their profile and join channels they are interested in:
+
+![Personal Info](ux-design/age.png)
+![Preference](ux-design/Preference.png)
 
 ## Home Page
 
