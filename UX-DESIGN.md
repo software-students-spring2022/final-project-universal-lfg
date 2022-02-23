@@ -19,7 +19,7 @@ Replace the contents of this file with the completed assignments, as described i
 
 ## Home Page
 
-* Stuff
+![Homepage](ux-design/homepage.png)
 
 ## Post Creation, Browsing, and Joining Groups
 
