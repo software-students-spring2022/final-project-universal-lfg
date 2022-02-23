@@ -9,6 +9,8 @@ Replace the contents of this file with the completed assignments, as described i
 
 # Site Map
 
+![Sitemap](ux-design/Sitemap.png)
+
 # Wireframes
 
 ## Registration/Log In
