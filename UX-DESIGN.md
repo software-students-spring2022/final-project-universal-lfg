@@ -26,7 +26,7 @@ For new users, they need to create an account:
 After a new account is created, the user can populate their profile and join channels they are interested in:
 
 ![Personal Info](ux-design/age.png)
-![Preference](ux-design/Preference.png)
+![Preference](ux-design/preference.png)
 
 ## Home Page
 
