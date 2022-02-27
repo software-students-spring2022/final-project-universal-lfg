@@ -6,7 +6,7 @@
 * Team members should aim to respond to messages in the Discord server on a timely basis, no longer than the time between each standup meeting.
 * Any disagreements in direction or conflicts should be brought up promptly by involved parties and resolved in a meeting, or privately through Discord if applicable.
 * Each sprint for this team will take 2 weeks.
-* Standup meetings will occur at least once weekly on a time agreed upon by team members. Team members are expected to show up on time to present.
+* Standup meetings will occur at least once weekly at 5PM on Wednesdays. Additional meetings may be held as necessary with the team's agreement. Team members are expected to show up on time to present.
 * If a team member should make no progress on assigned tasks for two standups or more in a row, the matter will be brought up to management.
 * Always push working code with descriptive commit messages.
 * Write self-documenting code with descriptive variable and function names.
@@ -15,7 +15,8 @@
 
 ## Git Workflow
 
-* The team will primarily follow a Centralized Workflow. All team members will clone the repository on their personal devices and push/pull to the main branch as necessary.
+* The team will primarily follow a Centralized Workflow. All team members will clone the repository on their personal devices and push/pull to the main branch as necessary. 
+* If it becomes necessary for team members to work on the same files at the same time, team members will be expected to fork their repositories and be mindful of errors that may occur when merging.
 
 ## Contributing
 
