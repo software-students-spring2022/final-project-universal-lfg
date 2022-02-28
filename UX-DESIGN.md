@@ -61,3 +61,6 @@ From the regular user's perspective, after browsing through posts, they might se
 If the user hits "Submit", they will be told the ID of their host, and will be given a tooltip to allow them to cancel their spot selection if they change their mind:
 
 ![Completion Non-Host POV](ux-design/journey-completion.png)
+
+# Prototype
+[Prototype Using InvisionApp](https://juntaozhu991694.invisionapp.com/console/share/YQJTRS4PNZ9)
