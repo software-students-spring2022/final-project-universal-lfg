@@ -2,6 +2,8 @@
 Today's most popular video games are those that feature highly competitive multiplayer game modes. Whether it be Call of Duty, Apex Legends, Destiny, Valorant — or any other game — having a team you can communicate with can mean the difference between winning annd losing. 
 Universal LFG (Looking for Group) would be a platform that can connect players in need of a group to each other. 
 
+[App Prototype on InVision](https://juntaozhu991694.invisionapp.com/console/share/YQJTRS4PNZ9)
+
 ### Who is Universal LFG For?
 The end users of Universal LFG would be gamers who don't have access to a group to play their favorite games with. 
 
