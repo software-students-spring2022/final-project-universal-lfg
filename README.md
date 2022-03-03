@@ -26,7 +26,8 @@ At its core, Universal LFG would be a collection of forum-type pages. Ideally, "
 ## Team
 
 [Helen Dong](https://github.com/helenyxd),
-[Juntao Zhu](https://github.com/juntaoZhu1),
 [Alex Sheng](https://github.com/ash3n)
+[Juntao Zhu](https://github.com/juntaoZhu1),
+Qianwen Zhu
 
 [How do I contribute?](https://github.com/software-assignments-spring2022/final-project-universal-lfg/blob/master/CONTRIBUTING.md)
