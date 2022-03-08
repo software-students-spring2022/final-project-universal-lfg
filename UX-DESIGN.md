@@ -9,7 +9,7 @@ Replace the contents of this file with the completed assignments, as described i
 
 # Site Map
 
-![Sitemap](ux-design/sitemap.png)
+![Sitemap](ux-design/Sitemap.png)
 
 # Wireframes
 
@@ -31,7 +31,7 @@ For new users, they need to create an account:
 
 After a new account is created, the user can join channels they are interested in:
 
-![Preference](ux-design/preference.png)
+![Preference](ux-design/Preference.png)
 
 ## Home Page
 
