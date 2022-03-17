@@ -13,9 +13,15 @@ Replace the contents of this file with the completed assignments, as described i
 
 # Wireframes
 
+## Welcome Page
+
+Simple homepage design for people who are not logged in, directs them to log in and/or sign up page with a button:
+
+![Welcome Page](ux-design/welcome.png)
+
 ## Registration/Log In
 
-User opens app:
+Login Page:
 
 ![Login Page](ux-design/login.png)
 
@@ -23,14 +29,31 @@ For new users, they need to create an account:
 
 ![Registration Page](ux-design/signup.png)
 
-After a new account is created, the user can populate their profile and join channels they are interested in:
+After a new account is created, the user can join channels they are interested in:
 
-![Personal Info](ux-design/age.png)
-![Preference](ux-design/preference.png)
+![Preference](ux-design/Preference.png)
 
 ## Home Page
 
+On the homepage, the games you have added are displayed. User can click the button "more" to add new games or delete existing games. 
+
 ![Homepage](ux-design/homepage.png)
+
+## Add or Delete Games
+
+All the games provided in our app will be displayed on this page. Users can delete games they have added to their homepage before or explore new games:
+
+![Add/Delete Games](ux-design/add-or-delete-games.png)
+
+## Profile Page and Update
+
+Users can get to their profile page from homepage. This page briefly contains simple information about the user and a notification section:
+
+![Profile](ux-design/profile.png)
+
+The user information can be edited, including the personal information and account settings:
+
+![UpdateProfile](ux-design/update-profile.png)
 
 ## Post Creation, Browsing, and Joining Groups
 
@@ -61,6 +84,12 @@ From the regular user's perspective, after browsing through posts, they might se
 If the user hits "Submit", they will be told the ID of their host, and will be given a tooltip to allow them to cancel their spot selection if they change their mind:
 
 ![Completion Non-Host POV](ux-design/journey-completion.png)
+
+## Notification
+
+On this page, the system will inform the user about the information of their team. Hosts can see the requests and non-hosts can see whether their requests were approved or not.
+
+![Notification](ux-design/notification.png)
 
 # Prototype
 [Prototype Using InvisionApp](https://juntaozhu991694.invisionapp.com/console/share/YQJTRS4PNZ9)
