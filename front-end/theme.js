@@ -7,5 +7,6 @@ export default Theme = {
       text: '#FFFFFF',
       border: '#45A29E',
       notification: '#66FCF1',
+      shadow: '#000000'
     },
   };

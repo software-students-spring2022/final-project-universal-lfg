@@ -1,10 +1,11 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Home from './Components/Home'
+import Home from './Screens/Home'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import Theme from './theme'
+import LoginScreen from './Screens/LoginScreen'
 
 export default function App() {
   const Drawer = createDrawerNavigator(); 

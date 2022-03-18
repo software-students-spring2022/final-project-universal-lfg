@@ -1,6 +1,6 @@
 import React from 'react'
 import Button from './Components/Button.js'
-import { theme } from './theme.js'
+import theme from '../theme.js'
 
 export default function StartScreen({ navigation }) {
   return (

@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
-import Button from './Components/Button'
-import TextInput from './Components/TextInput'
-import BackButton from './Components/BackButton'
-import { theme } from './theme.js'
-import { emailValidator } from './Helpers/emailValidator'
-import { passwordValidator } from './Helpers/passwordValidator'
+import Button from '../Components/Button'
+import TextInput from '../Components/TextInput'
+import BackButton from '../Components/BackButton'
+import theme from '../theme.js'
+import { emailValidator } from '../Helpers/emailValidator'
+import { passwordValidator } from '../Helpers/passwordValidator'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -28,7 +28,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton goBack={navigation.goBack} theme={theme} />
       <Text>Welcome back.</Text>
       <TextInput
         label="Email"
