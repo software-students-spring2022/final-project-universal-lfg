@@ -5,20 +5,21 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import Theme from './theme'
-import Login from './Components/Login';
 
 export default function App() {
   const Drawer = createDrawerNavigator(); 
+
   return (
-    <SafeAreaProvider>
-      <NavigationContainer theme={Theme}> 
-        <Drawer.Navigator screenOptions={{drawerType:'front', headerTitle:'ULFG', headerTintColor: Theme.colors.primary}}>
-          <Drawer.Screen name='Home' component={Home}/>
-          <Drawer.Screen name='Settings' component={Home}/>
-          <Drawer.Screen name='Messages' component={Home}/>
-          <Drawer.Screen name='Posts' component={Home}/>
-        </Drawer.Navigator> 
-      </NavigationContainer>
-   </SafeAreaProvider>
-  );
+      <SafeAreaProvider>
+        <NavigationContainer theme={Theme}> 
+          <Drawer.Navigator screenOptions={{drawerType:'front', headerTitle:'ULFG', headerTintColor: Theme.colors.primary}}>
+            <Drawer.Screen name='Home' component={Home}/>
+            <Drawer.Screen name='Settings' component={Home}/>
+            <Drawer.Screen name='Messages' component={Home}/>
+            <Drawer.Screen name='Posts' component={Home}/>
+          </Drawer.Navigator> 
+        </NavigationContainer>
+     </SafeAreaProvider>
+    );
+
 }
