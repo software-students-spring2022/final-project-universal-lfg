@@ -5,6 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import Theme from './theme'
+import Login from './Components/Login';
 
 export default function App() {
   const Drawer = createDrawerNavigator(); 
