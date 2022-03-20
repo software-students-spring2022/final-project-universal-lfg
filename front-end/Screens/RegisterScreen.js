@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity } from 'react-native'
-import { Text } from 'react-native-paper'
-import Button from './Components/Button'
-import TextInput from './Components/TextInput'
-import BackButton from './Components/BackButton'
+import { View, StyleSheet, TouchableOpacity, Button, Text, TextInput } from 'react-native'
+import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
-import { emailValidator } from './Helpers/emailValidator'
-import { passwordValidator } from './Helpers/passwordValidator'
-import { nameValidator } from './Helpers/nameValidator'
+import { emailValidator } from '../Helpers/emailValidator'
+import { passwordValidator } from '../Helpers/passwordValidator'
+import { nameValidator } from '../Helpers/nameValidator'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -32,44 +29,37 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BackButton goBack={navigation.goBack} />
-      <Text>Create Account</Text>
+      <BackButton goBack={navigation.goBack} theme={theme} />
+      <Text style={styles.header}>Create Account</Text>
       <TextInput
-        label="Name"
+        style={styles.input}
+        placeholder="Username"
         returnKeyType="next"
         value={name.value}
         onChangeText={(text) => setName({ value: text, error: '' })}
-        error={!!name.error}
-        errorText={name.error}
       />
       <TextInput
-        label="Email"
+        style={styles.input}
+        placeholder="Email Address"
         returnKeyType="next"
         value={email.value}
         onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
         autoCapitalize="none"
-        autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
       />
       <TextInput
-        label="Password"
+        style={styles.input}
+        placeholder="Password"
         returnKeyType="done"
         value={password.value}
         onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
         secureTextEntry
       />
       <Button
-        mode="contained"
         onPress={onSignUpPressed}
-        style={{ marginTop: 24 }}
-      >
-        Sign Up
-      </Button>
+        title="Sign Up"
+      />
       <View style={styles.row}>
         <Text>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
@@ -95,4 +85,15 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: theme.colors.primary,
     },
+    header: {
+      fontSize: 20,
+      color: theme.colors.primary,
+    },
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      backgroundColor: '#ffffff'
+    }
 })

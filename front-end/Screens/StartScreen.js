@@ -1,6 +1,6 @@
 import React from 'react'
-import Button from './Components/Button.js'
-import theme from '../theme.js'
+import { StyleSheet, Text, View, Button } from 'react-native';
+import theme from '../theme'
 
 export default function StartScreen({ navigation }) {
   return (
@@ -9,17 +9,13 @@ export default function StartScreen({ navigation }) {
         Welcome to Universal LFG!
       </Text>
       <Button
-        mode="contained"
+        title='Log In'
         onPress={() => navigation.navigate('LoginScreen')}
-      >
-        Login
-      </Button>
+      />
       <Button
-        mode="outlined"
+        title='Sign Up'
         onPress={() => navigation.navigate('RegisterScreen')}
-      >
-        Sign Up
-      </Button>
+      />
     </View>
 
   )
