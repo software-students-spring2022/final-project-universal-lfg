@@ -19,7 +19,7 @@ export default function Home() {
             {
                 GAMES.map((game) => { 
                     return(
-                        <GameCard key={game.title+'personal'} img={game.image} type="personal" title={game.title} theme={theme} />
+                        <GameCard key={game.title+'personal'} img={game.image} type="personal" title={game.title} gamePath={game.path} theme={theme} />
                     )
                 } )
             }

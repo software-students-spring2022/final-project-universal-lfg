@@ -32,7 +32,7 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BackButton goBack={navigation.goBack} />
+      <BackButton goBack={navigation.goBack} theme={theme} />
       <Text>Create Account</Text>
       <TextInput
         label="Name"
