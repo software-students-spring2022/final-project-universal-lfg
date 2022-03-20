@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, View } from 'react-native'
-import { Text } from 'react-native-paper'
-import Button from '../Components/Button'
-import TextInput from '../Components/TextInput'
+import { TouchableOpacity, StyleSheet, View, Button, Text, TextInput } from 'react-native'
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
@@ -29,26 +26,23 @@ export default function LoginScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <BackButton goBack={navigation.goBack} theme={theme} />
-      <Text>Welcome back.</Text>
+      <Text style={styles.header}>Welcome back.</Text>
       <TextInput
-        label="Email"
-        returnKeyType="next"
+        style={styles.input}
+        placeholder="Email Address"
         value={email.value}
+        returnKeyType="next"
         onChangeText={(text) => setEmail({ value: text, error: '' })}
-        error={!!email.error}
-        errorText={email.error}
         autoCapitalize="none"
-        autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
       />
       <TextInput
-        label="Password"
+        style={styles.input}
+        placeholder="Password"
         returnKeyType="done"
         value={password.value}
         onChangeText={(text) => setPassword({ value: text, error: '' })}
-        error={!!password.error}
-        errorText={password.error}
         secureTextEntry
       />
       <View style={styles.forgotPassword}>
@@ -58,9 +52,9 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button mode="contained" onPress={onLoginPressed}>
-        Login
-      </Button>
+      <Button onPress={onLoginPressed}
+      title='Log In'
+      />
       <View style={styles.row}>
         <Text>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
@@ -91,8 +85,19 @@ const styles = StyleSheet.create({
         fontSize: 13,
         color: theme.colors.primary,
     },
+    header: {
+      fontSize: 20,
+      color: theme.colors.primary,
+    },
     link: {
         fontWeight: 'bold',
         color: theme.colors.primary,
     },
+    input: {
+      height: 40,
+      margin: 12,
+      borderWidth: 1,
+      padding: 10,
+      backgroundColor: '#ffffff'
+    }
 })

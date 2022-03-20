@@ -1,16 +1,22 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import Home from './Screens/Home'
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
+import React from 'react'
+import { Provider } from 'react-native-paper'
+import { NavigationContainer } from '@react-navigation/native'
+import { createStackNavigator } from '@react-navigation/stack'
 import Theme from './theme'
+<<<<<<< HEAD
 import BrowsePost from './Screens/BrowsePost'
+=======
+import StartScreen from './Screens/StartScreen'
+import LoginScreen from './Screens/LoginScreen'
+import RegisterScreen from './Screens/RegisterScreen'
+import Dashboard from './Screens/Dashboard'
+>>>>>>> d2d01182a08539cae1883e739cb7b5321034145e
+
+const Stack = createStackNavigator()
 
 export default function App() {
-  const Drawer = createDrawerNavigator(); 
-
   return (
+<<<<<<< HEAD
       <SafeAreaProvider>
         <NavigationContainer theme={Theme}> 
           <Drawer.Navigator screenOptions={{drawerType:'front', headerTitle:'ULFG', headerTintColor: Theme.colors.primary}}>
@@ -23,4 +29,22 @@ export default function App() {
      </SafeAreaProvider>
     );
 
+=======
+    <Provider theme={Theme}>
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="StartScreen"
+          screenOptions={{
+            headerShown: false,
+          }}
+        >
+          <Stack.Screen name="StartScreen" component={StartScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="Dashboard" component={Dashboard} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  )
+>>>>>>> d2d01182a08539cae1883e739cb7b5321034145e
 }
