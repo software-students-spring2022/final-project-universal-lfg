@@ -11,8 +11,8 @@ const POSTS = [
     
 ]
 
-export default function BrowsePost({navigation, gameTitle}){
-    
+export default function BrowsePost({route, navigation}){
+    const { gameTitle } = route.params
     return (
         <ScrollView>
             <View style={styles.container}>

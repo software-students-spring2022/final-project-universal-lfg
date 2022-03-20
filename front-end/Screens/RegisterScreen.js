@@ -30,11 +30,7 @@ export default function RegisterScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <BackButton goBack={navigation.goBack} theme={theme} />
-<<<<<<< HEAD
-      <Text>Create Account</Text>
-=======
       <Text style={styles.header}>Create Account</Text>
->>>>>>> d2d01182a08539cae1883e739cb7b5321034145e
       <TextInput
         style={styles.input}
         placeholder="Username"
@@ -79,7 +75,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.background, 
+        backgroundColor: theme.colors.background, 
     },
     row: {
         flexDirection: 'row',

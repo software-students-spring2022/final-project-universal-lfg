@@ -2,22 +2,22 @@
 const GAMES = [
     {
         title : "League Of Legends", 
-        path  : "/", 
+        path  : "league_of_legends", 
         image : require('./league.png')
     }, 
     {
         title : "Minecraft", 
-        path  : "/", 
+        path  : "minecraft", 
         image : require('./minecraft.png')
     },
     {
         title : "Valorant", 
-        path  : "/", 
+        path  : "valorant", 
         image : require('./valorant.png')
     },
     {
-        title : "Counter-Strike: Global Offensive", 
-        path  : "/", 
+        title : "CS:GO", 
+        path  : "csgo", 
         image : require('./counter-strike.png')
     }
 ]

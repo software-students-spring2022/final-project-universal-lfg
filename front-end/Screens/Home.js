@@ -10,7 +10,7 @@ const theme = Theme.colors;
 //Dynamic imports of game logos 
 import GAMES from '../assets/games_index/index.js'
 
-export default function Home() {
+export default function Home({navigation}) {
   return (
       <ScrollView>
         <View style={styles.container}>
@@ -19,7 +19,7 @@ export default function Home() {
             {
                 GAMES.map((game) => { 
                     return(
-                        <GameCard key={game.title+'personal'} img={game.image} type="personal" title={game.title} gamePath={game.path} theme={theme} />
+                        <GameCard key={game.title+'personal'} navigation={navigation} img={game.image} type="personal" title={game.title} gamePath={game.path} theme={theme} />
                     )
                 } )
             }
@@ -29,7 +29,7 @@ export default function Home() {
             {
                 GAMES.map((game) => { 
                     return(
-                        <GameCard key={game.title+'browse'} img={game.image} type="browse" title={game.title} theme={theme} />
+                        <GameCard key={game.title+'browse'} navigation={navigation} img={game.image} type="browse" title={game.title}  gamePath={game.path} theme={theme} />
                     )
                 } )
             }

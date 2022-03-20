@@ -23,7 +23,7 @@ export default function GameCard(props){
 
     return(
         <View style={theme.card}> 
-            <TouchableOpacity style={theme.touchable} onPress={() => {gameLink(props.title)}} >
+            <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.gamePath, {gameTitle: props.title})}} >
                 <ImageBackground source={props.img} style={theme.img}>
                     <View>
                         <TouchableOpacity onPress={() => {console.log(props.title + (props.type=="personal" ? " removed from" : " added to") + " my games")}}>
@@ -34,14 +34,6 @@ export default function GameCard(props){
             </TouchableOpacity>
         </View>
         );
-}
-/*
-    gameLink(consoleMsg, gameLink)
-    -The function to be called when the card is pressed, preferably a function that links to an app page 
-    -Currently logs a message to the console
-*/
-function gameLink(name, gamelink){ 
-    console.log(name + " pressed!");
 }
 
 /*
