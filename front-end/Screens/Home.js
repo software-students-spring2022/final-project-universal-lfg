@@ -1,5 +1,5 @@
 //Author(s): Theo Stephens Kehoe
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Theme from '../theme';
@@ -10,16 +10,43 @@ const theme = Theme.colors;
 //Dynamic imports of game logos 
 import GAMES from '../assets/games_index/index.js'
 
+
 export default function Home({navigation}) {
+  const [myGames, setMyGames] = useState([]); 
+
+  function addCard(game)  { 
+    let present = false;
+    for(var i = 0; i < myGames.length; i++){ 
+      if(myGames[i].title === game.title){
+        present = true 
+        break;  
+      } 
+    }
+    if(!present) { 
+      console.log("Adding game " + game.title + " to my games.");
+      setMyGames([...myGames, game]);
+    } else { 
+      console.log("User attempted to add game " + game.title + " ... already present.")
+    }
+  }
+
+  function removeCard(game){ 
+    console.log("Removing game " + game.title + " from my games.")
+    let newGames = myGames.filter((g) => { 
+      return g.title !== game.title
+    }); 
+    setMyGames([...newGames]) 
+  }
+
   return (
       <ScrollView>
         <View style={styles.container}>
             <Text style={styles.mygamesTitle}>My Games</Text>
             <ScrollView horizontal>
             {
-                GAMES.map((game) => { 
+                myGames.map((game) => { 
                     return(
-                        <GameCard key={game.title+'personal'} navigation={navigation} img={game.image} type="personal" title={game.title} gamePath={game.path} theme={theme} />
+                        <GameCard key={game.title+'personal'} navigation={navigation} action={removeCard} game={game} type="personal" theme={theme}/>
                     )
                 } )
             }
@@ -29,7 +56,7 @@ export default function Home({navigation}) {
             {
                 GAMES.map((game) => { 
                     return(
-                        <GameCard key={game.title+'browse'} navigation={navigation} img={game.image} type="browse" title={game.title}  gamePath={game.path} theme={theme} />
+                        <GameCard key={game.title+'browse'} navigation={navigation} action={addCard} game={game} type="browse" theme={theme}/>
                     )
                 } )
             }
