@@ -4,6 +4,7 @@ import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
 import { passwordValidator } from '../Helpers/passwordValidator'
+import AppButton from '../Components/AppButton'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -52,8 +53,9 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button onPress={onLoginPressed}
-      title='Log In'
+      <AppButton
+          title='Log In'
+          onPress={onLoginPressed}
       />
       <View style={styles.row}>
         <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>

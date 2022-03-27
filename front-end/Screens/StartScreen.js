@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Button } from 'react-native';
 import theme from '../theme'
+import AppButton from '../Components/AppButton';
 
 export default function StartScreen({ navigation }) {
   return (
@@ -8,15 +9,13 @@ export default function StartScreen({ navigation }) {
       <Text style={styles.header}>
         Welcome to Universal LFG!
       </Text>
-      <Button
-        style={styles.button}
-        title='Log In'
-        onPress={() => navigation.navigate('LoginScreen')}
+      <AppButton
+          title='Log In'
+          onPress={() => navigation.navigate('LoginScreen')}
       />
-      <Button
-      style={styles.button}
-        title='Sign Up'
-        onPress={() => navigation.navigate('RegisterScreen')}
+      <AppButton
+          title='Sign Up'
+          onPress={() => navigation.navigate('RegisterScreen')}
       />
     </View>
 

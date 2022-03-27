@@ -6,6 +6,7 @@ export default Theme = {
       card: '#1F2833',
       text: '#FFFFFF',
       border: '#45A29E',
+      button: "#009688",
       notification: '#66FCF1',
       shadow: '#000000'
     },
