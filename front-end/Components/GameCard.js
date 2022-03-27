@@ -9,7 +9,6 @@ export default function GameCard(props){
     //Props: theme, gamelink, title
     let theme; 
     let icon = {}; 
-    
     if(props.type=="personal"){
         icon.name = 'minussquare';
         icon.color = '#FF4444';
@@ -23,10 +22,10 @@ export default function GameCard(props){
 
     return(
         <View style={theme.card}> 
-            <TouchableOpacity style={theme.touchable} onPress={() => {gameLink(props.title)}} >
-                <ImageBackground source={props.img} style={theme.img}>
+            <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.game.path, {gameTitle: props.game.title})}} >
+                <ImageBackground source={props.game.image} style={theme.img}>
                     <View>
-                        <TouchableOpacity onPress={() => {console.log(props.title + (props.type=="personal" ? " removed from" : " added to") + " my games")}}>
+                        <TouchableOpacity onPress={() => {props.action({title: props.game.title, path: props.game.path, image: props.game.image})}}>
                             <Icon type='antdesign' name={icon.name} size={35} color={icon.color} style={theme.icon}></Icon>
                         </TouchableOpacity>
                     </View>
@@ -35,15 +34,6 @@ export default function GameCard(props){
         </View>
         );
 }
-/*
-    gameLink(consoleMsg, gameLink)
-    -The function to be called when the card is pressed, preferably a function that links to an app page 
-    -Currently logs a message to the console
-*/
-function gameLink(name, gamelink){ 
-    console.log(name + " pressed!");
-}
-
 /*
     styles(theme, type)
     -Returns the style sheet based on the type of the card (either browse or personal, i.e a 'my games' card)

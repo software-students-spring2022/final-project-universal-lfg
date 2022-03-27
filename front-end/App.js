@@ -13,7 +13,7 @@ const Stack = createStackNavigator()
 export default function App() {
   return (
     <Provider theme={Theme}>
-      <NavigationContainer>
+      <NavigationContainer theme={Theme}>
         <Stack.Navigator
           initialRouteName="StartScreen"
           screenOptions={{

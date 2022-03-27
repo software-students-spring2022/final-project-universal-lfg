@@ -34,12 +34,5 @@ const styles = StyleSheet.create({
     header: {
       color: theme.colors.primary,
       fontSize: 30,
-    },
-    button: {
-      paddingVertical: 12,
-      paddingHorizontal: 32,
-      borderRadius: 4,
-      elevation: 3,
-      backgroundColor: 'white',
     }
 })

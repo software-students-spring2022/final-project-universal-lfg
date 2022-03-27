@@ -1,3 +1,6 @@
+.expo/
+.idea/
+
 # OSX
 #
 .DS_Store

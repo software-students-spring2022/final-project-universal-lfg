@@ -1,10 +1,9 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements'
+import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { Card, ListItem, Button,  Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import Post from '../Components/Post';
-import theme from '../theme';
-
+import theme from '../theme';  
 const POSTS = [
     {title: "Post1", detail: "detail1"},
     {title: "Post2", detail: "detail2"},
@@ -12,25 +11,52 @@ const POSTS = [
     
 ]
 
-export default function BrowsePost(){
-    
+export default function BrowsePost({route, navigation}){
+    const { gameTitle } = route.params
     return (
-        <NavigationContainer>
-        <Stack.Navigator
-          initialRouteName="StartScreen"
-          screenOptions={{
-            headerShown: false,
-          }}
-        >
-          <Stack.Screen name="StartScreen" component={StartScreen} />
-          <Stack.Screen name="LoginScreen" component={LoginScreen} />
-          <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
-          <Stack.Screen
-            name="ResetPasswordScreen"
-            component={ResetPasswordScreen}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.titleBar}>
+                    <View>
+                        <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
+                            <Icon type='antdesign' name={'left'} size={40} color={theme.colors.primary} style={theme.icon}></Icon>
+                        </TouchableOpacity>
+                    </View>
+                    <Text style={styles.mygamesTitle}>{gameTitle}</Text>
+                    </View>
+                    <View>
+                        {
+                            POSTS.map((post) => { 
+                                return(
+                                    <Post key={post.title} title={post.title} detail={post.detail}/>
+                                )
+                            } )
+                        }
+                    </View>
+            </View>
+        </ScrollView>
     )
 }
+
+const styles = StyleSheet.create({
+    container:{
+        paddingTop: 20,
+    },
+    titleBar: {
+        width: "100%",
+        fontSize: 35,
+        flexDirection: 'row',
+        alignItems: 'center',
+        height:60
+    },
+    mygamesTitle: { 
+        color: theme.colors.text,
+        fontSize: 35,
+        fontWeight: "bold", 
+        paddingLeft: 12
+      },
+      backButton: { 
+        paddingLeft:13
+        
+      }
+})

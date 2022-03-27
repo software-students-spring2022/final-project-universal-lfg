@@ -18,7 +18,7 @@ export default function BrowsePost(props){
             </Text>
             <TouchableOpacity
                 style={styles.button}
-                onPress={onPress}
+                onPress={() => {onViewPressed()}}
             >
                 <Text>View Detail</Text>
             </TouchableOpacity>
