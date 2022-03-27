@@ -56,7 +56,6 @@ export default function LoginScreen({ navigation }) {
       title='Log In'
       />
       <View style={styles.row}>
-        <Text>Don’t have an account? </Text>
         <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
@@ -74,7 +73,7 @@ const styles = StyleSheet.create({
     },
     forgotPassword: {
         width: '100%',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         marginBottom: 24,
     },
     row: {
@@ -95,9 +94,11 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
-      margin: 12,
+      width: "70%",
       borderWidth: 1,
+      margin: 12,
       padding: 10,
+      alignItems: "center",
       backgroundColor: '#ffffff'
     }
 })
