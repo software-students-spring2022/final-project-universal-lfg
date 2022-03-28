@@ -8,6 +8,7 @@ import GamePages from '../Components/GamePages.js';
 import Settings from './Settings.js';
 import Messages from './Messages.js';
 import MyPosts from './MyPosts.js';
+import Profile from'./Profile.js';
 
 export default function Dashboard({ navigation }) {
     const Drawer = createDrawerNavigator(); 
@@ -16,6 +17,7 @@ export default function Dashboard({ navigation }) {
     <SafeAreaProvider>
           <Drawer.Navigator screenOptions={{drawerType:'front', headerTitle:'ULFG', headerTintColor: Theme.colors.primary}}>
             <Drawer.Screen name='Home' component={GamePages}/>
+            <Drawer.Screen name='Profile' component={Profile}/>
             <Drawer.Screen name='Settings' component={Settings}/>
             <Drawer.Screen name='Messages' component={Messages}/>
             <Drawer.Screen name='Posts' component={MyPosts}/>
