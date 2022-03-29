@@ -4,37 +4,51 @@ import { Card, ListItem, Button,  Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import Post from '../Components/Post';
 import theme from '../theme';  
+import AppButton from '../Components/AppButton';
 const POSTS = [
-    {title: "Post1", detail: "detail1"},
-    {title: "Post2", detail: "detail2"},
-    {title: "Post3", detail: "detail3"}
+    {title: "Post1", name: "Name1", initial: "N1", image: "Images/Addicon.png", rank: "GOLD", detail: "detail1"},
+    {title: "Post2", name: "Name2", initial: "N1", image: "Images/Addlcon.png", rank: "GOLD", detail: "detail2"},
+    {title: "Post3", name: "Name3", initial: "N1", image: "Images/Addlcon.png", rank: "GOLD", detail: "detail3"}
     
 ]
 
 export default function BrowsePost({route, navigation}){
     const { gameTitle } = route.params
+    const onCreatePressed = () => {
+        console.log("Pressed")
+    }
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <View style={styles.titleBar}>
-                    <View>
-                        <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
-                            <Icon type='antdesign' name={'left'} size={40} color={theme.colors.primary} style={theme.icon}></Icon>
-                        </TouchableOpacity>
-                    </View>
-                    <Text style={styles.mygamesTitle}>{gameTitle}</Text>
-                    </View>
-                    <View>
-                        {
-                            POSTS.map((post) => { 
-                                return(
-                                    <Post key={post.title} title={post.title} detail={post.detail}/>
-                                )
-                            } )
-                        }
-                    </View>
-            </View>
-        </ScrollView>
+        <View>
+            <ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.titleBar}>
+                        <View>
+                            <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
+                                <Icon type='antdesign' name={'left'} size={40} color={theme.colors.primary} style={theme.icon}></Icon>
+                            </TouchableOpacity>
+                        </View>
+                        <Text style={styles.mygamesTitle}>{gameTitle}</Text>
+                        </View>
+                        <View>
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() => {onCreatePressed()}}
+                            >
+                                <Text style={styles.create}>Create Post</Text>
+                             </TouchableOpacity>
+                        </View>
+                        <View>
+                            {
+                                POSTS.map((post) => { 
+                                    return(
+                                        <Post key={post.title} title={post.title} inital={post.initial} image={post.image} name={post.name} rank={post.rank} detail={post.detail}/>
+                                    )
+                                } )
+                            }
+                        </View>
+                </View>
+            </ScrollView>
+        </View>
     )
 }
 
@@ -49,6 +63,21 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height:60
     },
+    text: { 
+        fontWeight: "bold",
+        color: theme.text
+    },
+    create: { 
+        fontWeight: "bold",
+        color: theme.text,
+        fontSize: 20
+    },
+    button: {
+        alignItems: "center",
+        backgroundColor: theme.colors.button,
+        marginHorizontal: 15,
+        padding: 15,
+      },
     mygamesTitle: { 
         color: theme.colors.text,
         fontSize: 35,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Card, Icon } from 'react-native-elements'
+import { Card, Avatar } from 'react-native-elements'
 import theme from '../theme';
 
 export default function BrowsePost(props){
@@ -12,7 +12,21 @@ export default function BrowsePost(props){
         <Card>
             <Card.Title>{props.title}</Card.Title>
             <Card.Divider/>
-            <Card.Image source={props.image} />
+                <View style={{flexDirection: 'row'}}>
+                    <Avatar
+                        rounded
+                        size="medium"
+                        source={{
+                            uri:
+                            props.image, 
+                        }}
+                        title = {props.initial}
+                    />
+                    <Text style={styles.text}>  {props.name}</Text>
+                </View>
+            <Card.Divider/>
+            <Text style={styles.text}>Rank: {props.rank}</Text>
+            <Card.Divider/>
             <Text style={{marginBottom: 10}}>
                 {props.detail}
             </Text>
@@ -20,7 +34,7 @@ export default function BrowsePost(props){
                 style={styles.button}
                 onPress={() => {onViewPressed()}}
             >
-                <Text>View Detail</Text>
+                <Text style={styles.text}>JOIN</Text>
             </TouchableOpacity>
         </Card>
     )
@@ -34,11 +48,16 @@ const styles = StyleSheet.create({
     },
     button: {
       alignItems: "center",
-      backgroundColor: "#DDDDDD",
+      backgroundColor: theme.colors.button,
+
       padding: 10
     },
     countContainer: {
       alignItems: "center",
       padding: 10
+    },
+    text: { 
+        fontWeight: "bold",
+        color: theme.text
     }
   });
