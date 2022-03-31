@@ -11,7 +11,6 @@ import MyPosts from './MyPosts.js';
 import Profile from './Profile.js'
 import CustomDrawer from '../Components/CustomDrawer.js';
 import ProfilePages from '../Components/ProfilePages.js';
-import Profile from'./Profile.js';
 
 export default function Dashboard({ navigation }) {
     const Drawer = createDrawerNavigator(); 
@@ -24,7 +23,6 @@ export default function Dashboard({ navigation }) {
             <Drawer.Screen name='Settings' component={Settings}/>
             <Drawer.Screen name='Messages' component={Messages}/>
             <Drawer.Screen name='My Teams' component={MyPosts}/>
-            <Drawer.Screen name='Profile' component={ProfilePages}/>
           </Drawer.Navigator> 
      </SafeAreaProvider>
     )

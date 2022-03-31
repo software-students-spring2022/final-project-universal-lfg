@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-import { StyleSheet, Text, View  } from 'react-native';
-import theme from "../theme";
-
-export default function Profile(props){ 
-    return ( 
-        <View style={styles.container}> 
-            <Text style={{color: theme.colors.card, fontSize: 15}}>This is the Profile page.</Text> 
-        </View>
-    ); 
-}
-
-const styles = StyleSheet.create({ 
-    container: { 
-        backgroundColor: theme.colors.background, 
-        height: '100%',
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-=======
 import React from 'react';
 import { StyleSheet, Text, View, Dimensions, Image  } from 'react-native';
 import { ThemeColors } from 'react-navigation';
@@ -119,5 +98,4 @@ const styles = StyleSheet.create({
 
 
     
->>>>>>> a02a5034cc087b2c466e972047f6ba899bb54194
 })

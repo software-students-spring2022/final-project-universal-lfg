@@ -1,0 +1,32 @@
+{
+    "games": [
+        {
+            "title": "League of Legends", 
+            "image": "image", 
+            "posts-pointer": "league", 
+            "ranks": [], 
+            "game modes": [] 
+        }, 
+        {
+            "title": "Minecraft", 
+            "image": "image", 
+            "posts-pointer": "minecraft", 
+            "ranks": [], 
+            "game modes": []
+        },
+        {
+            "title": "CS:GO", 
+            "image": "image", 
+            "posts-pointer": "csgo", 
+            "ranks": [], 
+            "game modes": [] 
+        },
+        {
+            "title": "Valorant", 
+            "image": "image", 
+            "posts-pointer": "valorant", 
+            "ranks": [], 
+            "game modes": [] 
+        }
+    ]
+}
