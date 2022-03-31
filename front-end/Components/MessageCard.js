@@ -31,9 +31,11 @@ const styles = StyleSheet.create({
     button: {
         alignItems: "center",
         backgroundColor: theme.colors.button,
-        height: '30%',
+        height: '20%',
         width: "90%",
-        padding: 10
+        padding: 5,
+        borderColor: '#000000',
+        borderWidth: 2
     },
     text: {
         paddingBottom: 20,

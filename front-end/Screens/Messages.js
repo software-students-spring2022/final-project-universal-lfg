@@ -8,6 +8,7 @@ export default function Messages(props){
         <View style={styles.container}> 
             <Text style={{color: theme.colors.primary, fontSize: 30, paddingBottom: 20}}>My Messages</Text> 
             <MessageCard title='Team Number 1' content='User said: Some message here'></MessageCard>
+            <MessageCard title='Team Number 2' content='User said: Insert stuff here'></MessageCard>
         </View>
     ); 
 }
