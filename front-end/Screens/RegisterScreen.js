@@ -61,7 +61,7 @@ export default function RegisterScreen({ navigation }) {
         title="Sign Up"
       />
       <View style={styles.row}>
-        <Text>Already have an account? </Text>
+        <Text style={{color: theme.colors.text}}>Already have an account? </Text>
         <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>

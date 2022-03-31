@@ -7,8 +7,8 @@ const Stack = createStackNavigator()
 
 export default function GamePages(props){ 
     return(
-    <Stack.Navigator screenOptions={{headerShown: false, initialRouteName: "Home"}}>
-          <Stack.Screen name="Home" component={Home} />
+    <Stack.Navigator screenOptions={{headerShown: false, initialRouteName: "HomePage"}}>
+          <Stack.Screen name="HomePage" component={Home} />
           <Stack.Screen name="csgo" component={BrowsePost} />
           <Stack.Screen name="league_of_legends" component={BrowsePost} />
           <Stack.Screen name="minecraft" component={BrowsePost} />

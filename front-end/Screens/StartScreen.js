@@ -5,7 +5,7 @@ import theme from '../theme'
 export default function StartScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text>
+      <Text style={{color: theme.colors.text}}>
         Welcome to Universal LFG!
       </Text>
       <Button
