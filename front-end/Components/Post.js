@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Card, Avatar } from 'react-native-elements'
+import { Card, Avatar } from 'react-native-elements';
 import theme from '../theme';
 
 export default function BrowsePost(props){
