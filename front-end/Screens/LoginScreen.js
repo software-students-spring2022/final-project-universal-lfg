@@ -4,6 +4,7 @@ import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
 import { passwordValidator } from '../Helpers/passwordValidator'
+import AppButton from '../Components/AppButton'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -52,8 +53,9 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.forgot}>Forgot your password?</Text>
         </TouchableOpacity>
       </View>
-      <Button onPress={onLoginPressed}
-      title='Log In'
+      <AppButton
+          title='Log In'
+          onPress={onLoginPressed}
       />
       <View style={styles.row}>
         <Text style={{color: theme.colors.text}}>Don’t have an account? </Text>
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
     },
     forgotPassword: {
         width: '100%',
-        alignItems: 'flex-end',
+        alignItems: 'center',
         marginBottom: 24,
     },
     row: {
@@ -95,9 +97,11 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
-      margin: 12,
+      width: "70%",
       borderWidth: 1,
+      margin: 12,
       padding: 10,
+      alignItems: "center",
       backgroundColor: '#ffffff'
     }
 })

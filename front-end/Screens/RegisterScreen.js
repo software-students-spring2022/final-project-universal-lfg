@@ -5,6 +5,7 @@ import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
 import { passwordValidator } from '../Helpers/passwordValidator'
 import { nameValidator } from '../Helpers/nameValidator'
+import AppButton from '../Components/AppButton'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -56,9 +57,9 @@ export default function RegisterScreen({ navigation }) {
         onChangeText={(text) => setPassword({ value: text, error: '' })}
         secureTextEntry
       />
-      <Button
-        onPress={onSignUpPressed}
-        title="Sign Up"
+      <AppButton
+          title='Sign Up'
+          onPress={onSignUpPressed}
       />
       <View style={styles.row}>
         <Text style={{color: theme.colors.text}}>Already have an account? </Text>
@@ -91,6 +92,7 @@ const styles = StyleSheet.create({
     },
     input: {
       height: 40,
+      width: "70%",
       margin: 12,
       borderWidth: 1,
       padding: 10,
