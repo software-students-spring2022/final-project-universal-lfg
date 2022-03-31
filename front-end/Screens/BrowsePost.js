@@ -6,10 +6,9 @@ import Post from '../Components/Post';
 import theme from '../theme';  
 import AppButton from '../Components/AppButton';
 const POSTS = [
-    {title: "Post1", name: "Name1", initial: "N1", image: "Images/Addicon.png", rank: "GOLD", detail: "detail1"},
-    {title: "Post2", name: "Name2", initial: "N1", image: "Images/Addlcon.png", rank: "GOLD", detail: "detail2"},
-    {title: "Post3", name: "Name3", initial: "N1", image: "Images/Addlcon.png", rank: "GOLD", detail: "detail3"}
-    
+    {title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
+    {title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
+    {title: "Post3", name: "Name3", initial: "N3", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail3"}
 ]
 
 export default function BrowsePost({route, navigation}){
@@ -17,6 +16,7 @@ export default function BrowsePost({route, navigation}){
     const onCreatePressed = () => {
         console.log("Pressed")
     }
+
     return (
         <View>
             <ScrollView>
@@ -41,7 +41,7 @@ export default function BrowsePost({route, navigation}){
                             {
                                 POSTS.map((post) => { 
                                     return(
-                                        <Post key={post.title} title={post.title} inital={post.initial} image={post.image} name={post.name} rank={post.rank} detail={post.detail}/>
+                                        <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} initial={post.initial} image={post.image} name={post.name} rank={post.rank} detail={post.detail}/>
                                     )
                                 } )
                             }

@@ -9,34 +9,33 @@ export default function BrowsePost(props){
     }
 
     return (
-        <Card>
-            <Card.Title>{props.title}</Card.Title>
-            <Card.Divider/>
-                <View style={{flexDirection: 'row'}}>
-                    <Avatar
-                        rounded
-                        size="medium"
-                        source={{
-                            uri:
-                            props.image, 
-                        }}
-                        title = {props.initial}
-                    />
-                    <Text style={styles.text}>  {props.name}</Text>
-                </View>
-            <Card.Divider/>
-            <Text style={styles.text}>Rank: {props.rank}</Text>
-            <Card.Divider/>
-            <Text style={{marginBottom: 10}}>
-                {props.detail}
-            </Text>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={() => {onViewPressed()}}
-            >
-                <Text style={styles.text}>JOIN</Text>
-            </TouchableOpacity>
-        </Card>
+        <TouchableOpacity onPress={() => {props.navigation.navigate('ViewPost', {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail})}}>
+            <Card>
+                <Card.Title>{props.title}</Card.Title>
+                <Card.Divider/>
+                    <View style={{flexDirection: 'row'}}>
+                        <Avatar
+                            rounded
+                            size="medium"
+                            source={props.image}
+                            title = {props.initial}
+                        />
+                        <Text style={styles.text}>  {props.name}</Text>
+                    </View>
+                <Card.Divider/>
+                <Text style={styles.text}>Rank: {props.rank}</Text>
+                <Card.Divider/>
+                <Text style={{marginBottom: 10}}>
+                    {props.detail}
+                </Text>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => {onViewPressed()}}
+                >
+                    <Text style={styles.text}>JOIN</Text>
+                </TouchableOpacity>
+            </Card>
+        </TouchableOpacity> 
     )
 };
 

@@ -1,6 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 import BrowsePost from '../Screens/BrowsePost'
+import ViewPost from '../Screens/ViewPost'
 import Home from '../Screens/Home';
 
 const Stack = createStackNavigator()
@@ -13,6 +14,7 @@ export default function GamePages(props){
           <Stack.Screen name="league_of_legends" component={BrowsePost} />
           <Stack.Screen name="minecraft" component={BrowsePost} />
           <Stack.Screen name="valorant" component={BrowsePost} />
+          <Stack.Screen name="ViewPost" component={ViewPost} />
         </Stack.Navigator>
     );
 }
