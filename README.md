@@ -23,6 +23,36 @@ Typical user experience will be as follows:
 ### Scope
 At its core, Universal LFG would be a collection of forum-type pages. Ideally, "Universal" would imply the ability to access LFG boards for all relevant games, but for the sake of being able to finish the project in a semester, the group should decide on a limited number of games to set up boards for. Additionally, the boards should be of high quality, with selection options specific to each game. Although it is challenging to determine the difficulty of the project, I believe it should be engaging enough for a group of 4-6. 
 
+### Version Control
+
+In order to run the app on your personal device, please ensure that the code repository is updated in your local computer. In the terminal, navigate to the front-end directory by running 'cd front-end' from the final-project-universal-lfg folder in your directory.
+
+To ensure that Expo is running properly, attempt to run the command 'expo start'.
+
+If there are issues, you may try to install the newest version of Expo by running the following:
+
+```
+npm install -g expo-cli
+```
+
+Users with iPhone devices:
+1. Install the Expo app on your iPhone device.
+2. Running 'expo start' in the front-end folder results in the console displaying a QR code. Scan this QR code with your iPhone's camera.
+3. The QR code should take you to the Expo app, where the project will compile and run. 
+4. You should now be able to see and interact with the app.
+
+Users without iPhone devices:
+1. Install and download [Android Studio](https://developer.android.com/studio) on your laptop.
+2. Start Expo by typing the 'expo start' command in terminal.
+3. Open Android Studio.
+4. Open the project in Android Studio.
+5. Open the 'AVD manager' from the Android Studio toolbar.
+6. Run an Android emulator.
+7. Click 'run on Android device/emulator' in the Expo client (displayed on console after running 'expo start').
+8. You should now be able to see and interact with the app.
+
+Note: For more help with opening the app in Android Studio, click [here](https://www.brainstormcreative.co.uk/react-native-expo/how-to-run-an-expo-app-on-an-android-emulator/).
+
 ## Team
 
 [Helen Dong](https://github.com/helenyxd),
