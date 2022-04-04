@@ -27,6 +27,10 @@ app.use((req, res, next) => {
   next()
 })
 
+// Load database models
+// For backend sprint, just dummy variable
+const { Message } = "messages"
+
 // route for HTTP GET requests to the root document
 app.get("/", (req, res) => {
   res.send("Goodbye world!")
@@ -67,7 +71,25 @@ app.get('/profiles', (req,res) => {
 
 })
 
+//Routing for messages
+app.get('/messages', (req,res) => {
+  // Load messages from database
+  try {
+    const messages = Message
+    res.json({
+      message: messages
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'failed to retreive messages from the database'
+    })
+  }
+})
 
+//Routing to create Messages
+// app.post for when users join a team?
 
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
