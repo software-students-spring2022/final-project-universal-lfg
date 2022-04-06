@@ -7,6 +7,7 @@ import StartScreen from './Screens/StartScreen'
 import LoginScreen from './Screens/LoginScreen'
 import RegisterScreen from './Screens/RegisterScreen'
 import Dashboard from './Screens/Dashboard'
+import BrowsePost from './Screens/BrowsePost'
 
 const Stack = createStackNavigator()
 
@@ -24,6 +25,7 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="BrowsePost" component={BrowsePost} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

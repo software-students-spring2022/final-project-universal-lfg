@@ -30,6 +30,11 @@ app.use((req, res, next) => {
 // Load database models
 // For backend sprint, just dummy variable
 const { Message } = "messages"
+const POSTS = [
+  {game: "LOL", title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
+  {game: "CSGO", title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
+  {game: "OW", title: "Post3", name: "Name3", initial: "N3", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail3"}
+]
 
 // route for HTTP GET requests to the root document
 app.get("/", (req, res) => {
@@ -48,7 +53,19 @@ app.post("/registration", (req,res) => {
 
 //Routing for Browse game posts 
 app.get("/browse", (req,res)=> { 
-
+  try {
+    var game = req.body.value
+    const posts = POSTS
+    res.json({
+      post : posts
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'Failed to retrieve posts'
+    })
+  }
 })
 
 //Routing for home page 
