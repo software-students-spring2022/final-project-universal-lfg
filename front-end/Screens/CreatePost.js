@@ -27,4 +27,9 @@ export default function ViewPost({route, navigation}){
             console.log("The Team is Full")
         }
     }
+
+    return (
+        <View style={styles.container}>
+        </View>
+    )
 }
