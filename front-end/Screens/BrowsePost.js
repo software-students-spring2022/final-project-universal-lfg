@@ -14,29 +14,35 @@ const POSTS = [
 
 export default function BrowsePost({route, navigation}){
     const { gameTitle } = route.params
-    fetch('http://localhost:8080/api/browse', {
-        method: 'GET',
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            game: gameTitle,
-        })
-    });
-    try {
-        const response = await fetch(
-          'http://localhost:8080/api/browse'
-        );
-        const json = await response.json();
-        return json.posts;
-      } catch (error) {
-        console.error(error);
-      }
+    const getPosts = async () => {
+        try {
+            const response = await fetch('http://localhost:8080/api/browse', {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    game: gameTitle,
+                })
+            });
+            const json = await response.json();
+            setData(json.posts);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+        }
     const onCreatePressed = () => {
         console.log("Go to CreatePost")
         navigation.navigate('CreatePost', {parameter: Value, parameter: Value})
     }
+
+    useEffect(() => {
+        getPosts();
+      }, []);
+    
 
     return (
         <View>
