@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
-import theme from '../theme';
 
 export default function ProgressBar(props) {
     //props: activeSpot, totalSpots
@@ -14,9 +13,10 @@ export default function ProgressBar(props) {
     return (
         <View style={styles.progressBar}>
             {
-                Spots.map((spot) => {
+                Spots.map((spot, i) => {
                     return (
                         <Image 
+                            key={i}
                             style={styles.spot}
                             source = {spot}
                         />
