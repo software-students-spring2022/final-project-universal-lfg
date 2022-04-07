@@ -67,6 +67,10 @@ export default function ViewPost({route, navigation}){
                 returnKeyType="done"
                 onChangeText={(text) => setPreferredRank({ value: text, error: '' })}
             />
+            <AppButton
+                title='Submit Post'
+                onPress={navigation.goBack}
+            />
         </View>
     )
 }
