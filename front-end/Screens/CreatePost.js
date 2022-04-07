@@ -53,6 +53,13 @@ export default function ViewPost({route, navigation}){
                 returnKeyType="done"
                 onChangeText={(text) => setGameMode({ value: text, error: '' })}
             />
+            <TextInput
+                style={styles.inputLine}
+                placeholder="Number of Players"
+                value={numPlayers.value}
+                returnKeyType="done"
+                onChangeText={(text) => setNumPlayers({ value: text, error: '' })}
+            />
         </View>
     )
 }
