@@ -60,5 +60,6 @@ Note: For more help with opening the app in Android Studio, click [here](https:/
 [Juntao Zhu](https://github.com/juntaoZhu1),
 [Qianwen Zhu](https://github.com/Serina7456),
 [Theo Stephens Kehoe](https://github.com/tstephen22)
+[Patricio Domit](https://github.com/patorocks15)
 
 [How do I contribute?](https://github.com/software-assignments-spring2022/final-project-universal-lfg/blob/master/CONTRIBUTING.md)
