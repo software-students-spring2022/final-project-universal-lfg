@@ -1,4 +1,5 @@
-import React from 'react';
+
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Card, ListItem, Button,  Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -14,6 +15,8 @@ const POSTS = [
 
 export default function BrowsePost({route, navigation}){
     const { gameTitle } = route.params
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const getPosts = async () => {
         try {
             const response = await fetch('http://localhost:8080/api/browse', {
@@ -66,7 +69,7 @@ export default function BrowsePost({route, navigation}){
                         </View>
                         <View>
                             {
-                                data.map((post) => { 
+                                POSTS.map((post) => { 
                                     return(
                                         <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} initial={post.initial} image={post.image} name={post.name} rank={post.rank} detail={post.detail}/>
                                     )
