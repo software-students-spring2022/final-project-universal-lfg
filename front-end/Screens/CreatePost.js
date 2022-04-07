@@ -38,6 +38,14 @@ export default function ViewPost({route, navigation}){
                 returnKeyType="done"
                 onChangeText={(text) => setTitle({ value: text, error: '' })}
             />
+            <TextInput
+                style={styles.inputBox}
+                placeholder="Body"
+                value={bodyText.value}
+                returnKeyType="done"
+                onChangeText={(text) => setBodyText({ value: text, error: '' })}
+                multiline={true}
+            />
         </View>
     )
 }
