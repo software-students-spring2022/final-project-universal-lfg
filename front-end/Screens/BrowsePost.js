@@ -25,9 +25,6 @@ export default function BrowsePost({route, navigation}){
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    game: gameTitle,
-                })
             });
             const json = await response.json();
             setData(json.posts);
