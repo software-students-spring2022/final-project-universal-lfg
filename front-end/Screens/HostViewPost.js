@@ -8,18 +8,9 @@ import theme from '../theme';
 
 export default function ViewPost({route, navigation}){
     const { game, title, name, initial, image, rank, detail } = route.params
-
+    
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
-    const onPress = () => {
-        if (activeSpot <= totalSpots) {
-            console.log("One Player Joined the Team");
-            setActiveSpot(prev => prev + 1);
-        } else {
-            console.log("The Team is Full")
-        }
-    }
-
     
     const [isVisible, setIsVisible] = useState(false);
     const list = [
@@ -29,11 +20,17 @@ export default function ViewPost({route, navigation}){
             type: 'entypo',
             onPress: () => setIsVisible(false)
         },
-        { 
-            title: 'Report Post',
-            icon: 'warning',
+        {
+            title: 'Edit Post',
+            icon: 'edit',
             type: 'antdesign',
-            onPress: () => console.log("Post Reported")
+            onPress: () => console.log("Edit") /* Navigate to Edit Page*/
+        },
+        {
+            title: 'Delete Post',
+            icon: 'delete',
+            type: 'antdesign',
+            onPress: () => console.log("Post Deleted")
         }
     ];
 
@@ -81,23 +78,20 @@ export default function ViewPost({route, navigation}){
                     <Icon type='material' name={'computer'} size={20} color='black' containerStyle={styles.icon}></Icon>
                     <Text style={{color: 'lightgrey'}}>Rank: {rank}</Text>
                     <Text style={styles.detail}>{detail}</Text>
+                    
+                    
                 </ScrollView>
-                <View style={{ marginHorizontal:15, flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <ProgressBar key={title} activeSpot={activeSpot} totalSpots={totalSpots} />
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={onPress}
-                        >
-                            <Text style={{color: theme.colors.text, fontSize: 15}}>Join</Text>
-                        </TouchableOpacity>
-                    </View>
+                <View style={{ marginHorizontal:15, width:"90%", justifyContent: 'center' }}>
+                    <ProgressBar key={title} activeSpot={activeSpot} totalSpots={totalSpots} />
+                </View>
+
                 <View style={styles.lobby}>
                     <View style={{flexDirection: 'row'}}>
                         <Icon type='feather' name={'users'} size={20} color='grey'></Icon>
                         <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>30 Active in Chat Room</Text>
                     </View>
                     <Button 
-                        onPress={() => console.log("Enter Chat Room")} // Navigate to chat page
+                        onPress={() => console.log("Enter chat room")} // Navigate to chat page
                         title = "Enter Chat Room"
                         color = {theme.colors.button}
                     />
@@ -153,7 +147,7 @@ const styles = StyleSheet.create({
     },
     detail: {
         marginTop: 20,
-        marginBottom: 250,
+        marginBottom: 200,
         color: theme.colors.text
     },
     button: {
