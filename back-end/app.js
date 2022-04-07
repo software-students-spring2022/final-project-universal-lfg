@@ -29,7 +29,9 @@ app.use((req, res, next) => {
 
 // Load database models
 // For backend sprint, just dummy variable
-const { Message } = "messages"
+const MESSAGES = [
+  {title: "Sample", content: "Lorem ipsum text"}
+]
 const POSTS = [
   {game: "LOL", title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
   {game: "CSGO", title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
@@ -92,9 +94,10 @@ app.get('/profiles', (req,res) => {
 app.get('/messages', (req,res) => {
   // Load messages from database
   try {
-    const messages = Message
+    const messages = MESSAGES
     res.json({
-      message: messages
+      title : messages.title,
+      content : messages.content
     })
   } catch (err) {
     console.error(err)
