@@ -74,3 +74,91 @@ export default function ViewPost({route, navigation}){
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.colors.background, 
+        height: "100%",
+    },
+    inputLine: {
+        height: 40,
+        width: "70%",
+        borderWidth: 1,
+        margin: 12,
+        padding: 10,
+        alignItems: "center",
+        backgroundColor: '#ffffff'
+    },
+    inputBox: {
+        height: 200,
+        width: "70%",
+        borderWidth: 1,
+        margin: 12,
+        padding: 10,
+        alignItems: "center",
+        backgroundColor: '#ffffff'
+    },
+    titleBar: {
+        width: "100%",
+        flexDirection: 'row',
+        height:70,
+        backgroundColor: '#111111',
+        alignItems: "center",
+        shadowColor: "#a5a5a5",
+        shadowOffset: {
+            width: -2,
+            height: 4,
+        },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
+        
+        elevation: 20
+    },
+    backButton: { 
+        marginHorizontal: 15
+    },
+    content: {
+        marginHorizontal: 15,
+        marginVertical: 15
+    },
+    title: {
+        flexDirection: 'row', 
+        justifyContent: 'space-between',
+        marginBottom: 15,
+        paddingBottom: 8,
+        borderBottomColor: 'grey',
+        borderBottomWidth: 0.7
+    },
+    icon: {
+        height: 30,
+        width: 30,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 15,
+        backgroundColor: theme.colors.primary,
+        marginBottom:10
+    },
+    detail: {
+        marginTop: 20,
+        marginBottom: 200,
+        color: theme.colors.text
+    },
+    button: {
+        alignItems: "center",
+        justifyContent: "center",
+        height: 50,
+        width: 50,
+        borderRadius: 50,
+        backgroundColor: theme.colors.button,
+        color: 'white'
+    },
+    lobby: {
+        flexDirection: 'row',
+        justifyContent: 'space-between', 
+        alignItems: "center",
+        marginTop: 50
+    }
+})
