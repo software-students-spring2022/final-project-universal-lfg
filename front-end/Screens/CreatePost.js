@@ -30,6 +30,14 @@ export default function ViewPost({route, navigation}){
 
     return (
         <View style={styles.container}>
+            <BackButton goBack={navigation.goBack} theme={theme} />
+            <TextInput
+                style={styles.inputLine}
+                placeholder="Title"
+                value={title.value}
+                returnKeyType="done"
+                onChangeText={(text) => setTitle({ value: text, error: '' })}
+            />
         </View>
     )
 }
