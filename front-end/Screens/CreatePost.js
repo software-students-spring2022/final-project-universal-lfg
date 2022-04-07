@@ -60,6 +60,13 @@ export default function ViewPost({route, navigation}){
                 returnKeyType="done"
                 onChangeText={(text) => setNumPlayers({ value: text, error: '' })}
             />
+            <TextInput
+                style={styles.inputLine}
+                placeholder="Preferred Rank"
+                value={preferredRank.value}
+                returnKeyType="done"
+                onChangeText={(text) => setPreferredRank({ value: text, error: '' })}
+            />
         </View>
     )
 }
