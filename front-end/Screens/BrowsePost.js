@@ -33,7 +33,7 @@ export default function BrowsePost({route, navigation}){
         } finally {
             setLoading(false);
         }
-        }
+    }
     const onCreatePressed = () => {
         console.log("Go to CreatePost")
         navigation.navigate('CreatePost', {parameter: Value, parameter: Value})
@@ -66,7 +66,7 @@ export default function BrowsePost({route, navigation}){
                         </View>
                         <View>
                             {
-                                POSTS.map((post) => { 
+                                data.map((post) => { 
                                     return(
                                         <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} initial={post.initial} image={post.image} name={post.name} rank={post.rank} detail={post.detail}/>
                                     )
