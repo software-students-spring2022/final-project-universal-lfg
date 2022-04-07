@@ -5,6 +5,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import Post from '../Components/Post';
 import theme from '../theme';  
 import AppButton from '../Components/AppButton';
+import { Value } from 'react-native-reanimated';
 const POSTS = [
     {title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
     {title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
@@ -33,7 +34,8 @@ export default function BrowsePost({route, navigation}){
         console.error(error);
       }
     const onCreatePressed = () => {
-        console.log("Pressed")
+        console.log("Go to CreatePost")
+        navigation.navigate('CreatePost', {parameter: Value, parameter: Value})
     }
 
     return (
