@@ -46,6 +46,13 @@ export default function ViewPost({route, navigation}){
                 onChangeText={(text) => setBodyText({ value: text, error: '' })}
                 multiline={true}
             />
+            <TextInput
+                style={styles.inputLine}
+                placeholder="Game Mode"
+                value={gameMode.value}
+                returnKeyType="done"
+                onChangeText={(text) => setGameMode({ value: text, error: '' })}
+            />
         </View>
     )
 }
