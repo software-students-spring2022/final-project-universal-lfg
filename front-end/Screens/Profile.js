@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, Dimensions, Image  } from 'react-native';
 import { ThemeColors } from 'react-navigation';
 import theme from "../theme";
 import GameCard from '../Components/GameCard';
+
 const windowWidth = Dimensions.get('window').width;
  
 
@@ -47,10 +48,6 @@ const windowWidth = Dimensions.get('window').width;
             .catch(err => {
               setError(err)
             })
-                .finally(() => {
-                  // the response has been received, so remove the loading icon
-                  setLoaded(true)
-                })
         }
       
         /**
@@ -85,6 +82,7 @@ const windowWidth = Dimensions.get('window').width;
 
               
                 <Text style={styles.profileTop}>Profile</Text>
+
                 <Text style={styles.icon}> {icon}</Text>  
                 <Text style={styles.email}>Email: {emailFromDatabase} </Text>
                 <Text style={styles.password}>Password: {passwordFromDatabase}</Text>
