@@ -14,10 +14,10 @@ const windowWidth = Dimensions.get('window').width;
     // let icon = <View style={styles.emptyCard}><Text style={styles.emptyText}> <Image source={require('front-end/Images/AddIcon.png')} /></Text></View>;
     
     const Profile = props => {
-        const [emailFromDatabase, setMessages] = useState(['couldnt find email'])
-        const [passwordFromDatabase, setLoaded] = useState('couldnt find password')
-        const [age, setLoaded] = useState('couldnt find age')
-        const [gender, setLoaded] = useState('couldnt find gender')
+        const [emailFromDatabase, setEmail] = useState(['couldnt find email'])
+        const [passwordFromDatabase, setPassword] = useState('couldnt find password')
+        const [ageFromDataBase, setAge] = useState('couldnt find age')
+        const [genderFromDataBase, setGender] = useState('couldnt find gender')
         const [error, setError] = useState('')
         const [feedback, setFeedback] = useState('')
       
@@ -31,8 +31,14 @@ const windowWidth = Dimensions.get('window').width;
             .get(`${process.env.REACT_APP_SERVER_HOSTNAME}/profiles`)
             .then(response => {
               // axios bundles up all response data in response.data property
-              const messages = response.data.messages
-              setMessages(messages)
+              const email = response.data.email
+              setEmail(email)
+              const password = response.data.password
+              setPassword(password)
+              const age = response.data.age
+              setAge(age)
+              const gender = response.data.gender
+              setGender(gender)
             })
             .catch(err => {
               setError(err)
