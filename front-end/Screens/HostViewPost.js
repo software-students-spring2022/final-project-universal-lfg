@@ -6,7 +6,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ProgressBar from '../Components/ProgressBar';
 import theme from '../theme';
 
-export default function ViewPost({route, navigation}){
+export default function HostViewPost({route, navigation}){
     const { game, title, name, initial, image, rank, detail } = route.params
     
     const [activeSpot, setActiveSpot] = useState(1);
