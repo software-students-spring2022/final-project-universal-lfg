@@ -94,7 +94,7 @@ app.get('/profiles', (req,res) => {
   try {
     const profile = PROFILE //PROFILE is the database with all this info (hopefully)
     res.json({
-      email : profile.email,
+      email : profile.email,  
       password : profile.password,
       age : profile.age,
       gender : profile.gender 
