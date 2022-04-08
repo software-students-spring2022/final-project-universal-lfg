@@ -38,7 +38,7 @@ const POSTS = [
   {game: "OW", title: "Post3", name: "Name3", initial: "N3", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail3"}
 ]
 const PROFILE = [
-  {email: "rfernandez20@palmertrinity.org", password: "password", age:  "21", gender, "male"}
+  {email: "rfernandez20@palmertrinity.org", password: "password", age:  "21", gender: "male"}
 ]
 
 // route for HTTP GET requests to the root document
