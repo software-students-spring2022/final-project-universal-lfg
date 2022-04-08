@@ -7,13 +7,8 @@ import theme from "../theme";
 import GameCard from '../Components/GameCard';
 const windowWidth = Dimensions.get('window').width;
  
-// export default function Profile(props){ 
 
-    // let emailFromDatabase = 'couldnt find email';
-    // let passwordFromDatabase = 'couldnt find password';
-    // let age = 'placeholder';
-    // let gender = 'placeholder';
-    //let icon = <View style={styles.emptyCard}><Text style={styles.emptyText}> <Image source={require('front-end/Images/AddIcon.png')} /></Text></View>;
+
     
     const Profile = props => {
         const [emailFromDatabase, setEmail] = useState(['couldnt find email'])
@@ -22,6 +17,7 @@ const windowWidth = Dimensions.get('window').width;
         const [genderFromDataBase, setGender] = useState('couldnt find gender')
         const [error, setError] = useState('error oof')
         const [feedback, setFeedback] = useState('')
+        let icon = <View style={styles.emptyCard}><Text style={styles.emptyText}> <Image source={require('front-end/Images/AddIcon.png')} /></Text></View>;
       
         /**
          * A nested function that fetches messages from the back-end server.
@@ -33,22 +29,28 @@ const windowWidth = Dimensions.get('window').width;
             .get(`${process.env.REACT_APP_SERVER_HOSTNAME}/profiles`)
             .then(response => {
               // axios bundles up all response data in response.data property
+
               const email = response.data.email
               setEmail(email)
-              const password = response.data.password
+
+              response.data.map((element) => {
+              //const email = element.email
+              //setEmail(email)
+              const password = element.password
               setPassword(password)
-              const age = response.data.age
+              const age = element.age
               setAge(age)
-              const gender = response.data.gender
+              const gender = element.gender
               setGender(gender)
+                })
             })
             .catch(err => {
               setError(err)
             })
-            // .finally(() => {
-            //   // the response has been received, so remove the loading icon
-            //   setLoaded(true)
-            // })
+                .finally(() => {
+                  // the response has been received, so remove the loading icon
+                  setLoaded(true)
+                })
         }
       
         /**
@@ -67,8 +69,8 @@ const windowWidth = Dimensions.get('window').width;
       
           // set a timer to load data from server every n seconds
           const intervalHandle = setInterval(() => {
-            fetchMessages()
-          }, 5000000000)
+            fetchProfileData()
+          }, 5000)
       
           // return a function that will be called when this component unloads
           return e => {
@@ -79,54 +81,22 @@ const windowWidth = Dimensions.get('window').width;
       
         return (
           <>
-
             <View style={styles.container}>
+
+              
                 <Text style={styles.profileTop}>Profile</Text>
-                {/* <Text style={styles.icon}> {icon}</Text> */}
+                <Text style={styles.icon}> {icon}</Text>  
                 <Text style={styles.email}>Email: {emailFromDatabase} </Text>
                 <Text style={styles.password}>Password: {passwordFromDatabase}</Text>
                 <Text style={styles.age}>Age (optional): {ageFromDataBase}</Text>
                 <Text style={styles.gender}>Gender (optional): {genderFromDataBase} </Text>
             
             </View>
-            {/* <h1>Leave a message!</h1>
-      
-            {feedback && <p className="MessageForm-feedback">{feedback}</p>}
-            {error && <p className="MessageForm-error">{error}</p>}
-      
-            <MessageForm
-              setError={setError}
-              setFeedback={setFeedback}
-              addMessageToList={addMessageToList}
-            />
-      
-            {error && <p className="Messages-error">{error}</p>}
-            {!loaded && <img src={loadingIcon} alt="loading" />}
-            {messages.map(message => (
-              <Message key={message._id} message={message} />
-            )
-            )} */}
           </>
         )
       }
       export default Profile
     
-//     return ( 
-        
-//         <View style={styles.container}>
-//             <Text style={styles.profileTop}>Profile</Text>
-//             <Text style={styles.icon}> {icon}</Text>
-//             <Text style={styles.email}>Email: {emailFromDatabase} </Text>
-//             <Text style={styles.password}>Password: {passwordFromDatabase}</Text>
-//             <Text style={styles.age}>Age (optional): {age}</Text>
-//             <Text style={styles.gender}>Gender (optional): {gender} </Text>
-           
-//         </View>
-//   );
-
-
-     
-//}
 
 const styles = StyleSheet.create({ 
     container: { 
@@ -185,15 +155,15 @@ const styles = StyleSheet.create({
     },
 
 
-    // emptyCard: { 
-    //     height: windowWidth*0.5, 
-    //     width: windowWidth*0.5,
-    //     borderStyle: 'solid',
-    //     borderWidth: 3,
-    //     borderColor: theme.colors.primary,
-    //     alignItems: 'center',
-    //     justifyContent: 'center'
-    //   }
+    emptyCard: { 
+        height: windowWidth*0.5, 
+        width: windowWidth*0.5,
+        borderStyle: 'solid',
+        borderWidth: 3,
+        borderColor: theme.colors.primary,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }
 
 
     
