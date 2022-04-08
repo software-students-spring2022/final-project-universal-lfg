@@ -13,7 +13,7 @@ const windowWidth = Dimensions.get('window').width;
     // let gender = 'placeholder';
     // let icon = <View style={styles.emptyCard}><Text style={styles.emptyText}> <Image source={require('front-end/Images/AddIcon.png')} /></Text></View>;
     
-    const Messages = props => {
+    const Profile = props => {
         const [emailFromDatabase, setMessages] = useState(['couldnt find email'])
         const [passwordFromDatabase, setLoaded] = useState('couldnt find password')
         const [age, setLoaded] = useState('couldnt find age')
@@ -28,7 +28,7 @@ const windowWidth = Dimensions.get('window').width;
           // setMessages([])
           // setLoaded(false)
           axios
-            .get(`${process.env.REACT_APP_SERVER_HOSTNAME}/messages`)
+            .get(`${process.env.REACT_APP_SERVER_HOSTNAME}/profiles`)
             .then(response => {
               // axios bundles up all response data in response.data property
               const messages = response.data.messages
@@ -90,7 +90,7 @@ const windowWidth = Dimensions.get('window').width;
           </>
         )
       }
-      export default Messages
+      export default Profile
     
 //     return ( 
         

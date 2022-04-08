@@ -88,6 +88,22 @@ app.get("/viewpost", (req,res) => {
 //Routing for profiles 
 app.get('/profiles', (req,res) => { 
 
+  try {
+    const profile = PROFILE //PROFILE is the database with all this info (hopefully)
+    res.json({
+      email : profile.email,
+      password : profile.password,
+      age : profile.age,
+      gender : profile.gender 
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'failed to retreive data relating to profile from the database'
+    })
+  }
+
 })
 
 //Routing for messages
