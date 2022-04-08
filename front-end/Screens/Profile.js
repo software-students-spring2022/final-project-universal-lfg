@@ -1,4 +1,6 @@
 import React from 'react';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import { StyleSheet, Text, View, Dimensions, Image  } from 'react-native';
 import { ThemeColors } from 'react-navigation';
 import theme from "../theme";
@@ -11,20 +13,20 @@ const windowWidth = Dimensions.get('window').width;
     // let passwordFromDatabase = 'couldnt find password';
     // let age = 'placeholder';
     // let gender = 'placeholder';
-    // let icon = <View style={styles.emptyCard}><Text style={styles.emptyText}> <Image source={require('front-end/Images/AddIcon.png')} /></Text></View>;
+    //let icon = <View style={styles.emptyCard}><Text style={styles.emptyText}> <Image source={require('front-end/Images/AddIcon.png')} /></Text></View>;
     
     const Profile = props => {
         const [emailFromDatabase, setEmail] = useState(['couldnt find email'])
         const [passwordFromDatabase, setPassword] = useState('couldnt find password')
         const [ageFromDataBase, setAge] = useState('couldnt find age')
         const [genderFromDataBase, setGender] = useState('couldnt find gender')
-        const [error, setError] = useState('')
+        const [error, setError] = useState('error oof')
         const [feedback, setFeedback] = useState('')
       
         /**
          * A nested function that fetches messages from the back-end server.
          */
-        const fetchMessages = () => {
+        const fetchProfileData = () => {
           // setMessages([])
           // setLoaded(false)
           axios
@@ -43,30 +45,30 @@ const windowWidth = Dimensions.get('window').width;
             .catch(err => {
               setError(err)
             })
-            .finally(() => {
-              // the response has been received, so remove the loading icon
-              setLoaded(true)
-            })
+            // .finally(() => {
+            //   // the response has been received, so remove the loading icon
+            //   setLoaded(true)
+            // })
         }
       
         /**
          * A nested function used to add a new message to the list of messages
          * @param {*} message The new message to add to the list
          */
-        const addMessageToList = message => {
-          const newMessages = [...messages, message] // make an array with all the old values plus the new one
-          setMessages(newMessages) // save the new array
-        }
+        // const addMessageToList = message => {
+        //   const newMessages = [...messages, message] // make an array with all the old values plus the new one
+        //   setMessages(newMessages) // save the new array
+        // }
       
         // set up loading data from server when the component first loads
         useEffect(() => {
           // fetch messages this once
-          fetchMessages()
+          fetchProfileData()
       
           // set a timer to load data from server every n seconds
           const intervalHandle = setInterval(() => {
             fetchMessages()
-          }, 5000)
+          }, 5000000000)
       
           // return a function that will be called when this component unloads
           return e => {
@@ -77,7 +79,17 @@ const windowWidth = Dimensions.get('window').width;
       
         return (
           <>
-            <h1>Leave a message!</h1>
+
+            <View style={styles.container}>
+                <Text style={styles.profileTop}>Profile</Text>
+                {/* <Text style={styles.icon}> {icon}</Text> */}
+                <Text style={styles.email}>Email: {emailFromDatabase} </Text>
+                <Text style={styles.password}>Password: {passwordFromDatabase}</Text>
+                <Text style={styles.age}>Age (optional): {ageFromDataBase}</Text>
+                <Text style={styles.gender}>Gender (optional): {genderFromDataBase} </Text>
+            
+            </View>
+            {/* <h1>Leave a message!</h1>
       
             {feedback && <p className="MessageForm-feedback">{feedback}</p>}
             {error && <p className="MessageForm-error">{error}</p>}
@@ -92,7 +104,8 @@ const windowWidth = Dimensions.get('window').width;
             {!loaded && <img src={loadingIcon} alt="loading" />}
             {messages.map(message => (
               <Message key={message._id} message={message} />
-            ))}
+            )
+            )} */}
           </>
         )
       }
@@ -172,15 +185,15 @@ const styles = StyleSheet.create({
     },
 
 
-    emptyCard: { 
-        height: windowWidth*0.5, 
-        width: windowWidth*0.5,
-        borderStyle: 'solid',
-        borderWidth: 3,
-        borderColor: theme.colors.primary,
-        alignItems: 'center',
-        justifyContent: 'center'
-      }
+    // emptyCard: { 
+    //     height: windowWidth*0.5, 
+    //     width: windowWidth*0.5,
+    //     borderStyle: 'solid',
+    //     borderWidth: 3,
+    //     borderColor: theme.colors.primary,
+    //     alignItems: 'center',
+    //     justifyContent: 'center'
+    //   }
 
 
     
