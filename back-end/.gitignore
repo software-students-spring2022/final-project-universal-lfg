@@ -1,6 +1,9 @@
 # any uploaded files
 public/uploads
 
+# .env file
+.env
+
 # Compiled source #
 ###################
 *.com

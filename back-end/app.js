@@ -2,6 +2,8 @@
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
+const mongoose = require('mongoose');
+require('./db');
 
 // import some useful middleware
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
