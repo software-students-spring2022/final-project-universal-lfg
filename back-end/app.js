@@ -2,6 +2,8 @@
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
+const mongoose = require('mongoose');
+require('./db');
 
 // import some useful middleware
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
@@ -26,6 +28,12 @@ app.use((req, res, next) => {
   // run the next middleware function, if any
   next()
 })
+
+// Access models
+const User = mongoose.model('User');
+const Game = mongoose.model('Game');
+const Post = mongoose.model('Post');
+const Message = mongoose.model('Message');
 
 // Load database models
 // For backend sprint, just dummy variable
