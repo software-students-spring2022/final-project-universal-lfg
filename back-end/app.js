@@ -29,6 +29,12 @@ app.use((req, res, next) => {
   next()
 })
 
+// Access models
+const User = mongoose.model('User');
+const Game = mongoose.model('Game');
+const Post = mongoose.model('Post');
+const Message = mongoose.model('Message');
+
 // Load database models
 // For backend sprint, just dummy variable
 const MESSAGES = [
