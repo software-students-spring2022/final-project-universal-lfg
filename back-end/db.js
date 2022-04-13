@@ -40,6 +40,12 @@ const Message = new Schema({
     msg: { type: String, require: true }
 })
 
+// define the models
+mongoose.model('User', User);
+mongoose.model('Game', Game);
+mongoose.model('Post', Post);
+mongoose.model('Message', Message);
+
 // connect to database
 const db = process.env.mongoURI;
 connect(db);
