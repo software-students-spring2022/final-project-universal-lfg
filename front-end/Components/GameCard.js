@@ -2,7 +2,7 @@
 import { Icon } from 'react-native-elements';
 import { StyleSheet, View, Dimensions, ImageBackground} from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import URL from '../url.json'
 const windowWidth = Dimensions.get('window').width;
 
 export default function GameCard(props){ 
@@ -19,13 +19,12 @@ export default function GameCard(props){
         theme = styles(props.theme, props.type);
     } else throw console.error("Invalid GameCard component type");
 
-
     return(
         <View style={theme.card}> 
-            <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.game.path, {gameTitle: props.game.title})}} >
-                <ImageBackground source={props.game.image} style={theme.img}>
+            <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.game.title, {gameTitle: props.game.title})}} >
+                <ImageBackground source={{uri: URL.url + props.game.image}} style={theme.img}>
                     <View>
-                        <TouchableOpacity onPress={() => {props.action({title: props.game.title, path: props.game.path, image: props.game.image})}}>
+                        <TouchableOpacity onPress={() => {props.action({title: props.game.title, path: props.game.title, image: props.game.image})}}>
                             <Icon type='antdesign' name={icon.name} size={35} color={icon.color} style={theme.icon}></Icon>
                         </TouchableOpacity>
                     </View>

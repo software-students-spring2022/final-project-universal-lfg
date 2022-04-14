@@ -19,7 +19,7 @@ export default function BrowsePost({route, navigation}){
     const [data, setData] = useState([]);
     const getPosts = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/browse', {
+            const response = await fetch('http://139e-2603-7000-4200-6710-706d-334b-aab2-f8b.ngrok.io/browse', {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',

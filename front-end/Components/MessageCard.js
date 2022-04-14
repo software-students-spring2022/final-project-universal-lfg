@@ -6,9 +6,7 @@ export default function MessageCard(props){
     const onViewPressed = () => {
         console.log("Pressed")
     }
-
-    return (
-        
+    return (  
         <TouchableOpacity
             style={styles.button}
             onPress={() => {onViewPressed()}}

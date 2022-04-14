@@ -17,7 +17,7 @@ app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
 
 // make 'public' directory publicly readable with static content
-app.use("/static", express.static("public"))
+app.use("/static", express.static(__dirname + "/public"))
 
 // custom middleware 
 app.use((req, res, next) => {
@@ -33,14 +33,16 @@ const MESSAGES = [
   {title: "Sample", content: "Lorem ipsum text"}
 ]
 const POSTS = [
-  {game: "LOL", title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
-  {game: "CSGO", title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
-  {game: "OW", title: "Post3", name: "Name3", initial: "N3", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail3"}
+  {game: "LOL", title: "Post1", name: "Name1", initial: "N1", image: "image", rank: "GOLD", detail: "detail1"},
+  {game: "CSGO", title: "Post2", name: "Name2", initial: "N2", image: "image", rank: "GOLD", detail: "detail2"},
+  {game: "OW", title: "Post3", name: "Name3", initial: "N3", image: "image", rank: "GOLD", detail: "detail3"}
 ]
+
+const GAMES = require(__dirname + '/public/database/games.json')
 
 // route for HTTP GET requests to the root document
 app.get("/", (req, res) => {
-  res.send("Goodbye world!")
+  res.send("Hello! Don't know why you're requesting here.")
 })
 
 //Routing for login
@@ -72,7 +74,17 @@ app.get("/browse", (req,res)=> {
 
 //Routing for home page 
 app.get("/homepage", (req, res) => { 
-
+  try {
+    res.json({
+      games : GAMES.games
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'Failed to games list'
+    })
+  }
 })
 
 //Routing for create post 

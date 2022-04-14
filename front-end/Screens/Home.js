@@ -8,13 +8,12 @@ import GameCard from '../Components/GameCard';
 const theme = Theme.colors;
 const windowWidth = Dimensions.get('window').width;
 //Dynamic imports of game logos 
-import GAMES from '../assets/games_index/index.js'
 
 
-export default function Home({navigation}) {
+export default function Home(props) {
   
   const [myGames, setMyGames] = useState([]); 
-
+  const GAMES = props.route.params.games
   /*
   addCard / removeCard functions
   -Functions used by individual card components for the removal and addition of games to My Games 
@@ -51,7 +50,7 @@ export default function Home({navigation}) {
   else {
     myGamesBlock = myGames.map((game) => { 
       return(
-          <GameCard key={game.title+'personal'} navigation={navigation} action={removeCard} game={game} type="personal" theme={theme}/>
+          <GameCard key={game.title+'personal'} navigation={props.navigation} action={removeCard} game={game} type="personal" theme={theme}/>
       )
     })
   }
@@ -68,7 +67,7 @@ export default function Home({navigation}) {
             {
                 GAMES.map((game) => { 
                     return(
-                        <GameCard key={game.title+'browse'} navigation={navigation} action={addCard} game={game} type="browse" theme={theme}/>
+                        <GameCard key={game.title+'browse'} navigation={props.navigation} action={addCard} game={game} type="browse" theme={theme}/>
                     )
                 } )
             }
