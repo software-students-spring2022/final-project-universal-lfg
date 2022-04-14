@@ -161,6 +161,7 @@ app.get('/profiles', (req,res) => {
 app.get('/messages', (req,res) => {
   // Load messages from database
   try {
+    var user = req.body.value
     const messages = MESSAGES
     res.json({
       title : messages.title,
