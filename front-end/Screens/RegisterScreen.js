@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { View, StyleSheet, TouchableOpacity, Button, Text, TextInput } from 'react-native'
+import Axios from 'axios'
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
@@ -22,6 +23,19 @@ export default function RegisterScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
+    Axios.post("http://localhost:3000/registration", {
+      name: name,
+      email: email,
+      password: password
+    },
+    {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    }).then((response) => {
+      console.log(response);
+    }).catch(error => console.log(error));
     navigation.reset({
       index: 0,
       routes: [{ name: 'Dashboard' }],

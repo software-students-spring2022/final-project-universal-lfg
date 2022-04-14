@@ -2,6 +2,8 @@
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
+const mongoose = require('mongoose');
+require('./db');
 
 // import some useful middleware
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
@@ -27,6 +29,12 @@ app.use((req, res, next) => {
   next()
 })
 
+// Access models
+const User = mongoose.model('User');
+const Game = mongoose.model('Game');
+const Post = mongoose.model('Post');
+const Message = mongoose.model('Message');
+
 // Load database models
 // For backend sprint, just dummy variable
 const MESSAGES = [
@@ -46,13 +54,72 @@ app.get("/", (req, res) => {
 })
 
 //Routing for login
-app.get("/login", (req,res) => { 
-
+app.post("/login", (req,res) => {
+  const email =  req.body.email;
+  const password = req.body.password;
+  const fs = require('fs');
+  fs.readFile('./public/database/users.json', 'utf-8', (err, data) => {
+    if (err) {
+      res.status(400).json({
+        error: err,
+        status: 'failed to retrieve user information'
+      })
+    } else {
+      const existUsers = JSON.parse(data).users;
+      const finduser = existUsers.filter (user => user.email === email);
+      if (finduser.length !== 0) {
+        const user = finduser[0];
+        if (user.email === email && user.password === password) {
+          res.status(200).json({
+            email: email,
+            password: password
+          })
+        } else {
+          res.status(401).json({message: "invalid credentials"});
+        }
+      } else {
+        res.status(404).json({message: "user not found"});
+      }
+    }
+  })
 })
 
 //Routing for registration 
 app.post("/registration", (req,res) => {
-
+  const newuser = {
+    "username": req.body.name,
+    "email": req.body.email,
+    "password": req.body.password
+  };
+  const fs = require('fs');
+  fs.readFile('./public/database/users.json', 'utf-8', (err, data) => {
+    if (err) {
+      res.status(400).json({
+        error: err,
+        status: 'failed to retrieve user information'
+      })
+    }
+    else {
+      const existUsers = JSON.parse(data).users;
+      const finduser = existUsers.filter (user => user.email === email);
+      if (finduser.length !== 0) {
+        res.status(409).json({message: "email already exists"});
+      } else {
+        existUsers.push(newuser);
+        const userJSON = JSON.stringify({ users: existUsers });
+        fs.writeFile('./public/database/users.json', userJSON, (err) => {
+          if (err) {
+            res.status(400).json({
+              error: err,
+              status: 'failed to update user information'
+            })
+          } else {
+            res.status(200).json({message: "user created"});
+          }
+        });
+      }
+    }
+});
 })
 
 //Routing for Browse game posts 
