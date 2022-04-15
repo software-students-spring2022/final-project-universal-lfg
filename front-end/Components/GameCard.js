@@ -21,10 +21,10 @@ export default function GameCard(props){
 
     return(
         <View style={theme.card}> 
-            <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.game.title, {gameTitle: props.game.title})}} >
-                <ImageBackground source={{uri: URL.url + props.game.image}} style={theme.img}>
+            <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.game.name, {gameTitle: props.game.name})}} >
+                <ImageBackground source={{uri: URL.url + props.game.img}} style={theme.img}>
                     <View>
-                        <TouchableOpacity onPress={() => {props.action({title: props.game.title, path: props.game.title, image: props.game.image})}}>
+                        <TouchableOpacity onPress={() => {props.action({title: props.game.name, path: props.game.name, image: props.game.img})}}>
                             <Icon type='antdesign' name={icon.name} size={35} color={icon.color} style={theme.icon}></Icon>
                         </TouchableOpacity>
                     </View>

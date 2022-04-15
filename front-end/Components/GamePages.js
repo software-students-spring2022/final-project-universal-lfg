@@ -14,18 +14,17 @@ export default function GamePages(props){
         try {
             const res = await fetch(URL.url+'/homepage')
             const response = await res.json()
-            setGames(response.games)
+            const resGames = response.games
+            setGames(resGames)
         } catch (err) { 
             console.log(err)
         } finally {
-            console.log(games)
             setLoading(false)
         }
     }
     useEffect(() => {
         getGameList();
       }, []);
-    
     return(
     <Stack.Navigator screenOptions={{headerShown: false, initialRouteName: "LoadingPage"}}>
           {
@@ -34,7 +33,7 @@ export default function GamePages(props){
                 <Stack.Screen name="HomePage" component={Home} initialParams={{games:games}} />
                 {
                     games.map((game) => { 
-                    return(<Stack.Screen key={game.title} name={game.title} component={BrowsePost} />)
+                    return(<Stack.Screen key={game.name} name={game.name} component={BrowsePost} />)
                     }) 
                 }
              </>

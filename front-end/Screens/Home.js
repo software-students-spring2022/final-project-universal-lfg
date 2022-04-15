@@ -67,7 +67,7 @@ export default function Home(props) {
             {
                 GAMES.map((game) => { 
                     return(
-                        <GameCard key={game.title+'browse'} navigation={props.navigation} action={addCard} game={game} type="browse" theme={theme}/>
+                        <GameCard key={game.name} navigation={props.navigation} action={addCard} game={game} type="browse" theme={theme}/>
                     )
                 } )
             }

@@ -3,7 +3,9 @@ const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
 const mongoose = require('mongoose');
+
 require('./db');
+require('./ngrok')
 
 // import some useful middleware
 const multer = require("multer") // middleware to handle HTTP POST requests with file uploads
@@ -142,8 +144,20 @@ app.get("/browse", (req,res)=> {
 //Routing for home page 
 app.get("/homepage", (req, res) => { 
   try {
-    res.json({
-      games : GAMES.games
+    Game.find({}, function(err, data) { 
+      if(err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve games from database'
+        })
+      }
+      else {
+        console.log("Games data retrieved successfully")
+        res.json({
+          games: data
+        })
+      }
     })
   } catch (err) {
     console.error(err)
