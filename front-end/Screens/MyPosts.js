@@ -15,7 +15,7 @@ export default function MyPosts({navigation}){
                 {
                     POSTS.map((post) => { 
                         return(
-                            <TouchableOpacity key={post.title} onPress={() => {console.log("Navigate to HostViewPage")/*navigation.navigate('HostViewPost'), {game: post.game, title: post.title, name: post.name, initial: post.initial, image: post.image, rank: post.rank, detail: post.detail}*/}}>
+                            <TouchableOpacity key={post.title} onPress={() => {navigation.navigate('HostViewPost', {game: post.game, title: post.title, name: post.name, initial: post.initial, image: post.image, rank: post.rank, detail: post.detail})}}>
                                 <Card containerStyle={{width: '100%'}}>
                                     <Card.Title>{post.title}</Card.Title>
                                     <Card.Divider/>

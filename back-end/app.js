@@ -47,6 +47,9 @@ const POSTS = [
   {game: "CSGO", title: "Post2", name: "Name2", initial: "N2", image: "image", rank: "GOLD", detail: "detail2"},
   {game: "OW", title: "Post3", name: "Name3", initial: "N3", image: "image", rank: "GOLD", detail: "detail3"}
 ]
+const PROFILE = [
+  {email: "rfernandez20@palmertrinity.org", password: "password", age:  "21", gender: "male"}
+]
 
 const GAMES = require(__dirname + '/public/database/games.json')
 
@@ -180,6 +183,22 @@ app.get("/viewpost", (req,res) => {
 
 //Routing for profiles 
 app.get('/profiles', (req,res) => { 
+
+  try {
+    const profile = PROFILE //PROFILE is the database with all this info (hopefully)
+    res.json({
+      email : profile.email,  
+      password : profile.password,
+      age : profile.age,
+      gender : profile.gender 
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'failed to retreive data relating to profile from the database'
+    })
+  }
 
 })
 
