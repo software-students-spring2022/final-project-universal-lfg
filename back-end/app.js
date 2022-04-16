@@ -40,7 +40,7 @@ const Message = mongoose.model('Message');
 // Load database models
 // For backend sprint, just dummy variable
 const MESSAGES = [
-  {title: "Sample", content: "Lorem ipsum text"}
+  {from: "Sample", msg: "Lorem ipsum text"}
 ]
 const POSTS = [
   {game: "LOL", title: "Post1", name: "Name1", initial: "N1", image: "image", rank: "GOLD", detail: "detail1"},

@@ -3,6 +3,11 @@ import { StyleSheet, Text, View  } from 'react-native';
 import theme from "../theme";
 import MessageCard from '../Components/MessageCard';
 
+const MESSAGES = (
+    {from: "User 1", msg: "Here is a message"},
+    {from: "User 2", msg: "Here is another message"}
+)
+
 export default function Messages(props){ 
     
     const getMessages = async () => {
@@ -30,8 +35,15 @@ export default function Messages(props){
     return ( 
         <View style={styles.container}> 
             <Text style={{color: theme.colors.primary, fontSize: 30, paddingBottom: 20}}>My Messages</Text> 
-            <MessageCard title='Team Number 1' content='User said: Some message here'></MessageCard>
-            <MessageCard title='Team Number 2' content='User said: Insert stuff here'></MessageCard>
+                <View>
+                    {
+                        MESSAGES.map((message) => { 
+                            return(
+                                <MessageCard from={message.from} msg={message.msg}/>
+                            )
+                        } )
+                    }
+                </View>
         </View>
     ); 
 }
