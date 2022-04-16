@@ -11,8 +11,8 @@ export default function MessageCard(props){
             style={styles.button}
             onPress={() => {onViewPressed()}}
             >   
-                <Text style={styles.text}>{props.title}</Text>
-                <Text style={styles.text}>{props.content}</Text>
+                <Text style={styles.text}>{props.from}</Text>
+                <Text style={styles.text}>{props.msg}</Text>
         </TouchableOpacity>
     )
 };
