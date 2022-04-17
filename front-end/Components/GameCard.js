@@ -24,7 +24,7 @@ export default function GameCard(props){
             <TouchableOpacity style={theme.touchable} onPress={() => {props.navigation.navigate(props.game.name, {gameTitle: props.game.name})}} >
                 <ImageBackground source={{uri: URL.url + props.game.img}} style={theme.img}>
                     <View>
-                        <TouchableOpacity onPress={() => {props.action({title: props.game.name, path: props.game.name, image: props.game.img})}}>
+                        <TouchableOpacity onPress={() => {props.action({name: props.game.name, path: props.game.name, img: props.game.img})}}>
                             <Icon type='antdesign' name={icon.name} size={35} color={icon.color} style={theme.icon}></Icon>
                         </TouchableOpacity>
                     </View>

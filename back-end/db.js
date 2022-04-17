@@ -127,4 +127,3 @@ function insertGames(){
         game.save(saveGame)
     })
 }
-insertGames();
