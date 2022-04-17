@@ -1,12 +1,9 @@
-import React, { useState } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button, Text, TextInput } from 'react-native'
-import Axios from 'axios'
+import React, { useState, useEffect } from 'react'
+import { View, StyleSheet, TouchableOpacity, Alert, Text, TextInput } from 'react-native'
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
-import { emailValidator } from '../Helpers/emailValidator'
-import { passwordValidator } from '../Helpers/passwordValidator'
-import { nameValidator } from '../Helpers/nameValidator'
 import AppButton from '../Components/AppButton'
+import URL from '../url.json'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -14,32 +11,32 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState({ value: '', error: '' })
 
   const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value)
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError })
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
-    }
-    Axios.post("http://localhost:3000/registration", {
-      name: name,
-      email: email,
-      password: password
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
+    registerCall();
+  }
+  
+  const registerCall = async () => {
+    try {
+      const user = {"name": name.value, "email": email.value, "password": password.value}
+      const res = await fetch(URL.url+'/register', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      const response = await res.json()
+      if (response.error) {
+        Alert.alert(response.error)
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'LoginScreen' }],
+        })
       }
-    }).then((response) => {
-      console.log(response);
-    }).catch(error => console.log(error));
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+    } catch (err) { 
+      console.log(err)
+    }
   }
 
   return (

@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     username: { type: String, unique: true, required: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
+    token: { type: String },
     age: { type: Number },
     gender: { type: String },
     img: { data: Buffer, contentType: String },

@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BrowsePost from '../Screens/BrowsePost'
+import CreatePost from '../Screens/CreatePost'
+import ViewPost from '../Screens/ViewPost'
 import HostViewPost from '../Screens/HostViewPost'
 import Home from '../Screens/Home';
 import LoadingHome from '../Screens/LoadingHome';
@@ -12,7 +15,12 @@ export default function GamePages(props){
     const [isLoading, setLoading] = useState(true)
     const getGameList = async () => { 
         try {
-            const res = await fetch(URL.url+'/homepage')
+            const token = await AsyncStorage.getItem("token")
+            const res = await fetch(URL.url+'/homepage', {
+                headers:{
+                    "x-access-token": token
+                }
+            })
             const response = await res.json()
             const resGames = response.games
             setGames(resGames)
@@ -36,6 +44,9 @@ export default function GamePages(props){
                     return(<Stack.Screen key={game.name} name={game.name} component={BrowsePost} />)
                     }) 
                 }
+                <Stack.Screen name="ViewPost" component={ViewPost} />
+                <Stack.Screen name="HostViewPost" component={HostViewPost} />
+                <Stack.Screen name="CreatePost" component={CreatePost} />
              </>
           }
         </Stack.Navigator>
