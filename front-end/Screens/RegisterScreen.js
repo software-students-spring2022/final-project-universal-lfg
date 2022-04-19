@@ -1,12 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Button, Text, TextInput } from 'react-native'
-import Axios from 'axios'
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
 import { passwordValidator } from '../Helpers/passwordValidator'
 import { nameValidator } from '../Helpers/nameValidator'
 import AppButton from '../Components/AppButton'
+import URL from '../url.json'
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -23,23 +23,31 @@ export default function RegisterScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-    Axios.post("http://localhost:3000/registration", {
-      name: name,
-      email: email,
-      password: password
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then((response) => {
-      console.log(response);
-    }).catch(error => console.log(error));
+    registerCall();
     navigation.reset({
       index: 0,
-      routes: [{ name: 'Dashboard' }],
+      routes: [{ name: 'LoginScreen' }],
     })
+  }
+  
+  const registerCall = async () => {
+    try {
+      const user = {"name": name.value, "email": email.value, "password": password.value}
+      const res = await fetch(URL.url+'/register', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      const response = await res.json()
+      setName({value: response.name})
+      setEmail({value: response.email})
+      setPassword({value: response.password})
+    } catch (err) { 
+      console.log(err)
+    }
   }
 
   return (
