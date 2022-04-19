@@ -49,7 +49,7 @@ export default function HostViewPost({route, navigation}){
                         containerStyle={{backgroundColor: 'lightgrey'}}
                     />
                     <Text style={{color: '#d9d9d9', textAlign: 'left', marginLeft: 20, fontSize:12}}> {name}{"\n"}{game} </Text>
-                    <Icon type='entypo' name={'dots-three-vertical'} size={25} color={'#d9d9d9'} containerStyle={{marginLeft: 120}} onPress={() => setIsVisible(true) }></Icon>
+                    <Icon type='entypo' name={'dots-three-vertical'} size={25} color={'#d9d9d9'} containerStyle={{position: 'absolute', right: 20}} onPress={() => setIsVisible(true) }></Icon>
                 </View>
                 <BottomSheet
                         isVisible = {isVisible}
