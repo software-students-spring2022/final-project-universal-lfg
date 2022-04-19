@@ -3,10 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Card, ListItem, Button,  Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import Post from '../Components/Post';
 import theme from '../theme';  
 import AppButton from '../Components/AppButton';
 import { Value } from 'react-native-reanimated';
+import URL from '../url.json'
+
 const POSTS = [
     {title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
     {title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
@@ -19,11 +22,13 @@ export default function BrowsePost({route, navigation}){
     const [data, setData] = useState([]);
     const getPosts = async () => {
         try {
-            const response = await fetch('http://139e-2603-7000-4200-6710-706d-334b-aab2-f8b.ngrok.io/browse', {
+            const token = await AsyncStorage.getItem("token")
+            const response = await fetch(URL.url+'/browse', {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
+                    'x-access-token': token
                 },
             });
             const json = await response.json();

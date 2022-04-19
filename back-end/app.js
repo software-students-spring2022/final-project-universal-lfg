@@ -2,9 +2,13 @@
 const express = require("express") // CommonJS import style!
 const app = express() // instantiate an Express object
 const path = require("path")
-const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken")
+const bcrypt = require('bcryptjs')
+const ensureAuthenticated = require('./config/auth');
 
-require('./db');
+const mongoose = require('mongoose')
+
+require('./db')
 require('./ngrok')
 
 // import some useful middleware
@@ -60,75 +64,117 @@ app.get("/", (req, res) => {
 
 //Routing for login
 app.post("/login", (req,res) => {
-  const email =  req.body.email;
-  const password = req.body.password;
-  const fs = require('fs');
-  fs.readFile('./public/database/users.json', 'utf-8', (err, data) => {
-    if (err) {
-      res.status(400).json({
-        error: err,
-        status: 'failed to retrieve user information'
-      })
-    } else {
-      const existUsers = JSON.parse(data).users;
-      const finduser = existUsers.filter (user => user.email === email);
-      if (finduser.length !== 0) {
-        const user = finduser[0];
-        if (user.email === email && user.password === password) {
-          res.status(200).json({
-            email: email,
-            password: password
-          })
-        } else {
-          res.status(401).json({message: "invalid credentials"});
-        }
+  try {
+    // Get user input
+    const { email, password } = req.body;
+
+    // Validate user input
+    // if (!(email && password)) {
+    //   res.status(400).json({ error: "All input is required" });
+    // }
+    // Validate if user exist in our database
+    User.findOne({ email: email }, (err, user) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+          status: 'an error has occurred, please check the server output'
+        });
+      } else if (user) {
+        bcrypt.compare(password, user.password, (err, passwordMatch) => {
+          if (err) {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                status: 'an error has occurred, please check the server output'
+              });
+          } else if (passwordMatch === true) {
+            // user authenticated
+            res.status(200).json(user);
+          } else {
+            res.status(400).json({ error: "Invalid Credentials" });
+          }
+        });
       } else {
-        res.status(404).json({message: "user not found"});
+        res.status(400).json({ error: "User does not exist" })
       }
-    }
-  })
-})
+    });
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 //Routing for registration 
-app.post("/registration", (req,res) => {
-  const newuser = {
-    "username": req.body.name,
-    "email": req.body.email,
-    "password": req.body.password
-  };
-  const fs = require('fs');
-  fs.readFile('./public/database/users.json', 'utf-8', (err, data) => {
-    if (err) {
-      res.status(400).json({
-        error: err,
-        status: 'failed to retrieve user information'
-      })
-    }
-    else {
-      const existUsers = JSON.parse(data).users;
-      const finduser = existUsers.filter (user => user.email === email);
-      if (finduser.length !== 0) {
-        res.status(409).json({message: "email already exists"});
+app.post("/register", (req,res) => {
+  try {
+    // Get user input
+    const { name, email, password } = req.body;
+
+    // Validate user input
+    // if (!(email && password && name)) {
+    //   res.status(400).json({ msg: "All input is required" });
+    // }
+
+    // if (password.length < 5) { 
+    //   res.status(400).json({ msg: "The password should be at least 5 letters" });
+    // }
+
+    // check if user already exist
+    User.findOne({ email: email }, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+          status: 'an error has occurred, please check the server output'
+        });
+      } else if (result) {
+        return res.status(409).json({ msg: "User Already Exist. Please Login" });
       } else {
-        existUsers.push(newuser);
-        const userJSON = JSON.stringify({ users: existUsers });
-        fs.writeFile('./public/database/users.json', userJSON, (err) => {
+        //Encrypt user password
+        bcrypt.hash(password, 10, (err, hash) => {
           if (err) {
-            res.status(400).json({
-              error: err,
-              status: 'failed to update user information'
-            })
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                status: 'an error has occurred, please check the server output'
+              });
           } else {
-            res.status(200).json({message: "user created"});
+            // Create user in our database
+            const user = new User({
+                username: name,
+                email: email,
+                password: hash
+            });
+            // Create token
+            const token = jwt.sign(
+              { user_id: user._id, email },
+              process.env.TOKEN_KEY
+            );
+            // save user token
+            user.token = token;
+            user.save((err) => {
+                if (err) {
+                  console.log(err);
+                  res.status(500).json({
+                    error: err,
+                    status: 'an error has occurred, please check the server output'
+                  });
+                } else{
+                  // return new user
+                  res.status(201).json(user);
+                }
+            });
           }
         });
       }
-    }
+    })
+  } catch (err) {
+    console.log(err);
+  }
 });
-})
 
 //Routing for Browse game posts 
-app.get("/browse", (req,res)=> { 
+app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
     var game = req.body.value
     const posts = POSTS
@@ -145,7 +191,7 @@ app.get("/browse", (req,res)=> {
 })
 
 //Routing for home page 
-app.get("/homepage", (req, res) => { 
+app.get("/homepage", ensureAuthenticated, (req, res) => { 
   try {
     Game.find({}, function(err, data) { 
       if(err) {
@@ -177,12 +223,12 @@ app.post("/create" , (req,res) => {
 })
 
 //Routing for viewing a post 
-app.get("/viewpost", (req,res) => { 
+app.get("/viewpost", ensureAuthenticated, (req,res) => { 
 
 })
 
 //Routing for profiles 
-app.get('/profiles', (req,res) => { 
+app.get('/profiles', ensureAuthenticated, (req,res) => { 
 
   try {
     const profile = PROFILE //PROFILE is the database with all this info (hopefully)
@@ -203,7 +249,7 @@ app.get('/profiles', (req,res) => {
 })
 
 //Routing for messages
-app.get('/messages', (req,res) => {
+app.get('/messages', ensureAuthenticated, (req,res) => {
   // Load messages from database
   try {
     var user = req.body.value

@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, StyleSheet, View, Button, Text, TextInput } from 'react-native'
-import Axios from 'axios'
+import { TouchableOpacity, StyleSheet, View, Alert, Text, TextInput } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import { emailValidator } from '../Helpers/emailValidator'
 import { passwordValidator } from '../Helpers/passwordValidator'
 import AppButton from '../Components/AppButton'
+import URL from '../url.json'
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
@@ -19,23 +20,34 @@ export default function LoginScreen({ navigation }) {
       setPassword({ ...password, error: passwordError })
       return
     }
-    Axios.post("http://localhost:3000/login", {
-      email: email,
-      password: password
-    },
-    {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    }).then((response) => {
-      console.log(response);
-    }).catch(error => console.log(error));
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'Dashboard' }],
-    })
+    loginCall();
   }
+
+  const loginCall = async () => { 
+    try {
+      const user = {"email": email.value, "password": password.value}
+      const res = await fetch(URL.url+'/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+      })
+      const response = await res.json()
+      if (response.error) {
+        Alert.alert(response.error)
+      } else {
+        await AsyncStorage.setItem("token", response.token)
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Dashboard' }]
+        })
+      }
+    } catch (err) { 
+        console.log(err)
+    }
+}
 
   return (
     <View style={styles.container}>
