@@ -206,17 +206,26 @@ app.get('/profiles', (req,res) => {
 app.get('/messages', (req,res) => {
   // Load messages from database
   try {
-    var user = req.body.value
-    const messages = MESSAGES
-    res.json({
-      title : messages.title,
-      content : messages.content
+    Message.find({}, function(err, data) { 
+      if(err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve messages from database'
+        })
+      }
+      else {
+        console.log("Message data retrieved successfully")
+        res.json({
+          messages: data
+        })
+      }
     })
   } catch (err) {
     console.error(err)
     res.status(400).json({
       error: err,
-      status: 'failed to retreive messages from the database'
+      status: 'Failed to retrieve messages.'
     })
   }
 })
