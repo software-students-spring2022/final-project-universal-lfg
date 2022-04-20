@@ -191,7 +191,7 @@ app.post(
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
-    var name = req.header['Game']
+    var name = req.headers['Game']
     Post.find({game: name}, function(err, data) {
       if(err) {
         console.log(err)
