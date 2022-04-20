@@ -4,7 +4,8 @@ const app = express() // instantiate an Express object
 const path = require("path")
 const jwt = require("jsonwebtoken")
 const bcrypt = require('bcryptjs')
-const ensureAuthenticated = require('./config/auth');
+const { body, validationResult } = require('express-validator')
+const ensureAuthenticated = require('./config/auth')
 
 const mongoose = require('mongoose')
 
@@ -63,16 +64,23 @@ app.get("/", (req, res) => {
 })
 
 //Routing for login
-app.post("/login", (req,res) => {
+app.post(
+  "/login", 
+  // validators for inputs
+  body('email').notEmpty().withMessage('All inputs are required'),
+  body('password').notEmpty().withMessage('All inputs are required'),
+  body('email').isEmail().withMessage('Email not valid'), 
+  body('password').isLength({ min: 5 }).withMessage('Must be at least 5 chars long'), 
+  (req,res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorArray = errors.errors
+      return res.status(400).json({ error: errorArray[0].msg })
+    }
     // Get user input
     const { email, password } = req.body;
 
-    // Validate user input
-    // if (!(email && password)) {
-    //   res.status(400).json({ error: "All input is required" });
-    // }
-    // Validate if user exist in our database
     User.findOne({ email: email }, (err, user) => {
       if (err) {
         console.log(err);
@@ -105,19 +113,23 @@ app.post("/login", (req,res) => {
 });
 
 //Routing for registration 
-app.post("/register", (req,res) => {
+app.post(
+  "/register", 
+  // validators for inputs
+  body('name').notEmpty().withMessage('All inputs are required'),
+  body('email').notEmpty().withMessage('All inputs are required'),
+  body('password').notEmpty().withMessage('All inputs are required'),
+  body('email').isEmail().withMessage('Email not valid'), 
+  body('password').isLength({ min: 5 }).withMessage('Must be at least 5 chars long'),
+  (req,res) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorArray = errors.errors
+      return res.status(400).json({ error: errorArray[0].msg })
+    }
     // Get user input
     const { name, email, password } = req.body;
-
-    // Validate user input
-    // if (!(email && password && name)) {
-    //   res.status(400).json({ msg: "All input is required" });
-    // }
-
-    // if (password.length < 5) { 
-    //   res.status(400).json({ msg: "The password should be at least 5 letters" });
-    // }
 
     // check if user already exist
     User.findOne({ email: email }, (err, result) => {
@@ -128,7 +140,7 @@ app.post("/register", (req,res) => {
           status: 'an error has occurred, please check the server output'
         });
       } else if (result) {
-        return res.status(409).json({ msg: "User Already Exist. Please Login" });
+        return res.status(409).json({ error: "User Already Exist. Please Login" });
       } else {
         //Encrypt user password
         bcrypt.hash(password, 10, (err, hash) => {
@@ -148,7 +160,10 @@ app.post("/register", (req,res) => {
             // Create token
             const token = jwt.sign(
               { user_id: user._id, email },
-              process.env.TOKEN_KEY
+              process.env.TOKEN_KEY,
+              {
+                expiresIn: "365d",
+              }
             );
             // save user token
             user.token = token;
@@ -218,7 +233,7 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 })
 
 //Routing for create post 
-app.post("/create" , (req,res) => { 
+app.post("/create", ensureAuthenticated, (req,res) => { 
 
 })
 
