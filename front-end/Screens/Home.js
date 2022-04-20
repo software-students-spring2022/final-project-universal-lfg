@@ -21,22 +21,22 @@ export default function Home(props) {
   function addCard(game)  { 
     let present = false;
     for(var i = 0; i < myGames.length; i++){ 
-      if(myGames[i].title === game.title){
+      if(myGames[i].name === game.name){
         present = true 
         break;  
       } 
     }
     if(!present) { 
-      console.log("Adding game " + game.title + " to my games.");
+      console.log("Adding game " + game.name + " to my games.");
       setMyGames([...myGames, game]);
     } else { 
-      console.log("User attempted to add game " + game.title + " ... already present.")
+      console.log("User attempted to add game " + game.name + " ... already present.")
     }
   }
   function removeCard(game){ 
-    console.log("Removing game " + game.title + " from my games.")
+    console.log("Removing game " + game.name + " from my games.")
     let newGames = myGames.filter((g) => { 
-      return g.title !== game.title
+      return g.name !== game.name
     }); 
     setMyGames([...newGames]) 
   }
@@ -50,7 +50,7 @@ export default function Home(props) {
   else {
     myGamesBlock = myGames.map((game) => { 
       return(
-          <GameCard key={game.title+'personal'} navigation={props.navigation} action={removeCard} game={game} type="personal" theme={theme}/>
+          <GameCard key={game.name+'personal'} navigation={props.navigation} action={removeCard} game={game} type="personal" theme={theme}/>
       )
     })
   }
