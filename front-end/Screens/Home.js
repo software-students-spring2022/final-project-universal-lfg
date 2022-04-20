@@ -1,10 +1,11 @@
 //Author(s): Theo Stephens Kehoe
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Dimensions, KeyboardAvoidingView } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import Theme from '../theme';
 //Component imports and dependencies
 import GameCard from '../Components/GameCard';
+import Search from '../Components/SearchBar';
 const theme = Theme.colors;
 const windowWidth = Dimensions.get('window').width;
 //Dynamic imports of game logos 
@@ -14,6 +15,7 @@ export default function Home(props) {
   
   const [myGames, setMyGames] = useState([]); 
   const GAMES = props.route.params.games
+  const [displayGames, setDisplayGames] = useState(GAMES);
   /*
   addCard / removeCard functions
   -Functions used by individual card components for the removal and addition of games to My Games 
@@ -33,6 +35,9 @@ export default function Home(props) {
       console.log("User attempted to add game " + game.name + " ... already present.")
     }
   }
+  /*
+    removeCard 
+  */
   function removeCard(game){ 
     console.log("Removing game " + game.name + " from my games.")
     let newGames = myGames.filter((g) => { 
@@ -40,6 +45,7 @@ export default function Home(props) {
     }); 
     setMyGames([...newGames]) 
   }
+  
   /*
   'My Games' block logic - if nothing is in the my games list, a small 'empty card' is displayed instead 
   */
@@ -54,8 +60,22 @@ export default function Home(props) {
       )
     })
   }
+  /*
+    Games block - If nothing is in the search bar, then display all games - else, display the games that contain search 
+  */
+  function search(input){
+    if(input !== ''){
+      let filtered = GAMES.filter(game => { 
+        return game.name.startsWith(input)
+      })
+      setDisplayGames(filtered)
+    } else setDisplayGames(GAMES);
+  }
   //Return statement ------------------------------------------
   return (
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={{flex:1}}>
       <ScrollView>
         <View style={styles.container}>
             <Text style={styles.mygamesTitle}>My Games</Text>
@@ -63,17 +83,22 @@ export default function Home(props) {
               {myGamesBlock}
             </ScrollView>
             <Text style={styles.browseTitle}>Browse</Text>
+            <Search action={search}/>
             <View style={styles.browse}>
             {
-                GAMES.map((game) => { 
+                (displayGames.length === 0 ? 
+                  <View style={styles.noGames}><Text style={styles.emptyText}>No games found!</Text></View>
+                 : displayGames.map((game) => { 
                     return(
                         <GameCard key={game.name} navigation={props.navigation} action={addCard} game={game} type="browse" theme={theme}/>
                     )
-                } )
+                  } )
+                )
             }
             </View>
         </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 //--------------------------------------------------------------
@@ -104,6 +129,15 @@ const styles = StyleSheet.create({
   }, 
   gameIcon: { 
     backgroundColor: '#000000'
+  },
+  noGames:{
+    height: windowWidth*0.5*1.33, 
+    width: windowWidth,
+    borderStyle: 'dotted',
+    borderWidth: 3,
+    borderColor: theme.card,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   emptyCard: { 
     height: windowWidth*0.5*1.33, 
