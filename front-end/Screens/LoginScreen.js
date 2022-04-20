@@ -3,8 +3,6 @@ import { TouchableOpacity, StyleSheet, View, Alert, Text, TextInput } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
-import { emailValidator } from '../Helpers/emailValidator'
-import { passwordValidator } from '../Helpers/passwordValidator'
 import AppButton from '../Components/AppButton'
 import URL from '../url.json'
 
@@ -13,13 +11,6 @@ export default function LoginScreen({ navigation }) {
   const [password, setPassword] = useState({ value: '', error: '' })
 
   const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError) {
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
-    }
     loginCall();
   }
 

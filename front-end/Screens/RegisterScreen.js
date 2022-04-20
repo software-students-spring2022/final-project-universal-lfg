@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { View, StyleSheet, TouchableOpacity, Button, Text, TextInput } from 'react-native'
+import { View, StyleSheet, TouchableOpacity, Alert, Text, TextInput } from 'react-native'
 import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
-import { emailValidator } from '../Helpers/emailValidator'
-import { passwordValidator } from '../Helpers/passwordValidator'
-import { nameValidator } from '../Helpers/nameValidator'
 import AppButton from '../Components/AppButton'
 import URL from '../url.json'
 
@@ -14,20 +11,7 @@ export default function RegisterScreen({ navigation }) {
   const [password, setPassword] = useState({ value: '', error: '' })
 
   const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value)
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    if (emailError || passwordError || nameError) {
-      setName({ ...name, error: nameError })
-      setEmail({ ...email, error: emailError })
-      setPassword({ ...password, error: passwordError })
-      return
-    }
     registerCall();
-    navigation.reset({
-      index: 0,
-      routes: [{ name: 'LoginScreen' }],
-    })
   }
   
   const registerCall = async () => {
@@ -42,9 +26,14 @@ export default function RegisterScreen({ navigation }) {
         body: JSON.stringify(user)
       })
       const response = await res.json()
-      setName({value: response.name})
-      setEmail({value: response.email})
-      setPassword({value: response.password})
+      if (response.error) {
+        Alert.alert(response.error)
+      } else {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'LoginScreen' }],
+        })
+      }
     } catch (err) { 
       console.log(err)
     }
