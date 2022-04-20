@@ -191,10 +191,20 @@ app.post(
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
-    var game = req.body.value
-    const posts = POSTS
-    res.json({
-      post : posts
+    var name = req.header['Game']
+    Post.find({game: name}, function(err, data) {
+      if(err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve posts from database'
+        })
+      }
+      else {
+        res.json({
+          posts : data
+        })
+      }
     })
   } catch (err) {
     console.error(err)

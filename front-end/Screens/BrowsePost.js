@@ -28,7 +28,8 @@ export default function BrowsePost({route, navigation}){
                 headers: {
                     Accept: 'application/json',
                     'Content-Type': 'application/json',
-                    'x-access-token': token
+                    'x-access-token': token,
+                    'Game': gameTitle
                 },
             });
             const json = await response.json();
