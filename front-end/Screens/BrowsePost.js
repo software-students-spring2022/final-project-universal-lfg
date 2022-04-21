@@ -72,9 +72,9 @@ export default function BrowsePost({route, navigation}){
                         </View>
                         <View>
                             {
-                                POSTS.map((post) => { 
+                                data.map((post) => { 
                                     return(
-                                        <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} initial={post.initial} image={post.image} name={post.name} rank={post.rank} detail={post.detail}/>
+                                        <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank}/>
                                     )
                                 } )
                             }
