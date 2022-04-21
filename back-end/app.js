@@ -244,7 +244,7 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 
 //Routing for create post 
 app.post("/create", ensureAuthenticated, (req,res) => { 
-
+  
 })
 
 //Routing for viewing a post 
