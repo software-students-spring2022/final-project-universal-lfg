@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GiftedChat } from 'react-native-gifted-chat';
 
-export default function RoomScreen() {
+export default function ChatRoom() {
   const [messages, setMessages] = useState([
     /**
      * Mock message data
