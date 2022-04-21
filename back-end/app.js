@@ -159,7 +159,7 @@ app.post(
             });
             // Create token
             const token = jwt.sign(
-              { user_id: user._id, email },
+              { user_id: user._id, email: user.email },
               process.env.TOKEN_KEY,
               {
                 expiresIn: "365d",
