@@ -12,7 +12,7 @@ export default function Messages(props){
     
     const getMessages = async () => {
         try {
-            const response = await fetch('http://localhost:8080/api/messages', {
+            const response = await fetch(URL.url+'/messages', {
                 method: 'GET',
                 headers: {
                     Accept: 'application/json',
