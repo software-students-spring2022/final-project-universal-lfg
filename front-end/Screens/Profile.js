@@ -42,13 +42,13 @@ export default function Profile (props) {
     <>
       <View style={styles.container}>
         
-          <Text style={styles.profileTop}>Profile</Text>
+          <Text style={styles.profileTop}>PROFILE</Text>
 
           <ProfilePicture 
             isPicture={true} 
             requirePicture={require('../assets/profilepic.png')} 
             shape='square' height={100} width={100}
-            pictureStyle={{marginBottom: 30, alignSelf: 'center'}} />
+            pictureStyle={{marginBottom: 40, alignSelf: 'center'}} />
           <Text style={styles.profile}>Username: {nameFromDatabase} </Text>
           <Text style={styles.profile}>Email: {emailFromDatabase} </Text>
           <Text style={styles.profile}>Age: {ageFromDataBase}</Text>
@@ -69,18 +69,17 @@ const styles = StyleSheet.create({
   },
 
   profileTop: {
-    color: 'white',
+    color: '#eeeeee',
     fontSize: 35,
     fontWeight: "bold",
     alignSelf: 'center',
-    paddingBottom: 13
+    marginBottom: 30
   },
 
   profile: {
     color: theme.colors.primary,
     textAlign: 'left',
     fontSize: 18,
-    paddingBottom: 13,
-    paddingLeft: 13
+    paddingBottom: 20,
   }
 })
