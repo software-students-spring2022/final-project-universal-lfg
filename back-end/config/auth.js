@@ -7,7 +7,8 @@ function ensureAuthenticated (req, res, next) {
     }
     try {
         const decoded = jwt.verify(token, process.env.TOKEN_KEY);
-        req.user = decoded;
+        req.userId = decoded.user_id;
+        // console.log(req.userId)
     } catch (err) {
         return res.status(401).send("Invalid Token");
     }

@@ -254,20 +254,31 @@ app.get("/viewpost", ensureAuthenticated, (req,res) => {
 
 //Routing for profiles 
 app.get('/profiles', ensureAuthenticated, (req,res) => { 
-
   try {
-    const profile = PROFILE //PROFILE is the database with all this info (hopefully)
-    res.json({
-      email : profile.email,  
-      password : profile.password,
-      age : profile.age,
-      gender : profile.gender 
+    const userId = req.userId
+    console.log(userId)
+    User.findById( userId, (err, user) => {
+      if (err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve user information from database'
+        })
+      } else {
+        console.log("User data retrieved successfully")
+        res.json({
+          name: user.username,
+          email : user.email,
+          age: user.age,
+          gender: user.gender
+        })
+      }
     })
   } catch (err) {
     console.error(err)
     res.status(400).json({
       error: err,
-      status: 'failed to retreive data relating to profile from the database'
+      status: 'Failed to Profile'
     })
   }
 
