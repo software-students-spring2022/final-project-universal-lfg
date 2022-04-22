@@ -188,6 +188,137 @@ app.post(
   }
 });
 
+//Routing for Password Reset
+app.post("/resetPassword", ensureAuthenticated, (req, res) => {
+  const userId = req.userId
+  const { oldPassword, newPassword } = req.body
+  User.findById( userId, (err, user) => {
+    if (err) {
+      console.log(err)
+      res.status(502).json({
+        error: err,
+        status: 'Internal server error - Failed to retrieve user information from database'
+      })
+    } else {
+      bcrypt.compare(oldPassword, user.password, (err, passwordMatch) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({
+              error: err,
+              status: 'an error has occurred, please check the server output'
+            });
+        } else if (passwordMatch === true) {
+          // update new password
+          bcrypt.hash(newPassword, 10, (err, hash) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                status: 'an error has occurred, please check the server output'
+              });
+            } else {
+              User.findByIdAndUpdate( userId, { password: hash }, (err, updateduser) => {
+                if (err) {
+                  console.log(err);
+                  res.status(500).json({
+                    error: err,
+                    status: 'an error has occurred, please check the server output'
+                  });
+                } else {
+                  res.status(200).json(updateduser);
+                }
+              })
+            }
+          })
+        } else {
+          res.status(400).json({ error: "Invalid current password" });
+        }
+      });
+    }
+  })
+})
+
+//Routing for Username Reset
+app.post(
+  "/resetUsername", 
+  ensureAuthenticated, 
+  body('username').notEmpty().withMessage('Username is empty!'),
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorArray = errors.errors
+      return res.status(400).json({ error: errorArray[0].msg })
+    }
+    const userId = req.userId
+    const { username } = req.body
+    User.findById( userId, (err, user) => {
+      if (err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve user information from database'
+        })
+      } else {
+        if ( user.username === username ) {
+          res.status(400).json({ error: "Please enter a new username" })
+        } else {
+          User.findByIdAndUpdate( userId, { username: username }, (err, updateduser) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                status: 'an error has occurred, please check the server output'
+              });
+            } else {
+              res.status(200).json(updateduser);
+            }
+          })
+        }
+      }
+    })
+})
+
+//Routing for Email Reset
+app.post(
+  "/resetEmail", 
+  ensureAuthenticated, 
+  body('email').notEmpty().withMessage('Email is empty!'),
+  body('email').isEmail().withMessage('Email not valid'), 
+  (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const errorArray = errors.errors
+      return res.status(400).json({ error: errorArray[0].msg })
+    }
+    const userId = req.userId
+    const { email } = req.body
+    User.findById( userId, (err, user) => {
+      if (err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve user information from database'
+        })
+      } else {
+        if ( user.email === email ) {
+          res.status(400).json({ error: "Please enter a new email" })
+        } else {
+          User.findByIdAndUpdate( userId, { email: email }, (err, updateduser) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                status: 'an error has occurred, please check the server output'
+              });
+            } else {
+              res.status(200).json(updateduser);
+            }
+          })
+        }
+      }
+    })
+})
+
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
