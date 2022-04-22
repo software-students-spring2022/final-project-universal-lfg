@@ -20,34 +20,30 @@ export default function CreatePost({route, navigation}){
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
     const onSubmitPressed = () => {
-        if (activeSpot <= totalSpots) {
-            console.log("One Player Joined the Team");
-            setActiveSpot(prev => prev + 1);
-        } else {
-            console.log("The Team is Full")
-        }
+        console.log("working?");
+        registerCall();
     }
 
     const registerCall = async () => {
         try {
-          const thePost = {"name": name.value, "email": email.value, "password": password.value}
-          const res = await fetch(URL.url+'/register', {
+          const thePost = {"title": title.value, "bodyText": bodyText.value, "gameMode": gameMode.value, "numPlayers": numPlayers.value, "prefferedRank" : preferredRank.value}
+          const res = await fetch(URL.url+'/create', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify(user)
+            body: JSON.stringify({"title": title.value, "bodyText": bodyText.value, "gameMode": gameMode.value, "numPlayers": numPlayers.value, "prefferedRank" : preferredRank.value})
           })
-          const response = await res.json()
-          if (response.error) {
-            Alert.alert(response.error)
-          } else {
-            navigation.reset({
-              index: 0,
-              routes: [{ name: 'LoginScreen' }],
-            })
-          }
+        //   const response = await res.json()
+        //   if (response.error) {
+        //     Alert.alert(response.error)
+        //   } else {
+        //     navigation.reset({
+        //       index: 0,
+        //       routes: [{ name: 'LoginScreen' }],
+        //     })
+        //   }
         } catch (err) { 
           console.log(err)
         }
@@ -94,7 +90,7 @@ export default function CreatePost({route, navigation}){
             />
             <AppButton
                 title='Submit Post'
-                onPress={navigation.goBack}
+                onPress={() => onSubmitPressed()}
             />
         </View>
     )

@@ -244,7 +244,20 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 
 //Routing for create post 
 app.post("/create", ensureAuthenticated, (req,res) => { 
+  try{
+    // Get user input
+    const { title, bodyText, gameMode, numPlayers, prefferedRank } = req.body;
+    const create = await ( new Post ("user", "game", title, numPlayers, gameMode, prefferedRank))
+    res.send(create);
 
+}
+catch{
+  console.error(err)
+  res.status(400).json({
+    error: err,
+    status: 'Failed to retrieve Post'
+  })
+}
 })
 
 //Routing for viewing a post 
