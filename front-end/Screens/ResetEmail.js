@@ -7,41 +7,34 @@ import URL from '../url.json'
 
 const windowWidth = Dimensions.get('window').width;
 
-export default function ResetPassword({navigation}){
-    const [oldPassword, setOldPassword] = useState('')
-    const [newPassword, setNewPassword] = useState('')
-    const [confirmPassword, setConfirmPassword] = useState('')
+export default function ResetEmail({navigation}){
+    const [newEmail, setNewEmail] = useState('')
 
     const onPress = () => {
-        if (!oldPassword) {
-            Alert.alert("All fields are required")
-        } else if (newPassword !== confirmPassword) {
-            Alert.alert("New password and confirmation password do not match")
-        } else if (newPassword === oldPassword) {
-            Alert.alert("New password should be different from the old one")
-        } else {
-            resetPassword()
-        }
+        resetEmail()
     }
 
-    const resetPassword = async () => { 
+    const resetEmail= async () => { 
         try {
-          const password = {"oldPassword": oldPassword, "newPassword": newPassword}
+          const email = { "email": newEmail }
           const token = await AsyncStorage.getItem("token")
-          const res = await fetch(URL.url+'/resetPassword', {
+          const res = await fetch(URL.url+'/resetEmail', {
             method: 'POST',
             headers: {
               'Accept': 'application/json',
               'Content-Type': 'application/json',
               'x-access-token': token
             },
-            body: JSON.stringify(password)
+            body: JSON.stringify(email)
           })
           const response = await res.json()
           if (response.error) {
             Alert.alert(response.error)
           } else {
-            navigation.navigate('ConfirmScreen')
+            navigation.reset({
+                index: 0,
+                routes: [{ name: 'Home' }]
+            })
           }
         } catch (err) { 
             console.log(err)
@@ -56,45 +49,23 @@ export default function ResetPassword({navigation}){
                         <Icon type='antdesign' name={'left'} size={15} color={theme.colors.primary} style={theme.icon}></Icon>
                     </TouchableOpacity>
                 </View>
-                <Text style={styles.title}>Edit Password</Text>
+                <Text style={styles.title}>Edit Email</Text>
                 <TouchableOpacity style={styles.button} onPress={onPress} >
                     <Text style={{color: theme.colors.text, fontSize: 13}}>Confirm</Text>
                 </TouchableOpacity>
             </View>
             <View>
-                <Text style={{ color: '#bcbcbc', paddingLeft: 10 }}>Current Password</Text>
+                <Text style={{ color: '#bcbcbc', paddingLeft: 10 }}>Enter your new email</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter Current Password"
+                    placeholder="Enter New Email"
                     placeholderTextColor="#bcbcbc"
-                    value={oldPassword}
+                    value={newEmail}
                     returnKeyType="next"
-                    onChangeText={(text) => setOldPassword(text)}
+                    onChangeText={(text) => setNewEmail(text)}
                     autoCapitalize="none"
-                />
-            </View>
-            <View>
-                <Text style={{ color: '#bcbcbc', paddingLeft: 10 }}>New Password</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter New Password"
-                    placeholderTextColor="#bcbcbc"
-                    value={newPassword}
-                    returnKeyType="next"
-                    onChangeText={(text) => setNewPassword(text)}
-                    autoCapitalize="none"
-                />
-            </View>
-            <View>
-                <Text style={{ color: '#bcbcbc', paddingLeft: 10 }}>Confirm New Password</Text>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter New Password Again"
-                    placeholderTextColor="#bcbcbc"
-                    value={confirmPassword}
-                    returnKeyType="done"
-                    onChangeText={(text) => setConfirmPassword(text)}
-                    autoCapitalize="none"
+                    textContentType="emailAddress"
+                    keyboardType="email-address"
                 />
             </View>
         </View>
@@ -134,7 +105,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#444444'
     },
     title: { 
-        width: 130,
+        width: 120,
         position: 'absolute',
         left: (windowWidth - 130)/2,
         color: theme.colors.text,
