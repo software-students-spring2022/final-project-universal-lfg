@@ -11,7 +11,7 @@ export default function Settings(props){
         {
           title: 'Edit Password',
           onPress: () => {
-              console.log("Navigate to password reset page")
+              props.navigation.navigate('ResetPassword')
           }
         },
         {
