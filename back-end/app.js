@@ -188,6 +188,57 @@ app.post(
   }
 });
 
+//Routing for Password Reset
+app.post("/reset", ensureAuthenticated, (req, res) => {
+  const userId = req.userId
+  const { oldPassword, newPassword } = req.body
+  User.findById( userId, (err, user) => {
+    if (err) {
+      console.log(err)
+      res.status(502).json({
+        error: err,
+        status: 'Internal server error - Failed to retrieve user information from database'
+      })
+    } else {
+      bcrypt.compare(oldPassword, user.password, (err, passwordMatch) => {
+        if (err) {
+            console.log(err);
+            res.status(500).json({
+              error: err,
+              status: 'an error has occurred, please check the server output'
+            });
+        } else if (passwordMatch === true) {
+          // update new password
+          bcrypt.hash(newPassword, 10, (err, hash) => {
+            if (err) {
+              console.log(err);
+              res.status(500).json({
+                error: err,
+                status: 'an error has occurred, please check the server output'
+              });
+            } else {
+              User.findByIdAndUpdate( userId, { password: hash }, (err, updateduser) => {
+                if (err) {
+                  console.log(err);
+                  res.status(500).json({
+                    error: err,
+                    status: 'an error has occurred, please check the server output'
+                  });
+                } else {
+                  res.status(200).json(updateduser);
+                }
+              })
+            }
+          })
+        } else {
+          res.status(400).json({ error: "Invalid current password" });
+        }
+      });
+    }
+  })
+
+})
+
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
