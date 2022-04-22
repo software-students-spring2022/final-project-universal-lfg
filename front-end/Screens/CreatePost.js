@@ -8,8 +8,8 @@ import BackButton from '../Components/BackButton';
 import AppButton from '../Components/AppButton'
 import { NavigationEvents } from 'react-navigation';
 
-export default function ViewPost({route, navigation}){
-    const { game, name, initial, image, rank, detail } = route.params
+export default function CreatePost({route, navigation}){
+    const { game, name, initial, image, rank, detail } = route.params //create post
 
     const [title, setTitle] = useState({ value: '', error: '' })
     const [bodyText, setBodyText] = useState({ value: '', error: '' })
@@ -27,6 +27,31 @@ export default function ViewPost({route, navigation}){
             console.log("The Team is Full")
         }
     }
+
+    const registerCall = async () => {
+        try {
+          const thePost = {"name": name.value, "email": email.value, "password": password.value}
+          const res = await fetch(URL.url+'/register', {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+          })
+          const response = await res.json()
+          if (response.error) {
+            Alert.alert(response.error)
+          } else {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'LoginScreen' }],
+            })
+          }
+        } catch (err) { 
+          console.log(err)
+        }
+      }
 
     return (
         <View style={styles.container}>
