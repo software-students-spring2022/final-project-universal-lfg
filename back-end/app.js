@@ -191,7 +191,7 @@ app.post(
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
-    var name = req.headers['Game']
+    var name = req.headers.game
     Post.find({game: name}, function(err, data) {
       if(err) {
         console.log(err)
@@ -201,8 +201,15 @@ app.get("/browse", ensureAuthenticated, (req,res)=> {
         })
       }
       else {
-        res.json({
-          posts : data
+        Post.find({game: name}).populate('user').exec(function(err, fullpost){
+          if(err) console.log(err)
+          else { 
+            console.log("Sending ")
+            console.log(fullpost)
+            res.json({
+              posts : fullpost
+            })
+          }
         })
       }
     })

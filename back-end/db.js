@@ -10,7 +10,7 @@ const UserSchema = new Schema({
     token: { type: String },
     age: { type: Number, default: 0 },
     gender: { type: String, default: "Preferred not to say" },
-    img: { data: Buffer, contentType: String },
+    img: { type: String, default: '/static/profilepics/profilepic.png'},
     games: [{ type: Schema.Types.ObjectId, ref: 'GameSchema' }],
     posts:  [{ type: Schema.Types.ObjectId, ref: 'PostSchema' }],
     messages: [{ type: Schema.Types.ObjectId, ref: 'MessageSchema' }]
@@ -25,8 +25,8 @@ const GameSchema = new Schema({
 
 // posts
 const PostSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'UserSchema', require: true },
-    game: { type: Schema.Types.ObjectId, ref: 'GameSchema', require: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User'},
+    game: { type: String },
     title: { type: String, required: true },
     numplayer: { type: String, required: true },
     mode: { type: String },
@@ -52,79 +52,4 @@ const db = process.env.mongoURI;
 connect(db, () => { 
     console.log("Connected to database.")
 })
-
-
-function insertGames(){ 
-    const games = []
-    function saveGame(err, result){ 
-        if (err){
-            console.log(err);
-        }
-        else{
-            console.log(result)
-        }
-    }
-    games.push(new Game({
-        name: 'League of Legends', 
-        img: '/static/images/league.png', 
-        posts: []
-    }))
-    games.push(new Game({
-        name: 'Minecraft', 
-        img: '/static/images/minecraft.png', 
-        posts: []
-    }))
-    games.push(new Game({
-        name: 'CS:GO', 
-        img: '/static/images/counter-strike.png',
-        posts: []
-    }))
-    games.push(new Game({
-        name: 'Valorant', 
-        img: '/static/images/valorant.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Apex Legends', 
-        img: '/static/images/apex.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Rust', 
-        img: '/static/images/rust.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Fortnite', 
-        img: '/static/images/fortnite.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'World of Warcraft', 
-        img: '/static/images/WoW.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Dota 2', 
-        img: '/static/images/dota2.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Civilization VI', 
-        img: '/static/images/civVI.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Overwatch', 
-        img: '/static/images/overwatch.png', 
-        posts: []
-    }))
-    games.push(new Game({ 
-        name: 'Rust', 
-        img: '/static/images/rust.png', 
-        posts: []
-    }))
-    games.forEach((game) => { 
-        game.save(saveGame)
-    })
-}
+require('./dbIntialiser')

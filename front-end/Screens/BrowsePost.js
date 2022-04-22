@@ -10,12 +10,6 @@ import AppButton from '../Components/AppButton';
 import { Value } from 'react-native-reanimated';
 import URL from '../url.json'
 
-const POSTS = [
-    {title: "Post1", name: "Name1", initial: "N1", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail1"},
-    {title: "Post2", name: "Name2", initial: "N2", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail2"},
-    {title: "Post3", name: "Name3", initial: "N3", image: require("../Images/AddIcon.png"), rank: "GOLD", detail: "detail3"}
-]
-
 export default function BrowsePost({route, navigation}){
     const { gameTitle } = route.params
     const [isLoading, setLoading] = useState(true);
@@ -26,7 +20,7 @@ export default function BrowsePost({route, navigation}){
             const response = await fetch(URL.url+'/browse', {
                 method: 'GET',
                 headers: {
-                    Accept: 'application/json',
+                    'Accept': 'application/json',
                     'Content-Type': 'application/json',
                     'x-access-token': token,
                     'Game': gameTitle
@@ -74,7 +68,7 @@ export default function BrowsePost({route, navigation}){
                             {
                                 data.map((post) => { 
                                     return(
-                                        <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank}/>
+                                        (post.user === undefined ? <></>: <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank}/>)
                                     )
                                 } )
                             }
