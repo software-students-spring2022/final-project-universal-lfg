@@ -1,12 +1,34 @@
-import React from 'react'; 
+import { React, useState } from 'react'; 
 import {View, Text, ImageBackground, Image, StyleSheet} from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Icon, Button } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import theme from '../theme';
 import ProfilePicture from 'react-native-profile-picture';
-import {useNavigationState} from '@react-navigation/native';
+import URL from '../url.json';
 
 export default function CustomDrawer(props) { 
+    const [name, setName] = useState('')
+    const fetchProfileData = async () => {
+        try {
+          const token = await AsyncStorage.getItem("token")
+          const res = await fetch(URL.url+'/profiles', {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'x-access-token': token
+            }
+          });
+          const json = await res.json();
+          setName(json.name)
+        } catch (err) { 
+          console.log(err)
+        }
+    }
+
+    fetchProfileData()
+
     return (
         <View style={{flex: 1}}>
             <DrawerContentScrollView {...props}>
@@ -17,7 +39,7 @@ export default function CustomDrawer(props) {
                             requirePicture={require('../assets/profilepic.png')} 
                             shape='circle' user='John Doe' height={100} width={100}
                             style={styles.headerImg} />
-                        <Text style={styles.user}>John Doe <Text style={{color: theme.colors.primary}}>#1245</Text></Text>
+                        <Text style={styles.user}>{name} <Text style={{color: theme.colors.primary}}>#1245</Text></Text>
                         <View style={styles.status}>
                             <Icon type='fontawesome' name='circle' size={10} color='green' style={{marginRight: 5}}/>
                             <Text style={styles.status}>Online</Text>

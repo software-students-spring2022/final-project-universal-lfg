@@ -25,8 +25,8 @@ const GameSchema = new Schema({
 
 // posts
 const PostSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'User'},
-    game: { type: String },
+    user: { type: Schema.Types.ObjectId, ref: 'UserSchema', required: true },
+    game: { type: String, required: true },
     title: { type: String, required: true },
     numplayer: { type: String, required: true },
     mode: { type: String },
