@@ -319,6 +319,42 @@ app.post(
     })
 })
 
+//Routing for Age Reset
+app.post(
+  "/resetAge", ensureAuthenticated, (req, res) => {
+    const userId = req.userId
+    const { age } = req.body
+    User.findByIdAndUpdate( userId, { age: age }, (err, updateduser) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+          status: 'an error has occurred, please check the server output'
+        });
+      } else {
+        res.status(200).json(updateduser);
+      }
+    })
+})
+
+//Routing for Gender Reset
+app.post(
+  "/resetGender", ensureAuthenticated, (req, res) => {
+    const userId = req.userId
+    const { gender } = req.body
+    User.findByIdAndUpdate( userId, { gender: gender }, (err, updateduser) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+          status: 'an error has occurred, please check the server output'
+        });
+      } else {
+        res.status(200).json(updateduser);
+      }
+    })
+})
+
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req,res)=> { 
   try {
