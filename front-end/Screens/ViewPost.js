@@ -1,3 +1,4 @@
+import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
@@ -5,10 +6,11 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ProgressBar from '../Components/ProgressBar';
 import theme from '../theme';
-
-export default function ViewPost({route, navigation}){
-    const { game, title, name, initial, image, rank, detail } = route.params
-
+import ChatRoom from './PostChatRoom';
+const Stack = createStackNavigator()
+function ViewPost({route, navigation}){
+    const { game, title, name, initial, image, rank, detail } = route.params.route.params // This is because it passes through the stack screen first
+    const lobbyParams = route.params.route.params
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
     const onPress = () => {
@@ -97,13 +99,23 @@ export default function ViewPost({route, navigation}){
                         <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>30 Active in Chat Room</Text>
                     </View>
                     <Button 
-                        onPress={() => console.log("Enter Chat Room")} // Navigate to chat page
+                        onPress={() => navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})} // Navigate to chat page
                         title = "Enter Chat Room"
                         color = {theme.colors.button}
                     />
                 </View>
             </View>
         </SafeAreaProvider>
+    )
+}
+
+export default function PostStack({route, navigation}){
+    console.log(route.params)
+    return(
+        <Stack.Navigator screenOptions={{initialRouteName: "ViewPost"}}>
+            <Stack.Screen name = 'ViewLobby' component={ViewPost} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}}/>
+            <Stack.Screen name = 'ChatRoomPost' component={ChatRoom} options={{headerBackTitleVisible:false}}/>
+        </Stack.Navigator>
     )
 }
 
@@ -171,5 +183,8 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between', 
         alignItems: "center",
         marginTop: 50
+    },
+    chatHeader:{
+
     }
 })

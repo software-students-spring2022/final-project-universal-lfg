@@ -9,7 +9,8 @@ export default function BrowsePost(props){
     }
 
     return (
-        <TouchableOpacity onPress={() => {props.navigation.navigate('ViewPost', {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail})}}>
+        <TouchableOpacity onPress={() => {props.navigation.navigate('ViewPost', 
+        {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail})}}>
             <Card>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Divider/>
