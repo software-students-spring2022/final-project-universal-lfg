@@ -419,7 +419,7 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 //Routing for create post 
 app.post("/create", ensureAuthenticated, (req,res) => { 
   try{
-    const{title, numplayer, mode, rank} = req.body
+    const{game, title, numplayer, mode, rank} = req.body
     const id = req.userId
     User.findById( userId, (err, user) => {
       if (err) {
@@ -431,6 +431,7 @@ app.post("/create", ensureAuthenticated, (req,res) => {
       } else if (user){
         const post = new Post({
           user: user,
+          game: game,
           title: title,
           numplayer: numplayer,
           mode: mode,
