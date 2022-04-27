@@ -418,7 +418,58 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 
 //Routing for create post 
 app.post("/create", ensureAuthenticated, (req,res) => { 
-  
+  try{
+    const{game, title, numplayer, mode, rank} = req.body
+    const id = req.userId
+    User.findById( userId, (err, user) => {
+      if (err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve user information from database'
+        })
+      } else if (user){
+        const post = new Post({
+          user: user,
+          game: game,
+          title: title,
+          numplayer: numplayer,
+          mode: mode,
+          rank: rank
+        });
+        post.save((err) => {
+          if (err) {
+            console.log(err);
+            res.status(500).json({
+              error: err,
+              status: 'an error has occurred, please check the server output'
+            })
+          } else{
+            // return new post
+            console.log(post)
+            res.status(201).json(post);
+            User.findByIdAndUpdate( userId, { post: post }, (err, newuserpost) => {
+              if (err) {
+                console.log(err);
+                res.status(500).json({
+                  error: err,
+                  status: 'an error has occurred, please check the server output'
+                })
+              } else {
+                res.status(200).json(newuserpost);
+              }
+            })
+          }
+        }) 
+      }
+    })
+  } catch (err) {
+    console.error(err)
+    res.status(400).json({
+      error: err,
+      status: 'Failed to create new post'
+    })
+  }
 })
 
 //Routing for viewing a post 
