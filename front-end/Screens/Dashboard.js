@@ -8,7 +8,7 @@ import CustomDrawer from '../Components/CustomDrawer.js';
 import TeamPages from '../Components/TeamPages.js';
 import SettingPages from '../Components/SettingPages.js';
 import ProfilePages from '../Components/ProfilePages.js';
-
+import Chat from '../Screens/ChatRoom.js'
 export default function Dashboard({ navigation }) {
     const Drawer = createDrawerNavigator(); 
     
@@ -18,9 +18,8 @@ export default function Dashboard({ navigation }) {
             <Drawer.Screen name='Home' component={GamePages}/>
             <Drawer.Screen name='Profile' component={ProfilePages}/>
             <Drawer.Screen name='Settings' component={SettingPages}/>
-            <Drawer.Screen name='Messages' component={Messages}/>
+            <Drawer.Screen name='Messages' component={Chat}/>
             <Drawer.Screen name='My Teams' component={TeamPages}/>
-
           </Drawer.Navigator> 
      </SafeAreaProvider>
     )
