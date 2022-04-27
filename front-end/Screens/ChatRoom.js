@@ -1,40 +1,57 @@
-import React, { useState } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { StreamChat } from 'stream-chat';
+import { Channel, Chat, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
+import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 
-export default function ChatRoom() {
-  const [messages, setMessages] = useState([
-    /**
-     * Mock message data
-     */
-    // example of system message
-    {
-      _id: 0,
-      text: 'New room created.',
-      createdAt: new Date().getTime(),
-      system: true
-    },
-    // example of chat message
-    {
-      _id: 1,
-      text: 'Henlo!',
-      createdAt: new Date().getTime(),
-      user: {
-        _id: 2,
-        name: 'Test User'
-      }
-    }
-  ]);
+const userToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoib2xkLXVuaXQtMyJ9.YAeFwpgddQUFguBHnO7hLS53aDpkKX1ZTPfJ7NBgCKk';
 
-  // helper method that is sends a message
-  function handleSend(newMessage = []) {
-    setMessages(GiftedChat.append(messages, newMessage));
+
+const chatClient = StreamChat.getInstance('fgmh55s8ehws');
+const connectUserPromise = chatClient.connectUser(user, userToken);
+
+const channel = chatClient.channel('messaging', 'channel_id');
+
+const ChannelScreen = () => {
+  const { bottom } = useSafeAreaInsets();
+
+  return (
+    <ChatOverlayProvider bottomInset={bottom} topInset={0}>
+      <SafeAreaView>
+        <Chat client={chatClient}>
+          {/* Setting keyboardVerticalOffset as 0, since we don't have any header yet */}
+          <Channel channel={channel} keyboardVerticalOffset={0}>
+            <View style={StyleSheet.absoluteFill}>
+              <MessageList />
+              <MessageInput />
+            </View>
+          </Channel>
+        </Chat>
+      </SafeAreaView>
+    </ChatOverlayProvider>
+  );
+};
+
+export default function App() {
+  const [ready, setReady] = useState();
+
+  useEffect(() => {
+    const initChat = async () => {
+      await connectUserPromise;
+      await channel.watch();
+      setReady(true);
+    };
+
+    initChat();
+  }, []);
+
+  if (!ready) {
+    return null;
   }
 
   return (
-    <GiftedChat
-      messages={messages}
-      onSend={newMessage => handleSend(newMessage)}
-      user={{ _id: 1 }}
-    />
+    <SafeAreaProvider>
+      <ChannelScreen channel={channel} />
+    </SafeAreaProvider>
   );
 }

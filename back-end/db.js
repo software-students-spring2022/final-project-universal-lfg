@@ -49,6 +49,7 @@ const Message = mongoose.model('Message', MessageSchema);
 
 // connect to database
 const db = process.env.mongoURI;
+console.log(process.env.mongoURI)
 connect(db, () => { 
     console.log("Connected to database.")
 })
