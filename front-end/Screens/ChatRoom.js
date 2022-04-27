@@ -1,57 +1,47 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { StreamChat } from 'stream-chat';
-import { Channel, Chat, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
+import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+import { DeepPartial, Theme } from 'stream-chat-expo';
+const API_KEY = 'fgmh55s8ehws'
 
-const userToken = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoib2xkLXVuaXQtMyJ9.YAeFwpgddQUFguBHnO7hLS53aDpkKX1ZTPfJ7NBgCKk';
+//Instance of chat client 
+const chatClient = StreamChat.getInstance(API_KEY);
 
-
-const chatClient = StreamChat.getInstance('fgmh55s8ehws');
-const connectUserPromise = chatClient.connectUser(user, userToken);
-
-const channel = chatClient.channel('messaging', 'channel_id');
-
-const ChannelScreen = () => {
-  const { bottom } = useSafeAreaInsets();
-
-  return (
-    <ChatOverlayProvider bottomInset={bottom} topInset={0}>
-      <SafeAreaView>
-        <Chat client={chatClient}>
-          {/* Setting keyboardVerticalOffset as 0, since we don't have any header yet */}
-          <Channel channel={channel} keyboardVerticalOffset={0}>
-            <View style={StyleSheet.absoluteFill}>
-              <MessageList />
-              <MessageInput />
-            </View>
-          </Channel>
-        </Chat>
-      </SafeAreaView>
-    </ChatOverlayProvider>
-  );
-};
-
-export default function App() {
-  const [ready, setReady] = useState();
-
+export default function ChatRoom() {
+  const [ready, setReady] = useState(false);
+  const [channel, setChannel] = useState();
   useEffect(() => {
-    const initChat = async () => {
-      await connectUserPromise;
-      await channel.watch();
+    const connectChat = async () => {
+      await chatClient.connectUser({
+        id:'tstephen22', 
+        name: 'Theo'}, 
+        chatClient.devToken('tstephen22'));
       setReady(true);
     };
-
-    initChat();
+    connectChat();
   }, []);
 
   if (!ready) {
     return null;
   }
-
+  console.log(ready)
   return (
     <SafeAreaProvider>
-      <ChannelScreen channel={channel} />
+      <ChatOverlayProvider topInset={0}>
+        <Chat client={chatClient}>
+        {channel ? (
+          <Channel channel={channel} >
+            <MessageList />
+            <MessageInput />
+          </Channel>
+        ) : (
+          <ChannelList onSelect={setChannel} />
+        )}
+        </Chat>
+    </ChatOverlayProvider>
     </SafeAreaProvider>
   );
 }
+

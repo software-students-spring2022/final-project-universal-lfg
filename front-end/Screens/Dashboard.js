@@ -18,9 +18,8 @@ export default function Dashboard({ navigation }) {
             <Drawer.Screen name='Home' component={GamePages}/>
             <Drawer.Screen name='Profile' component={ProfilePages}/>
             <Drawer.Screen name='Settings' component={SettingPages}/>
-            <Drawer.Screen name='Messages' component={Messages}/>
+            <Drawer.Screen name='Messages' component={Chat}/>
             <Drawer.Screen name='My Teams' component={TeamPages}/>
-            <Drawer.Screen name='Chat' component={Chat}/>
           </Drawer.Navigator> 
      </SafeAreaProvider>
     )
