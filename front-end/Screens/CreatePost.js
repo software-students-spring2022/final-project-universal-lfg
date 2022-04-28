@@ -13,6 +13,7 @@ import URL from '../url.json'
 export default function ViewPost({route, navigation}){
     const { game, name, initial, image, rank, detail } = route.params
 
+    //const [game, setGame] = useState({value: '', error: ''})
     const [title, setTitle] = useState({ value: '', error: '' })
     const [bodyText, setBodyText] = useState({ value: '', error: '' })
     const [gameMode, setGameMode] = useState({ value: '', error: '' })
@@ -22,6 +23,9 @@ export default function ViewPost({route, navigation}){
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
     const onSubmitPressed = () => {
+        createCall();
+        
+
         if (activeSpot <= totalSpots) {
             console.log("One Player Joined the Team");
             setActiveSpot(prev => prev + 1);
@@ -99,6 +103,7 @@ export default function ViewPost({route, navigation}){
             />
             <AppButton
                 title='Submit Post'
+                onPress={onSubmitPressed()}
                 onPress={navigation.goBack}
             />
         </View>
