@@ -14,7 +14,6 @@ const chatClient = StreamChat.getInstance(API_KEY);
 function SelectedChat({route, navigation}){
   const { channel } = useChatContext();
   const { name } = channel.data
-  console.log(channel)
   useEffect(() => {
     navigation.setOptions({title: name})
   }, [])

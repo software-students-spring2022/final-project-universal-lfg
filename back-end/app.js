@@ -450,6 +450,15 @@ app.post("/create", ensureAuthenticated, (req,res) => {
           } else{
             // return new post
             console.log(post)
+            //Create the chat channel in Stream Chat + Give permissions to user who created it
+            serverClient.channel('messaging', post._id, {
+              name: post.title,
+            }).then((channel) => 
+                channel.create()
+                .then((chan) =>{
+                chan.assignRoles([{user_id: user._id, channel_role:'channel_moderator'}])
+                 })).then(console.log('Succesfully created channel for user ' + user.name))
+            //
             res.status(201).json(post);
             User.findByIdAndUpdate( userId, { post: post }, (err, newuserpost) => {
               if (err) {
@@ -473,11 +482,6 @@ app.post("/create", ensureAuthenticated, (req,res) => {
       status: 'Failed to create new post'
     })
   }
-})
-
-//Routing for viewing a post 
-app.get("/viewpost", ensureAuthenticated, (req,res) => { 
-
 })
 
 //Routing for profiles 

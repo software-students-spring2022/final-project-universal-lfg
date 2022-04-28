@@ -7,7 +7,7 @@ export default function BrowsePost(props){
     const onViewPressed = () => {
         console.log("Pressed")
     }
-
+    
     return (
         <TouchableOpacity onPress={() => {props.navigation.navigate('ViewPost', 
         {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail})}}>
@@ -18,8 +18,8 @@ export default function BrowsePost(props){
                         <Avatar
                             rounded
                             size="medium"
-                            source={props.image}
-                            title = {props.initial}
+                            source={{uri: props.image}}
+                            title = {props.name[0]}
                         />
                         <Text style={styles.text}>  {props.name}</Text>
                     </View>

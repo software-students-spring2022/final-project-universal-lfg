@@ -1,12 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, LogBox } from 'react-native';
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ProgressBar from '../Components/ProgressBar';
 import theme from '../theme';
-import ChatRoom from './PostChatRoom';
+import ChatRoom from './ChatRoom';
+LogBox.ignoreLogs([
+    'Non-serializable values were found in the navigation state'
+])
 const Stack = createStackNavigator()
 function ViewPost({route, navigation}){
     const { game, title, name, initial, image, rank, detail } = route.params.route.params // This is because it passes through the stack screen first
@@ -52,6 +55,7 @@ function ViewPost({route, navigation}){
                         source={image}
                         // title={initial}
                         containerStyle={{backgroundColor: 'lightgrey'}}
+                        title={name[0]}
                     />
                     <Text style={{color: '#d9d9d9', textAlign: 'left', marginLeft: 20, fontSize:12}}> {name}{"\n"}{game} </Text>
                     <Icon type='entypo' name={'dots-three-vertical'} size={25} color={'#d9d9d9'} containerStyle={{position: 'absolute', right: 20}} onPress={() => setIsVisible(true) }></Icon>

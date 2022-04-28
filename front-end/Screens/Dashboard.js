@@ -11,7 +11,7 @@ import ProfilePages from '../Components/ProfilePages.js';
 import ChatList from '../Screens/ChatList.js'
 import { StreamChat } from 'stream-chat';
 import URL from '../url.json'
-import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
+import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider, DeepPartial } from 'stream-chat-expo';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const CHAT_API_KEY = 'fgmh55s8ehws'
 
@@ -48,7 +48,7 @@ export default function Dashboard({ navigation }) {
     return(
     <SafeAreaProvider>
       <ChatOverlayProvider topInset={0}>
-        <Chat client={chatClient}>
+        <Chat client={chatClient}> 
           <Drawer.Navigator drawerContent ={(props) => <CustomDrawer {...props}/>} screenOptions={{drawerType:'front', headerTitle:'ULFG', headerTintColor: Theme.colors.primary}}>
             <Drawer.Screen name='Home' component={GamePages}/>
             <Drawer.Screen name='Profile' component={ProfilePages}/>
@@ -61,9 +61,3 @@ export default function Dashboard({ navigation }) {
      </SafeAreaProvider>
     )
 }
-
-function hide() { 
-    return(
-      <></>
-    )
-} 
