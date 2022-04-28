@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import URL from '../url.json'
 
 export default function ViewPost({route, navigation}){
-    const { game, name, initial, image, rank, detail } = route.params
+    const {gameTitle} = route.params
 
     //const [game, setGame] = useState({value: '', error: ''})
     const [title, setTitle] = useState({ value: '', error: '' })
@@ -36,7 +36,7 @@ export default function ViewPost({route, navigation}){
 
     const createCall = async ()  => {
         try {
-            const post = {"game": game.value, "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value}
+            const post = {"game": gameTitle, "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value}
             const token = await AsyncStorage.getItem("token")
             const res = await fetch(URL.url+'/create', {
               method: 'POST',
@@ -103,7 +103,8 @@ export default function ViewPost({route, navigation}){
             />
             <AppButton
                 title='Submit Post'
-                onPress={onSubmitPressed()}
+                onPress={onSubmitPressed}
+                onPress={navigation.goBack}
             />
         </View>
     )
