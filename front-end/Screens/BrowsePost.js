@@ -66,9 +66,9 @@ export default function BrowsePost({route, navigation}){
                         </View>
                         <View>
                             {
-                                data.map((post) => { 
+                                data.map((post, indx) => { 
                                     return(
-                                        (post.user === undefined ? <></>: <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank}/>)
+                                        (post.user === undefined ? <></>: <Post key={post.title+indx} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank}/>)
                                     )
                                 } )
                             }
