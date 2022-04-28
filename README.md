@@ -1,11 +1,11 @@
 # Universal LFG
 Today's most popular video games are those that feature highly competitive multiplayer game modes. Whether it be Call of Duty, Apex Legends, Destiny, Valorant — or any other game — having a team you can communicate with can mean the difference between winning annd losing. 
-Universal LFG (Looking for Group) would be a platform that can connect players in need of a group to each other. 
+Universal LFG (Looking for Group) is a platform that aims to connect players to their new teammates. 
 
 [App Prototype on InVision](https://juntaozhu991694.invisionapp.com/console/share/YQJTRS4PNZ9)
 
 ### Who is Universal LFG For?
-The end users of Universal LFG would be gamers who don't have access to a group to play their favorite games with. 
+The end users of Universal LFG would be gamers who are interested in connecting with others to play their favorite games together. 
 
 ### Universal LFG - Breakdown
 Typical user experience will be as follows:
@@ -55,11 +55,10 @@ Note: For more help with opening the app in Android Studio, click [here](https:/
 
 ## Team
 
-[Helen Dong](https://github.com/helenyxd),
-[Alex Sheng](https://github.com/ash3n),
-[Juntao Zhu](https://github.com/juntaoZhu1),
-[Qianwen Zhu](https://github.com/Serina7456),
-[Theo Stephens Kehoe](https://github.com/tstephen22)
-[Patricio Domit](https://github.com/patorocks15)
+* [Helen Dong](https://github.com/helenyxd)
+* [Juntao Zhu](https://github.com/juntaoZhu1)
+* [Qianwen Zhu](https://github.com/Serina7456)
+* [Theo Stephens Kehoe](https://github.com/tstephen22)
+* [Patricio Domit](https://github.com/patorocks15)
 
 [How do I contribute?](https://github.com/software-assignments-spring2022/final-project-universal-lfg/blob/master/CONTRIBUTING.md)
