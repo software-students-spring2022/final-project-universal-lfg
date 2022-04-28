@@ -34,7 +34,7 @@ export default function BrowsePost({route, navigation}){
     }
     const onCreatePressed = () => {
         console.log("Go to CreatePost")
-        navigation.navigate('CreatePost', {parameter: Value, parameter: Value})
+        navigation.navigate('CreatePost', {gameTitle : gameTitle})
     }
 
     useEffect(() => {
