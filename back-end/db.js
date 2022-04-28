@@ -53,4 +53,3 @@ console.log(process.env.mongoURI)
 connect(db, () => { 
     console.log("Connected to database.")
 })
-require('./dbIntialiser')

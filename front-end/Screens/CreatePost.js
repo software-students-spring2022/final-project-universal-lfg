@@ -22,7 +22,7 @@ export default function ViewPost({route, navigation}){
 
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
-    const onSubmitPressed = () => {
+    function onSubmitPressed(){
         createCall();
         
 
@@ -34,9 +34,9 @@ export default function ViewPost({route, navigation}){
         }
     }
 
-    const createCall = async ()  => {
+    async function createCall (){
         try {
-            const post = {"game": game.value, "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value}
+            const post = {"game": 'game.value', "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value}
             const token = await AsyncStorage.getItem("token")
             const res = await fetch(URL.url+'/create', {
               method: 'POST',
@@ -47,6 +47,7 @@ export default function ViewPost({route, navigation}){
               },
               body: JSON.stringify(post)
             })
+            console.log('Sent successfully')
             const response = await res.json()
             if (response.error) {
               Alert.alert(response.error)
@@ -55,6 +56,7 @@ export default function ViewPost({route, navigation}){
                 index: 0,
                 routes: [{ name: 'MyPosts' }],
               })
+              console.log('Response received')
             }
           } catch (err) { 
             console.log(err)
@@ -101,10 +103,12 @@ export default function ViewPost({route, navigation}){
                 returnKeyType="done"
                 onChangeText={(text) => setPreferredRank({ value: text, error: '' })}
             />
+            <View>
             <AppButton
                 title='Submit Post'
-                onPress={onSubmitPressed()}
+                onPress={() => {onSubmitPressed()}}
             />
+            </View>
         </View>
     )
 }
