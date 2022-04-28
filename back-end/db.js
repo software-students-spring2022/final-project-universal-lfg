@@ -11,21 +11,21 @@ const UserSchema = new Schema({
     age: { type: Number, default: 0 },
     gender: { type: String, default: "Preferred not to say" },
     img: { type: String, default: '/static/profilepics/profilepic.png'},
-    games: [{ type: Schema.Types.ObjectId, ref: 'GameSchema' }],
-    posts:  [{ type: Schema.Types.ObjectId, ref: 'PostSchema' }],
-    messages: [{ type: Schema.Types.ObjectId, ref: 'MessageSchema' }]
+    games: [{ type: Schema.Types.ObjectId, ref: 'Game' }],
+    posts:  [{ type: Schema.Types.ObjectId, ref: 'Post' }],
+    messages: [{ type: Schema.Types.ObjectId, ref: 'Message' }]
 });
 
 // games
 const GameSchema = new Schema({
     name: { type: String, unique: true, required: true },
     img: { type: String, required:true },
-    posts: [{ type: Schema.Types.ObjectId, ref: 'PostSchema' }]
+    posts: [{ type: Schema.Types.ObjectId, ref: 'Post' }]
 })
 
 // posts
 const PostSchema = new Schema({
-    user: { type: Schema.Types.ObjectId, ref: 'UserSchema', required: true },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     game: { type: String, required: true },
     title: { type: String, required: true },
     numplayer: { type: String, required: true },
@@ -35,8 +35,8 @@ const PostSchema = new Schema({
 
 // messages
 const MessageSchema = new Schema({
-    from: { type: Schema.Types.ObjectId, ref: 'UserSchema', require: true },
-    to: { type: Schema.Types.ObjectId, ref: 'UserSchema', require: true },
+    from: { type: Schema.Types.ObjectId, ref: 'User', require: true },
+    to: { type: Schema.Types.ObjectId, ref: 'User', require: true },
     sentAt: { type: Date, require: true },
     msg: { type: String, require: true }
 })

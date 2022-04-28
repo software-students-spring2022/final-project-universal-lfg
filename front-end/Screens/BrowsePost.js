@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import { Card, ListItem, Button,  Icon } from 'react-native-elements'
@@ -6,7 +5,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Post from '../Components/Post';
 import theme from '../theme';  
-import AppButton from '../Components/AppButton';
 import { Value } from 'react-native-reanimated';
 import URL from '../url.json'
 
@@ -66,9 +64,9 @@ export default function BrowsePost({route, navigation}){
                         </View>
                         <View>
                             {
-                                data.map((post) => { 
+                                data.map((post, indx) => { 
                                     return(
-                                        (post.user === undefined ? <></>: <Post key={post.title} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode}/>)
+                                        (post.user === undefined ? <></>: <Post key={post.title+indx} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode}/>)
                                     )
                                 } )
                             }

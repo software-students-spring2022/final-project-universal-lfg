@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require('bcryptjs')
 const { body, validationResult } = require('express-validator')
 const ensureAuthenticated = require('./config/auth')
-
+const StreamChat = require('stream-chat').StreamChat;
 const mongoose = require('mongoose')
 
 require('./db')
@@ -41,6 +41,9 @@ const User = mongoose.model('User');
 const Game = mongoose.model('Game');
 const Post = mongoose.model('Post');
 const Message = mongoose.model('Message');
+
+//Server Client 
+const serverClient = StreamChat.getInstance(process.env.CHAT_API_KEY, process.env.CHAT_SECRET)
 
 // Load database models
 // For backend sprint, just dummy variable
@@ -447,6 +450,15 @@ app.post("/create", ensureAuthenticated, (req,res) => {
           } else{
             // return new post
             console.log(post)
+            //Create the chat channel in Stream Chat + Give permissions to user who created it
+            serverClient.channel('messaging', post._id, {
+              name: post.title,
+            }).then((channel) => 
+                channel.create()
+                .then((chan) =>{
+                chan.assignRoles([{user_id: user._id, channel_role:'channel_moderator'}])
+                 })).then(console.log('Succesfully created channel for user ' + user.name))
+            //
             res.status(201).json(post);
             User.findByIdAndUpdate( userId, { post: post }, (err, newuserpost) => {
               if (err) {
@@ -470,11 +482,6 @@ app.post("/create", ensureAuthenticated, (req,res) => {
       status: 'Failed to create new post'
     })
   }
-})
-
-//Routing for viewing a post 
-app.get("/viewpost", ensureAuthenticated, (req,res) => { 
-
 })
 
 //Routing for profiles 
@@ -507,6 +514,37 @@ app.get('/profiles', ensureAuthenticated, (req,res) => {
     })
   }
 
+})
+
+app.get('/chat-token', ensureAuthenticated, (req,res) => {
+  try {
+    const userId = req.userId
+    console.log(`Creating chat token for ${userId}`)
+    const token = serverClient.createToken(userId)
+    console.log(`Token created successfully`)
+    User.findById( userId, (err, user) => {
+      if (err) {
+        console.log(err)
+        res.status(502).json({
+          error: err,
+          status: 'Internal server error - Failed to retrieve user information from database'
+        })
+      } else {
+        console.log("User data retrieved successfully")
+        res.json({
+          name: user.username,
+          token: token, 
+          id: userId
+        })
+      }
+    })
+  } catch (err) {
+    console.log(err)
+    res.status(503).json({
+      error: err,
+      status: 'Failed to get user chat token'
+    })
+  }
 })
 
 //Routing for messages

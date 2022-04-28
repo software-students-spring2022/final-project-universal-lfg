@@ -104,7 +104,6 @@ export default function ViewPost({route, navigation}){
             <AppButton
                 title='Submit Post'
                 onPress={onSubmitPressed()}
-                onPress={navigation.goBack}
             />
         </View>
     )

@@ -10,9 +10,12 @@ import { Icon } from 'react-native-elements';
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' })
-
+  const [loginPressed, setLoginPressed] = useState(false)
   const onLoginPressed = () => {
-    loginCall();
+    if(loginPressed == false) { //To prevent multiple calls if the user keeps pressing login
+      setLoginPressed(true)
+      loginCall();
+    } else console.log('Login pressed; waiting on response from server until allowing repress.')
   }
 
   const loginCall = async () => { 
@@ -28,6 +31,7 @@ export default function LoginScreen({ navigation }) {
       })
       const response = await res.json()
       if (response.error) {
+        setLoginPressed(false)
         Alert.alert(response.error)
       } else {
         await AsyncStorage.setItem("token", response.token)
@@ -35,8 +39,10 @@ export default function LoginScreen({ navigation }) {
           index: 0,
           routes: [{ name: 'Dashboard' }]
         })
+        setLoginPressed(false)
       }
     } catch (err) { 
+        setLoginPressed(false)
         console.log(err)
     }
 }

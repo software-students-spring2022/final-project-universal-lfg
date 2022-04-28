@@ -4,43 +4,33 @@ import { StreamChat } from 'stream-chat';
 import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DeepPartial, Theme } from 'stream-chat-expo';
+
 const API_KEY = 'fgmh55s8ehws'
 
 //Instance of chat client 
 const chatClient = StreamChat.getInstance(API_KEY);
 
-export default function ChatRoom() {
-  const [ready, setReady] = useState(false);
-  const [channel, setChannel] = useState();
-  useEffect(() => {
-    const connectChat = async () => {
-      await chatClient.connectUser({
-        id:'tstephen22', 
-        name: 'Theo'}, 
-        chatClient.devToken('tstephen22'));
-      setReady(true);
-    };
-    connectChat();
-  }, []);
+export default function ChatRoom({route, navigation}) {
+  const { game, title, name, initial, image, rank, detail } = route.params.lobbyParams
+  let channelID = title.replace(/\s/g, '') + '_' + name + '_' + rank
+  const channel = chatClient.channel('messaging', channelID)
+  const [ready, setReady] = useState(false)
+  useEffect(() =>{
+      async function connectUser(){
+          await channel.watch()
+          setReady(true)
+      }
+      connectUser()
+      navigation.setOptions({title:title})
+  }, [])
 
-  if (!ready) {
-    return null;
-  }
-  console.log(ready)
+  if(!ready) return null
   return (
     <SafeAreaProvider>
-      <ChatOverlayProvider topInset={0}>
-        <Chat client={chatClient}>
-        {channel ? (
-          <Channel channel={channel} >
+        <Channel channel={channel} keyboardVerticalOffset={0}>
             <MessageList />
             <MessageInput />
-          </Channel>
-        ) : (
-          <ChannelList onSelect={setChannel} />
-        )}
-        </Chat>
-    </ChatOverlayProvider>
+        </Channel>
     </SafeAreaProvider>
   );
 }
