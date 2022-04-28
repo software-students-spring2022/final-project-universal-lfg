@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, TouchableOpacity, Alert, Text, TextInput } from 'react-native'
-import BackButton from '../Components/BackButton'
 import theme from '../theme.js'
 import AppButton from '../Components/AppButton'
 import URL from '../url.json'
+import { Icon } from 'react-native-elements';
 
 export default function RegisterScreen({ navigation }) {
   const [name, setName] = useState({ value: '', error: '' })
@@ -41,7 +41,7 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <BackButton goBack={navigation.goBack} theme={theme} />
+      <Icon name='chevron-back-circle' type="ionicon" size={40} color={theme.colors.primary} containerStyle={styles.back} onPress={() => navigation.navigate("StartScreen")} />
       <Text style={styles.header}>Create Account</Text>
       <TextInput
         style={styles.input}
@@ -88,6 +88,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: theme.colors.background, 
+    },
+    back: {
+      position: 'absolute',
+      left: 20,
+      top: 30
     },
     row: {
         flexDirection: 'row',
