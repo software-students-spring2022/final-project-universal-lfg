@@ -6,7 +6,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Post from '../Components/Post';
 import theme from '../theme';  
-import AppButton from '../Components/AppButton';
 import { Value } from 'react-native-reanimated';
 import URL from '../url.json'
 

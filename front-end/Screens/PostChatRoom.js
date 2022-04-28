@@ -21,6 +21,7 @@ export default function ChatRoom({route, navigation}) {
           setReady(true)
       }
       connectUser()
+      navigation.setOptions({title:title})
   }, [])
 
   if(!ready) return null

@@ -8,7 +8,7 @@ import CustomDrawer from '../Components/CustomDrawer.js';
 import TeamPages from '../Components/TeamPages.js';
 import SettingPages from '../Components/SettingPages.js';
 import ProfilePages from '../Components/ProfilePages.js';
-import ChatRoom from '../Screens/ChatRoom.js'
+import ChatList from '../Screens/ChatList.js'
 import { StreamChat } from 'stream-chat';
 import URL from '../url.json'
 import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
@@ -53,7 +53,7 @@ export default function Dashboard({ navigation }) {
             <Drawer.Screen name='Home' component={GamePages}/>
             <Drawer.Screen name='Profile' component={ProfilePages}/>
             <Drawer.Screen name='Settings' component={SettingPages}/>
-            <Drawer.Screen name='Messages' component={ChatRoom}/>
+            <Drawer.Screen name='Messages' component={ChatList}/>
             <Drawer.Screen name='My Teams' component={TeamPages}/>
           </Drawer.Navigator> 
           </Chat>
