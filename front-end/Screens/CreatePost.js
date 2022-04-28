@@ -7,6 +7,8 @@ import theme from '../theme';
 import BackButton from '../Components/BackButton';
 import AppButton from '../Components/AppButton'
 import { NavigationEvents } from 'react-navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import URL from '../url.json'
 
 export default function ViewPost({route, navigation}){
     const { game, name, initial, image, rank, detail } = route.params
@@ -27,6 +29,34 @@ export default function ViewPost({route, navigation}){
             console.log("The Team is Full")
         }
     }
+
+    const createCall = async ()  => {
+        try {
+            const post = {"game": game.value, "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value}
+            const token = await AsyncStorage.getItem("token")
+            const res = await fetch(URL.url+'/create', {
+              method: 'POST',
+              headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'x-access-token': token
+              },
+              body: JSON.stringify(post)
+            })
+            const response = await res.json()
+            if (response.error) {
+              Alert.alert(response.error)
+            } else {
+              navigation.reset({
+                index: 0,
+                routes: [{ name: 'MyPosts' }],
+              })
+            }
+          } catch (err) { 
+            console.log(err)
+          }
+    }
+    
 
     return (
         <View style={styles.container}>

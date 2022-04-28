@@ -420,7 +420,7 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 app.post("/create", ensureAuthenticated, (req,res) => { 
   try{
     const{game, title, numplayer, mode, rank} = req.body
-    const id = req.userId
+    const userId = req.userId
     User.findById( userId, (err, user) => {
       if (err) {
         console.log(err)
