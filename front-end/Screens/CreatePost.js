@@ -24,14 +24,9 @@ export default function ViewPost({route, navigation}){
     const totalSpots = 5;
     const onSubmitPressed = () => {
         createCall();
-        
 
-        if (activeSpot <= totalSpots) {
-            console.log("One Player Joined the Team");
-            setActiveSpot(prev => prev + 1);
-        } else {
-            console.log("The Team is Full")
-        }
+        //this is where you should navigate
+        navigation.goBack();
     }
 
     const createCall = async ()  => {
@@ -104,7 +99,7 @@ export default function ViewPost({route, navigation}){
             <AppButton
                 title='Submit Post'
                 onPress={onSubmitPressed}
-                onPress={navigation.goBack}
+                //onPress={navigation.goBack}
             />
         </View>
     )
