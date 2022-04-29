@@ -12,7 +12,7 @@ LogBox.ignoreLogs([
 ])
 const Stack = createStackNavigator()
 function ViewPost({route, navigation}){
-    const { game, title, name, initial, image, rank, detail } = route.params.route.params // This is because it passes through the stack screen first
+    const { game, title, name, initial, image, rank, detail, lobbyId } = route.params.route.params // This is because it passes through the stack screen first
     const lobbyParams = route.params.route.params
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
@@ -116,7 +116,7 @@ function ViewPost({route, navigation}){
 export default function PostStack({route, navigation}){
     console.log(route.params)
     return(
-        <Stack.Navigator screenOptions={{initialRouteName: "ViewPost"}}>
+        <Stack.Navigator screenOptions={{initialRouteName: "ViewLobby"}}>
             <Stack.Screen name = 'ViewLobby' component={ViewPost} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}}/>
             <Stack.Screen name = 'ChatRoomPost' component={ChatRoom} options={{headerBackTitleVisible:false}}/>
         </Stack.Navigator>

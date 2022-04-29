@@ -6,27 +6,50 @@ import ProgressBar from '../Components/ProgressBar';
 import theme from '../theme';
 import BackButton from '../Components/BackButton';
 import AppButton from '../Components/AppButton'
-import { NavigationEvents } from 'react-navigation';
+import { CommonActions } from '@react-navigation/native';
+import { useChatContext } from 'stream-chat-expo'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import URL from '../url.json'
+import { createStackNavigator } from '@react-navigation/stack';
+import ChatRoom from './ChatRoom';
+const Stack = createStackNavigator(); 
 
-export default function ViewPost({route, navigation}){
-    const {gameTitle} = route.params
+export default function CreatePostStack({route, navigation}){
+    return(
+        <Stack.Navigator screenOptions={{initialRouteName: "CreatePostPage"}}>
+            <Stack.Screen name="CreatePostPage" component={CreatePost} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}} />
+            <Stack.Screen name="NewLobby" component={ChatRoom} options={{headerBackTitleVisible:false, headerLeft: () => {
+                return(
+                <TouchableOpacity onPress={() => {
+                    const reset = CommonActions.reset({
+                        index: 0, 
+                        routes:[{name: 'My Teams'}]
+                    })
+                    navigation.dispatch(reset);
+                }} style={styles.backButton}>
+                    <Icon type='antdesign' name={'left'} size={30} color={theme.colors.primary} style={theme.icon}></Icon>
+                 </TouchableOpacity>
+                 )
+            }}}/>
+        </Stack.Navigator>
+    )
+}
 
+function CreatePost({route, navigation}){
+    const {gameTitle} = route.params.route.params
+    const {client} =useChatContext()
     //const [game, setGame] = useState({value: '', error: ''})
     const [title, setTitle] = useState({ value: '', error: '' })
     const [bodyText, setBodyText] = useState({ value: '', error: '' })
     const [gameMode, setGameMode] = useState({ value: '', error: '' })
     const [numPlayers, setNumPlayers] = useState({ value: '', error: '' })
     const [preferredRank, setPreferredRank] = useState({ value: '', error: '' })
-
+    
     const [activeSpot, setActiveSpot] = useState(1);
     const totalSpots = 5;
-    function onSubmitPressed(){
-        createCall();
 
-        //this is where you should navigate
-        navigation.goBack();
+    function onSubmitPressed(){
+            createCall()
     }
 
     async function createCall (){
@@ -47,11 +70,11 @@ export default function ViewPost({route, navigation}){
             if (response.error) {
               Alert.alert(response.error)
             } else {
-              navigation.reset({
-                index: 0,
-                routes: [{ name: 'MyPosts' }],
-              })
+              let channelId = response._id.toString()
               console.log('Response received')
+              //Watch the channel 
+              //Navigating to lobby for post 
+              navigation.navigate('NewLobby', {lobbyParams: {lobbyId: channelId, title: title.value}})
             }
           } catch (err) { 
             console.log(err)

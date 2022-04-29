@@ -11,9 +11,10 @@ const API_KEY = 'fgmh55s8ehws'
 const chatClient = StreamChat.getInstance(API_KEY);
 
 export default function ChatRoom({route, navigation}) {
-  const { game, title, name, initial, image, rank, detail } = route.params.lobbyParams
-  let channelID = title.replace(/\s/g, '') + '_' + name + '_' + rank
-  const channel = chatClient.channel('messaging', channelID)
+  const { game, title, name, initial, image, rank, detail, lobbyId } = route.params.lobbyParams
+  console.log("NOW HERE")
+  console.log(lobbyId)
+  const channel = chatClient.channel('messaging', lobbyId)
   const [ready, setReady] = useState(false)
   useEffect(() =>{
       async function connectUser(){
