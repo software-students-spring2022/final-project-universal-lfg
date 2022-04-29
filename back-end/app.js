@@ -45,22 +45,6 @@ const Message = mongoose.model('Message');
 //Server Client 
 const serverClient = StreamChat.getInstance(process.env.CHAT_API_KEY, process.env.CHAT_SECRET)
 
-// Load database models
-// For backend sprint, just dummy variable
-const MESSAGES = [
-  {from: "Sample", msg: "Lorem ipsum text"}
-]
-const POSTS = [
-  {game: "LOL", title: "Post1", name: "Name1", initial: "N1", image: "image", rank: "GOLD", detail: "detail1"},
-  {game: "CSGO", title: "Post2", name: "Name2", initial: "N2", image: "image", rank: "GOLD", detail: "detail2"},
-  {game: "OW", title: "Post3", name: "Name3", initial: "N3", image: "image", rank: "GOLD", detail: "detail3"}
-]
-const PROFILE = [
-  {email: "rfernandez20@palmertrinity.org", password: "password", age:  "21", gender: "male"}
-]
-
-const GAMES = require(__dirname + '/public/database/games.json')
-
 // route for HTTP GET requests to the root document
 app.get("/", (req, res) => {
   res.send("Hello! Don't know why you're requesting here.")
@@ -451,16 +435,16 @@ app.post("/create", ensureAuthenticated, (req,res) => {
             // return new post
             console.log(post)
             //Create the chat channel in Stream Chat + Give permissions to user who created it
-            /*
             serverClient.channel('messaging', post._id, {
               name: post.title,
-            }).then((channel) => 
-                channel.create()
-                .then((chan) =>{
-                chan.assignRoles([{user_id: user._id, channel_role:'channel_moderator'}])
-                 })).then(console.log('Succesfully created channel for user ' + user.name))
+              members: user._id
+            }).then(channel =>{
+              channel.create()
+              .then(chan => {
+                chan.
+              }).catch(err => {console.log(err)})
+            }).catch(err => console.log(err))
             //
-            */
             res.status(201).json(post);
             User.findByIdAndUpdate( userId, { post: post }, (err, newuserpost) => {
               if (err) {

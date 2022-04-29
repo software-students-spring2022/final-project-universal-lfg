@@ -24,6 +24,9 @@ export default function ViewPost({route, navigation}){
     const totalSpots = 5;
     function onSubmitPressed(){
         createCall();
+
+        //this is where you should navigate
+        navigation.goBack();
     }
 
     async function createCall (){
@@ -99,6 +102,7 @@ export default function ViewPost({route, navigation}){
             <AppButton
                 title='Submit Post'
                 onPress={onSubmitPressed}
+                //onPress={navigation.goBack}
             />
             </View>
         </View>
