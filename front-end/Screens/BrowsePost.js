@@ -66,7 +66,10 @@ export default function BrowsePost({route, navigation}){
                             {
                                 data.map((post, indx) => { 
                                     return(
-                                        (post.user === undefined ? <></>: <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode} lobbyId={post._id.toString()}/>)
+                                        (post.user === undefined ? <></>
+                                        : <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} 
+                                           image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode} 
+                                           lobbyId={post._id.toString()} limit={post.numplayer}/>)
                                     )
                                 } )
                             }

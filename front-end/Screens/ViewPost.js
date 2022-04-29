@@ -1,10 +1,11 @@
 import { createStackNavigator } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, LogBox } from 'react-native';
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import ProgressBar from '../Components/ProgressBar';
+import { useChatContext } from 'stream-chat-expo';
 import theme from '../theme';
 import ChatRoom from './ChatRoom';
 LogBox.ignoreLogs([
@@ -12,10 +13,21 @@ LogBox.ignoreLogs([
 ])
 const Stack = createStackNavigator()
 function ViewPost({route, navigation}){
-    const { game, title, name, initial, image, rank, detail, lobbyId } = route.params.route.params // This is because it passes through the stack screen first
-    const lobbyParams = route.params.route.params
-    const [activeSpot, setActiveSpot] = useState(1);
-    const totalSpots = 5;
+    //States 
+    const [chatState, setChatState] = useState()
+    const [activeSpot, setActiveSpot] = useState(0);
+    //Getting params
+    const { game, title, name, initial, image, rank, detail, lobbyId, limit } = route.params.route.params // This is because it passes through the stack screen first
+    const limitNum = parseInt(limit)
+    //Getting the chat room associated with the post 
+    const {client} = useChatContext()
+    client.queryChannels({id:lobbyId}, {}, {}).then((res) =>{
+        const state = res[0].state
+        setChatState(state)
+        setActiveSpot(state.watcher_count+1)
+        console.log("watcher: " + state.watcher_count + " limit: " + limit)
+    }).catch((err) => console.log(err))
+    const lobbyParams = route.params.route.params //For passing down to chat room etc
     const onPress = () => {
         if (activeSpot <= totalSpots) {
             console.log("One Player Joined the Team");
@@ -42,6 +54,7 @@ function ViewPost({route, navigation}){
         }
     ];
 
+    if(chatState === undefined) return null;
     return (
         <SafeAreaProvider>
             <View style={styles.container}>
@@ -89,25 +102,29 @@ function ViewPost({route, navigation}){
                     <Text style={styles.detail}>{detail}</Text>
                 </ScrollView>
                 <View style={{ marginHorizontal:15, flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <ProgressBar key={title} activeSpot={activeSpot} totalSpots={totalSpots} />
-                        <TouchableOpacity
-                            style={styles.button}
-                            onPress={onPress}
-                        >
-                            <Text style={{color: theme.colors.text, fontSize: 15}}>Join</Text>
-                        </TouchableOpacity>
-                    </View>
-                <View style={styles.lobby}>
-                    <View style={{flexDirection: 'row'}}>
-                        <Icon type='feather' name={'users'} size={20} color='grey'></Icon>
-                        <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>30 Active in Chat Room</Text>
-                    </View>
-                    <Button 
-                        onPress={() => navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})} // Navigate to chat page
-                        title = "Enter Chat Room"
-                        color = {theme.colors.button}
-                    />
+                    <ScrollView horizontal>
+                        <ProgressBar key={title} activeSpot={activeSpot} totalSpots={limitNum} />
+                    </ScrollView>
                 </View>
+                <View style={{flexDirection: 'row', marginHorizontal:15, marginVertical: 20}}>
+                    <Icon type='feather' name={'users'} size={20} color='grey'></Icon>
+                    <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>{chatState.watcher_count} Active in Chat Room</Text>
+                </View>
+                {chatState.watcher_count === limitNum ? 
+                    <Button 
+                    onPress={() => console.log("Lobby is full.")} // Navigate to chat page
+                    title = "FULL LOBBY"
+                    buttonStyle={{backgroundColor: 'grey'}}
+                    />:
+                    <Button 
+                    onPress={() => {
+                        navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})
+                        setActiveSpot(activeSpot+1)
+                        }}// Navigate to chat page
+                    title = "JOIN LOBBY"
+                    buttonStyle={{backgroundColor: theme.colors.button}}
+                    />
+                }
             </View>
         </SafeAreaProvider>
     )
@@ -180,13 +197,6 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         backgroundColor: theme.colors.button,
         color: 'white'
-    },
-    lobby: {
-        marginHorizontal: 15,
-        flexDirection: 'row',
-        justifyContent: 'space-between', 
-        alignItems: "center",
-        marginTop: 50
     },
     chatHeader:{
 
