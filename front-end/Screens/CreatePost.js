@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity,TextInput } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity,TextInput,Keyboardavo, KeyboardAvoidingView } from 'react-native';
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import ProgressBar from '../Components/ProgressBar';
@@ -60,57 +60,60 @@ export default function ViewPost({route, navigation}){
     
 
     return (
-        <View style={styles.container}>
-            <BackButton goBack={navigation.goBack} theme={theme} />
-            <TextInput
-                style={styles.inputLine}
-                placeholder="Title"
-                value={title.value}
-                returnKeyType="done"
-                onChangeText={(text) => setTitle({ value: text, error: '' })}
-            />
-            <TextInput
-                style={styles.inputBox}
-                placeholder="Body"
-                value={bodyText.value}
-                returnKeyType="done"
-                onChangeText={(text) => setBodyText({ value: text, error: '' })}
-                multiline={true}
-            />
-            <TextInput
-                style={styles.inputLine}
-                placeholder="Game Mode"
-                value={gameMode.value}
-                returnKeyType="done"
-                onChangeText={(text) => setGameMode({ value: text, error: '' })}
-            />
-            <TextInput
-                style={styles.inputLine}
-                placeholder="Number of Players"
-                value={numPlayers.value}
-                returnKeyType="done"
-                onChangeText={(text) => setNumPlayers({ value: text, error: '' })}
-            />
-            <TextInput
-                style={styles.inputLine}
-                placeholder="Preferred Rank"
-                value={preferredRank.value}
-                returnKeyType="done"
-                onChangeText={(text) => setPreferredRank({ value: text, error: '' })}
-            />
-            <View>
-            <AppButton
-                title='Submit Post'
-                onPress={onSubmitPressed}
-                //onPress={navigation.goBack}
-            />
-            </View>
-        </View>
+        <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column',justifyContent: 'center',}} behavior="padding" enabled   keyboardVerticalOffset={100}>
+            <ScrollView>
+                <View style={styles.container}>
+                <   BackButton goBack={navigation.goBack} theme={theme} />
+                    <TextInput
+                        style={styles.inputLine}
+                        placeholder="Title"
+                        value={title.value}
+                        returnKeyType="done"
+                        onChangeText={(text) => setTitle({ value: text, error: '' })}
+                    />
+                    <TextInput
+                        style={styles.inputBox}
+                        placeholder="Body"
+                        value={bodyText.value}
+                        returnKeyType="done"
+                        onChangeText={(text) => setBodyText({ value: text, error: '' })}
+                        multiline={true}
+                    />
+                    <TextInput
+                        style={styles.inputLine}
+                        placeholder="Game Mode"
+                        value={gameMode.value}
+                        returnKeyType="done"
+                        onChangeText={(text) => setGameMode({ value: text, error: '' })}
+                    />
+                    <TextInput
+                        style={styles.inputLine}
+                        placeholder="Number of Players"
+                        value={numPlayers.value}
+                        returnKeyType="done"
+                        onChangeText={(text) => setNumPlayers({ value: text, error: '' })}
+                    />
+                    <TextInput
+                        style={styles.inputLine}
+                        placeholder="Preferred Rank"
+                        value={preferredRank.value}
+                        returnKeyType="done"
+                        onChangeText={(text) => setPreferredRank({ value: text, error: '' })}
+                    />
+                    <AppButton
+                        title='Submit Post'
+                        onPress={onSubmitPressed}
+                        //onPress={navigation.goBack}
+                    />
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        marginTop: 40,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
