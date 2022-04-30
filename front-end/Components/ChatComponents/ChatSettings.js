@@ -6,7 +6,7 @@ import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-
 import { Swipeable } from 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
-
+import { CommonActions } from '@react-navigation/native';
 function Member(props){
     const {image, name, online} = props
     console.log(props)
@@ -47,8 +47,9 @@ function Member(props){
 }
 
 export default function ChatSettings(props){
-    const {lobbyId} = props
+    const {lobbyId, navigation} = props
     const {client} = useChatContext()
+    const channel = client.channel('messaging',lobbyId)
     const [isReady, setReady] = useState(false)
     const [chatState, setChatState] = useState()
     const [onlineUsers, setOnlineUsers] = useState()
@@ -70,7 +71,7 @@ export default function ChatSettings(props){
             setReady(true)
         }).catch((err) => console.log(err))
     }, [])
-    if(isReady !== true) return null;
+    if(!isReady) return null;
     return(
         <ScrollView>
             <Text style={styles.header}>ONLINE - {onlineUsers.length}</Text>
@@ -85,10 +86,31 @@ export default function ChatSettings(props){
                 offlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={false} />)   
             }
             </View>
+            <Button onPress={() => {
+                leaveLobby(client, channel)
+                .then(() => {
+                    navigation.goBack();
+                })}} 
+                title = "LEAVE"
+                buttonStyle={{backgroundColor: 'crimson', alignSelf:'flex-end'}}
+            />
         </ScrollView>
     )
 }
-
+//--------------------------------------HELPER-------------------------------------------------------------
+function leaveLobby(client, channel){
+    return new Promise(async (resolve, reject) =>{
+        try {
+            await channel.removeMembers([client.user.id], {text:`${client.user.name} has left the lobby.`})
+            await channel.stopWatching()
+            console.log(`${client.user.name} leaving channel.` )
+            resolve()
+        } catch (e) {
+            reject(e);
+        }
+    })
+}
+//-----------------------------------STYLES----------------------------------------------------------------
 const styles = StyleSheet.create({
     memberOnline:{
         flexDirection: 'row',
@@ -120,6 +142,10 @@ const styles = StyleSheet.create({
         fontSize: 13, 
         paddingLeft: 20,
         padding:10
+    },
+    leaveLobby:{
+        height: 20,
+        color: 'red'
     }
 
 })

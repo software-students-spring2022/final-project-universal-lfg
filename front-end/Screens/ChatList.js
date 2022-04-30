@@ -8,9 +8,6 @@ import { DeepPartial, Theme } from 'stream-chat-expo';
 const Stack = createStackNavigator()
 const API_KEY = 'fgmh55s8ehws'
 
-//Instance of chat client 
-const chatClient = StreamChat.getInstance(API_KEY);
-
 function SelectedChat({route, navigation}){
   const { channel } = useChatContext();
   const { name } = channel.data
@@ -28,10 +25,16 @@ function SelectedChat({route, navigation}){
 }
 
 function ChatList(props) {
-  const {setActiveChannel} = useChatContext(); 
+  const {setActiveChannel, client} = useChatContext(); 
+  const filter = {
+    type:'messaging', 
+    members:{
+      $in: [client.user.id]
+    }
+  }
   return (
     <SafeAreaProvider>
-        <ChannelList onSelect={(channel) => {
+        <ChannelList filters={filter} onSelect={(channel) => {
           props.navigation.navigate('ChatRoom')
           setActiveChannel(channel)}} />
     </SafeAreaProvider>
