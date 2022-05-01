@@ -21,6 +21,7 @@ jobs:
           cd back-end
           npm install # install all dependencies listed in package.json
   publish-react-native-expo:
+    
     docker:
       - image: cimg/node:16.13.0 # latest stable node at the time of writing
         # auth:
@@ -29,15 +30,16 @@ jobs:
     steps:
       - checkout
       - run: echo "Publishing latest to expo"
-      - run: |
-          cd back-end
-          pwd # for debugging: show current working directory
-          ls # for debugging: show sub-directories in here
-      - run: |
-          cd front-end
-          npm install # install all dependencies listed in package.json
-          npm install --global expo-cli expo # install expo before running
-          EXPO_TOKEN=$EXPO_TOKEN expo publish --non-interactive
+      - run:
+          name: Install Dependencies
+          command: npm install 
+      - run:
+          name: Install expo
+          command: npm install expo
+      - run: 
+          name: Login into expo 
+          command: EXPO_TOKEN=$EXPO_TOKEN npx expo publish --non-interactive
+      
 # Orchestrate our job run sequence
 workflows:
   build-and-test-back-end:
