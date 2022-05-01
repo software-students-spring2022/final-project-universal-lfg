@@ -1,5 +1,5 @@
 # Universal LFG
-Today's most popular video games are those that feature highly competitive multiplayer game modes. Whether it be Call of Duty, Apex Legends, Destiny, Valorant — or any other game — having a team you can communicate with can mean the difference between winning annd losing. 
+Today's most popular video games are those that feature highly competitive multiplayer game modes. Whether it be Call of Duty, Apex Legends, Destiny, Valorant — or any other game — having a team you can communicate with can mean the difference between winning and losing. 
 Universal LFG (Looking for Group) is a platform that aims to connect players to their new teammates. 
 
 [App Prototype on InVision](https://juntaozhu991694.invisionapp.com/console/share/YQJTRS4PNZ9)
