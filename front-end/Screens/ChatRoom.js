@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { StreamChat } from 'stream-chat';
 import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider, setActiveChannel } from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Swipeable } from 'react-native-gesture-handler';
+import { Icon } from 'react-native-elements';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import ChatSettings from '../Components/ChatComponents/ChatSettings';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import URL from '../url.json'
+import theme from '.././theme'
 const API_KEY = 'fgmh55s8ehws'
-
+const windowWidth = Dimensions.get('window').width;
 //Instance of chat client 
 const chatClient = StreamChat.getInstance(API_KEY);
 const SideMenu = createDrawerNavigator(); 
@@ -23,24 +23,27 @@ function ChatRoom({route, navigation}) {
   useEffect(() =>{
       async function connectUser(){
           await channel.watch()
-          if(!joined) {
-            channel.addMembers([chatClient.user.id], {text:`${chatClient.user.name} has joined the lobby -- Say Hi!`})
-            console.log('joining')
-          }
           setReady(true)
       }
       connectUser()
-      headStackNav.setOptions({title:title})
   }, [])
 
   if(!ready) return null
   return (
     <SafeAreaProvider>
     <Swipeable>
-        <Channel channel={channel} keyboardVerticalOffset={0}>
+        <Channel channel={channel} keyboardVerticalOffset={50}>
         <MessageList/>
         <MessageInput />
-        <TouchableOpacity onPress={() => navigation.openDrawer()} style={styles.button}/>
+        <View style={{height:40, backgroundColor: 'white'}} />
+        <View style={styles.header}>
+          <Icon name='group' type='font-awesome' size={40} color={theme.colors.card} containerStyle={styles.menu} onPress={() => navigation.openDrawer()} />
+          <View style={styles.headerTitle}>
+            <Text style={styles.headText}>{title}</Text>
+          </View>
+           <Icon name='chevron-back-circle' type="ionicon" size={40} 
+           color={theme.colors.card} containerStyle={styles.backButton} onPress={() => headStackNav.goBack()} />
+        </View>
         </Channel>
         </Swipeable>
     </SafeAreaProvider>
@@ -61,12 +64,39 @@ export default function ChatRoomStack({route, navigation}){
 }
 
 const styles = StyleSheet.create({
-  button:{
+  header:{
+    position:'absolute', 
+    top:0, 
+    right:0,
+    width:'100%',
+    height: 50,
+    flexDirection:'column'
+  },
+  menu:{
     position: 'absolute',
     top:10,
-    left:30, 
+    right:10, 
     height:50,
-    width:50,
-    backgroundColor: 'red'
+    width:50
+  },
+  backButton:{
+    position: 'absolute',
+    top:10,
+    left:10, 
+  },
+  headerTitle:{
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+    color: 'white',
+    height: 25,
+    backgroundColor: theme.colors.card,
+    borderRadius: 15
+  },
+  headText:{
+    color: 'white',
+    textAlign: 'center', 
+    maxWidth: '60%', 
+    paddingHorizontal:20, 
   }
 })

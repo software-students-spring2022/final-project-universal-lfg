@@ -6,11 +6,10 @@ import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-
 import { Swipeable } from 'react-native-gesture-handler';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
+import theme from '../../theme'
 import { CommonActions } from '@react-navigation/native';
 function Member(props){
-    const {image, name, online} = props
-    console.log(props)
-    console.log(name)
+    const {image, name, online, owner} = props
     if(online){
         return(
             <View style={styles.memberOnline}>  
@@ -24,6 +23,7 @@ function Member(props){
             <Text style={styles.memberTextOnline}>
                 {name}
             </Text>
+            {owner ? <Icon name='crown' type="foundation" size={15} containerStyle={styles.owner} color={theme.colors.primary}/> : null}
             </View>
         )
     } else {
@@ -41,6 +41,7 @@ function Member(props){
             <Text style={styles.memberTextOffline}>
                 {name}
             </Text>
+            {owner ? <Icon name='crown' type="foundation" size={15} containerStyle={styles.ownerOffline} color={theme.colors.primary}/> : null}
             </View>
         )
     }
@@ -54,7 +55,7 @@ export default function ChatSettings(props){
     const [chatState, setChatState] = useState()
     const [onlineUsers, setOnlineUsers] = useState()
     const [offlineUsers, setOfflineUsers] = useState()
-    console.log(lobbyId)
+    const [owner, setOwner] = useState({id:'0'})
     useEffect(() =>{
         client.queryChannels({id:lobbyId}, {}, {}).then((res) =>{
             const state = res[0].state
@@ -64,6 +65,7 @@ export default function ChatSettings(props){
             for(let member in members){
                 if(members[member].user.online === true) onlineMembers.push(members[member])
                 else offlineMembers.push(members[member])
+                if(members[member].role === 'owner') setOwner(members[member])
             }
             setOnlineUsers(onlineMembers)
             setOfflineUsers(offlineMembers)
@@ -73,28 +75,30 @@ export default function ChatSettings(props){
     }, [])
     if(!isReady) return null;
     return(
+        <>
         <ScrollView>
             <Text style={styles.header}>ONLINE - {onlineUsers.length}</Text>
             <View>
             {
-                onlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={true} />)   
+                onlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={true} owner={owner.user.id === user.user.id} />)   
             }
             </View>
             <Text style={styles.header}>OFFLINE - {offlineUsers.length}</Text>
             <View>
             {
-                offlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={false} />)   
+                offlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={false} owner={owner.user.id === user.user.id}/>)   
             }
             </View>
-            <Button onPress={() => {
+        </ScrollView>
+        <Button onPress={() => {
                 leaveLobby(client, channel)
                 .then(() => {
                     navigation.goBack();
                 })}} 
                 title = "LEAVE"
-                buttonStyle={{backgroundColor: 'crimson', alignSelf:'flex-end'}}
+                buttonStyle={styles.leaveLobby}
             />
-        </ScrollView>
+        </>
     )
 }
 //--------------------------------------HELPER-------------------------------------------------------------
@@ -144,8 +148,21 @@ const styles = StyleSheet.create({
         padding:10
     },
     leaveLobby:{
-        height: 20,
-        color: 'red'
+        height: 50,
+        backgroundColor: 'crimson',
+        marginBottom: 40
+    },
+    headerBar: {
+        display: 'flex',
+        flexDirection: 'column',
+        height: 50,
+        width: '100%'
+    },
+    owner:{
+        marginLeft: 10
+    },
+    ownerOffline:{
+        marginLeft: 10,
+        opacity: 0.7
     }
-
 })

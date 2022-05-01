@@ -13,6 +13,7 @@ LogBox.ignoreLogs([
     'Non-serializable values were found in the navigation state'
 ])
 const Stack = createStackNavigator()
+
 function ViewPost({route, navigation}){
     //Getting the user 
     const {client} = useChatContext()
@@ -26,7 +27,6 @@ function ViewPost({route, navigation}){
     //Getting the chat room associated with the post 
     useFocusEffect(() => {
         client.queryChannels({id:lobbyId}, {}, {}).then((res) =>{
-        console.log('Requery')
         const state = res[0].state
         const memberNum = Object.keys(state.members).length
         setChatState(state)
@@ -108,7 +108,7 @@ function ViewPost({route, navigation}){
                 </View>
                 <View style={{flexDirection: 'row', marginHorizontal:15, marginVertical: 20}}>
                     <Icon type='feather' name={'users'} size={20} color='grey'></Icon>
-                    <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>{activeSpot-1} Active in Chat Room</Text>
+                    <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>{activeSpot-1} in Lobby</Text>
                 </View>
                 {joined === true ? 
                     <Button 
@@ -140,11 +140,10 @@ function ViewPost({route, navigation}){
 }
 
 export default function PostStack({route, navigation}){
-    console.log(route.params)
     return(
         <Stack.Navigator screenOptions={{initialRouteName: "ViewLobby"}}>
             <Stack.Screen name = 'ViewLobby' component={ViewPost} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}}/>
-            <Stack.Screen name = 'ChatRoomPost' component={ChatRoom} options={{headerBackTitleVisible:false}}/>
+            <Stack.Screen name = 'ChatRoomPost' component={ChatRoom} options={{headerBackTitleVisible:false, headerShown:false}}/>
         </Stack.Navigator>
     )
 }
