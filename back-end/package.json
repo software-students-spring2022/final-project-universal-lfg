@@ -4,7 +4,8 @@
   "description": "An example of a basic Express.js web server",
   "main": "server.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "build": "server.js"
   },
   "author": "Foo Barstein",
   "license": "GPL-3.0-or-later",
