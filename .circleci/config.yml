@@ -36,6 +36,7 @@ jobs:
       - run: |
           cd front-end
           npm install # install all dependencies listed in package.json
+          npm install --global expo-cli expo # install expo before running
           EXPO_TOKEN=$EXPO_TOKEN expo publish --non-interactive
 # Orchestrate our job run sequence
 workflows:
