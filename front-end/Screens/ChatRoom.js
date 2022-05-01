@@ -52,9 +52,9 @@ function ChatRoom({route, navigation}) {
   ChatRoomStack -- Only here so the side menu can be used 
 */
 export default function ChatRoomStack({route, navigation}){
-  const {lobbyId} = route.params.lobbyParams;
+  const {lobbyId, title} = route.params.lobbyParams;
   return(
-    <SideMenu.Navigator drawerContent={(props) => <ChatSettings lobbyId={lobbyId} navigation={navigation}/>} screenOptions={{drawerPosition:'right',headerShown:false,drawerStyle:{right:0}}}>
+    <SideMenu.Navigator drawerContent={(props) => <ChatSettings lobbyId={lobbyId} title={title} navigation={navigation}/>} screenOptions={{drawerPosition:'right',headerShown:false,drawerStyle:{right:0}}}>
       <SideMenu.Screen name='MESSAGES' component={ChatRoom} initialParams={{lobbyParams:route.params.lobbyParams, navigation:navigation}}
         options={{headerShown:false}}
       />

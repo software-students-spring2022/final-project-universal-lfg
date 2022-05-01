@@ -22,7 +22,7 @@ function ViewPost({route, navigation}){
     const [activeSpot, setActiveSpot] = useState(0);
     const [joined, setJoined] = useState(false);
     //Getting params
-    const { game, title, name, initial, image, rank, detail, lobbyId, limit } = route.params.route.params // This is because it passes through the stack screen first
+    const { game, title, name, initial, image, rank, detail, lobbyId, limit, goBack } = route.params.route.params // This is because it passes through the stack screen first
     const limitNum = parseInt(limit)
     //Getting the chat room associated with the post 
     useFocusEffect(() => {
@@ -59,7 +59,7 @@ function ViewPost({route, navigation}){
         <SafeAreaProvider>
             <View style={styles.container}>
                 <View style={styles.titleBar}>
-                    <TouchableOpacity onPress={navigation.goBack} style={styles.backButton}>
+                    <TouchableOpacity onPress={goBack || navigation.goBack} style={styles.backButton}>
                         <Icon type='antdesign' name={'left'} size={30} color={'#d9d9d9'}></Icon>
                     </TouchableOpacity>
                     <Avatar

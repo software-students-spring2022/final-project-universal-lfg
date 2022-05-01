@@ -520,6 +520,25 @@ app.get('/chat-token', ensureAuthenticated, (req, res) => {
         })
     }
 })
+
+app.get('/delete-post', ensureAuthenticated, (req, res)=>{
+    const userId = req.userId 
+    const postId = req.headers.id
+    console.log('Deleteing lobby for user ' + userId)
+    Post.deleteOne({_id:postId}, (err)=>{
+        if (err) {
+            console.log(err)
+            res.status(502).json({
+                error: err,
+                status: 'Internal server error - Failed to delete post from database.'
+            })
+        } else {
+            console.log("Deleted post from database.")
+            res.status(200)
+            res.send()
+        }
+    })
+})
 //Routing to create Messages
 // app.post for when users join a team?
 

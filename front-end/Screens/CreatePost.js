@@ -12,25 +12,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import URL from '../url.json'
 import { createStackNavigator } from '@react-navigation/stack';
 import ChatRoom from './ChatRoom';
+import ViewPost from './ViewPost'
 const Stack = createStackNavigator(); 
 
 export default function CreatePostStack({route, navigation}){
     return(
         <Stack.Navigator screenOptions={{initialRouteName: "CreatePostPage"}}>
             <Stack.Screen name="CreatePostPage" component={CreatePost} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}} />
-            <Stack.Screen name="NewLobby" component={ChatRoom} options={{headerBackTitleVisible:false, headerLeft: () => {
-                return(
-                <TouchableOpacity onPress={() => {
-                    const reset = CommonActions.reset({
-                        index: 0, 
-                        routes:[{name: 'My Teams'}]
-                    })
-                    navigation.dispatch(reset);
-                }} style={styles.backButton}>
-                    <Icon type='antdesign' name={'left'} size={30} color={theme.colors.primary} style={theme.icon}></Icon>
-                 </TouchableOpacity>
-                 )
-            }}}/>
+            <Stack.Screen name="NewLobby" component={ViewPost} options={{headerBackTitleVisible:false, headerShown:false}} style={styles.backButton}/>
         </Stack.Navigator>
     )
 }
@@ -74,9 +63,18 @@ function CreatePost({route, navigation}){
               console.log('Response received')
               //Watch the channel 
               //Navigating to lobby for post 
-              navigation.navigate('NewLobby', {lobbyParams: {lobbyId: channelId, title: title.value}})
+              navigation.navigate('NewLobby', {game: gameTitle, name: client.user.name, title: title.value, image: '', 
+                rank: preferredRank.value, detail: bodyText.value, lobbyId: channelId, limit:numPlayers.value, 
+                goBack: () => navigation.dispatch(
+                    CommonActions.reset({
+                      index: 0,
+                      routes: [
+                        { name: 'Home' },
+                      ],
+                    })
+                  )})}
             }
-          } catch (err) { 
+           catch (err) { 
             console.log(err)
           }
     }

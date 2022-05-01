@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, ScrollView, Alert } from 'react-native';
 import { StreamChat } from 'stream-chat';
 import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider, useChatContext } from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,6 +8,8 @@ import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigatio
 import { Avatar, Button, BottomSheet, Icon, ListItem } from 'react-native-elements'
 import theme from '../../theme'
 import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import url from '../../url.json'
 function Member(props){
     const {image, name, online, owner} = props
     if(online){
@@ -48,7 +50,7 @@ function Member(props){
 }
 
 export default function ChatSettings(props){
-    const {lobbyId, navigation} = props
+    const {lobbyId, navigation, title} = props
     const {client} = useChatContext()
     const channel = client.channel('messaging',lobbyId)
     const [isReady, setReady] = useState(false)
@@ -90,7 +92,14 @@ export default function ChatSettings(props){
             }
             </View>
         </ScrollView>
-        <Button onPress={() => {
+        {client.user.id === owner.user.id ? 
+            <Button onPress={() => {
+                deleteLobby(title, client, channel, navigation)}} 
+                title = "DELETE LOBBY"
+                buttonStyle={styles.deleteLobby}
+            />
+        :
+            <Button onPress={() => {
                 leaveLobby(client, channel)
                 .then(() => {
                     navigation.goBack();
@@ -98,6 +107,7 @@ export default function ChatSettings(props){
                 title = "LEAVE"
                 buttonStyle={styles.leaveLobby}
             />
+        }
         </>
     )
 }
@@ -114,6 +124,46 @@ function leaveLobby(client, channel){
         }
     })
 }
+const deleteLobby = (title, client, channel, navigation) =>
+    Alert.alert(
+      "Delete Lobby",
+      `Are you sure you want to delete lobby '${title}'?`,
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => {
+            leaveLobby(client, channel)
+            .then(async () => {
+                try {
+                    const token = await AsyncStorage.getItem("token")
+                    await fetch(url.url+'/delete-post', {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'x-access-token': token,
+                            'id' : channel.id
+                        },
+                    });
+                    console.log('Lobby deleted successfully')
+                    navigation.dispatch(
+                        CommonActions.reset({
+                          index: 0,
+                          routes: [
+                            { name: 'Home' },
+                          ],
+                        })
+                      );
+                } catch (error) {
+                    console.error(error);
+                } 
+            })
+        } }
+      ]
+    );
 //-----------------------------------STYLES----------------------------------------------------------------
 const styles = StyleSheet.create({
     memberOnline:{
@@ -164,5 +214,10 @@ const styles = StyleSheet.create({
     ownerOffline:{
         marginLeft: 10,
         opacity: 0.7
+    },
+    deleteLobby: {
+        height: 50,
+        backgroundColor: '#ffc40c',
+        marginBottom: 40
     }
 })
