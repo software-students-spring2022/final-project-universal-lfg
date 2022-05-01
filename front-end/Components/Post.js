@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Card, Avatar } from 'react-native-elements';
+import { Card, Avatar, Icon} from 'react-native-elements';
+import { useChatContext } from 'stream-chat-expo';
 import theme from '../theme';
+import { ScrollView } from 'react-native-gesture-handler';
+import ProgressBar from '../Components/ProgressBar';
 
 export default function BrowsePost(props){
     const onViewPressed = () => {
         console.log("Pressed")
     }
-    
+    const[ready, setReady] = useState(false)
+    const[slots, setSlots] = useState(0)
+    const {client} = useChatContext()
+    useEffect(()=>{
+        const channel = client.queryChannels({id:props.lobbyId}, {}, {})
+        .then((res) =>{
+            const state = res[0].state
+            let membs = Object.keys(state.members).length
+            setSlots(membs)
+            setReady(true)
+        })
+    }, [])
+    if(!ready) return null
     return (
         <TouchableOpacity onPress={() => {props.navigation.navigate('ViewPost', 
         {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail, lobbyId: props.lobbyId, limit: props.limit})}}>
@@ -29,12 +44,10 @@ export default function BrowsePost(props){
                 <Text style={{marginBottom: 10}}>
                     {props.detail}
                 </Text>
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={() => {onViewPressed()}}
-                >
-                    <Text style={styles.text}>JOIN</Text>
-                </TouchableOpacity>
+                <View style={{flexDirection: 'row', marginHorizontal:15, marginVertical: 20}}>
+                    <Icon type='feather' name={'users'} size={20} color='black'></Icon>
+                    <Text style={{color: 'grey', fontSize: 15, marginLeft: 10}}>{slots} / {props.limit} </Text>
+                </View>
             </Card>
         </TouchableOpacity> 
     )

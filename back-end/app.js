@@ -8,7 +8,7 @@ const { body, validationResult } = require('express-validator')
 const ensureAuthenticated = require('./config/auth')
 const StreamChat = require('stream-chat').StreamChat;
 const mongoose = require('mongoose')
-const { createPostLobby } = require('./funcs/chat.js')
+const { createPostLobby, joinLobby, leaveLobby } = require('./funcs/chat.js')
 require('./db')
 require('./ngrok')
 
@@ -521,33 +521,24 @@ app.get('/chat-token', ensureAuthenticated, (req, res) => {
     }
 })
 
-//Routing for messages
-app.get('/messages', ensureAuthenticated, (req, res) => {
-    // Load messages from database
-    try {
-        Message.find({}, function(err, data) {
-            if (err) {
-                console.log(err)
-                res.status(502).json({
-                    error: err,
-                    status: 'Internal server error - Failed to retrieve messages from database'
-                })
-            } else {
-                console.log("Message data retrieved successfully")
-                res.json({
-                    messages: data
-                })
-            }
-        })
-    } catch (err) {
-        console.error(err)
-        res.status(400).json({
-            error: err,
-            status: 'Failed to retrieve messages.'
-        })
-    }
+app.get('/delete-post', ensureAuthenticated, (req, res)=>{
+    const userId = req.userId 
+    const postId = req.headers.id
+    console.log('Deleteing lobby for user ' + userId)
+    Post.deleteOne({_id:postId}, (err)=>{
+        if (err) {
+            console.log(err)
+            res.status(502).json({
+                error: err,
+                status: 'Internal server error - Failed to delete post from database.'
+            })
+        } else {
+            console.log("Deleted post from database.")
+            res.status(200)
+            res.send()
+        }
+    })
 })
-
 //Routing to create Messages
 // app.post for when users join a team?
 

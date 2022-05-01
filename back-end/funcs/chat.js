@@ -20,5 +20,5 @@ function createPostLobby(client, user, post){
 }
 
 module.exports = {
-    createPostLobby: createPostLobby
+    createPostLobby: createPostLobby,
 }

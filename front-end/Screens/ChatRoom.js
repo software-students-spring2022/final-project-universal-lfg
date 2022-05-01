@@ -1,19 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
 import { StreamChat } from 'stream-chat';
-import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider } from 'stream-chat-expo';
+import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider, setActiveChannel } from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
-import { DeepPartial, Theme } from 'stream-chat-expo';
-
+import { Swipeable } from 'react-native-gesture-handler';
+import { Icon } from 'react-native-elements';
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
+import ChatSettings from '../Components/ChatComponents/ChatSettings';
+import theme from '.././theme'
 const API_KEY = 'fgmh55s8ehws'
-
+const windowWidth = Dimensions.get('window').width;
 //Instance of chat client 
 const chatClient = StreamChat.getInstance(API_KEY);
+const SideMenu = createDrawerNavigator(); 
 
-export default function ChatRoom({route, navigation}) {
-  const { game, title, name, initial, image, rank, detail, lobbyId } = route.params.lobbyParams
-  console.log("NOW HERE")
-  console.log(lobbyId)
+function ChatRoom({route, navigation}) {
+  const headStackNav = route.params.navigation
+  const { title, lobbyId } = route.params.lobbyParams
   const channel = chatClient.channel('messaging', lobbyId)
   const [ready, setReady] = useState(false)
   useEffect(() =>{
@@ -22,17 +25,77 @@ export default function ChatRoom({route, navigation}) {
           setReady(true)
       }
       connectUser()
-      navigation.setOptions({title:title})
   }, [])
 
   if(!ready) return null
   return (
     <SafeAreaProvider>
-        <Channel channel={channel} keyboardVerticalOffset={0}>
-            <MessageList />
-            <MessageInput />
+    <Swipeable>
+        <Channel channel={channel} keyboardVerticalOffset={50}>
+        <MessageList/>
+        <MessageInput />
+        <View style={{height:40, backgroundColor: 'white'}} />
+        <View style={styles.header}>
+          <Icon name='group' type='font-awesome' size={40} color={theme.colors.card} containerStyle={styles.menu} onPress={() => navigation.openDrawer()} />
+          <View style={styles.headerTitle}>
+            <Text style={styles.headText}>{title}</Text>
+          </View>
+           <Icon name='chevron-back-circle' type="ionicon" size={40} 
+           color={theme.colors.card} containerStyle={styles.backButton} onPress={() => headStackNav.goBack()} />
+        </View>
         </Channel>
+        </Swipeable>
     </SafeAreaProvider>
   );
 }
+/*
+  ChatRoomStack -- Only here so the side menu can be used 
+*/
+export default function ChatRoomStack({route, navigation}){
+  const {lobbyId, title} = route.params.lobbyParams;
+  return(
+    <SideMenu.Navigator drawerContent={(props) => <ChatSettings lobbyId={lobbyId} title={title} navigation={navigation}/>} screenOptions={{drawerPosition:'right',headerShown:false,drawerStyle:{right:0}}}>
+      <SideMenu.Screen name='MESSAGES' component={ChatRoom} initialParams={{lobbyParams:route.params.lobbyParams, navigation:navigation}}
+        options={{headerShown:false}}
+      />
+    </SideMenu.Navigator>
+  )
+}
 
+const styles = StyleSheet.create({
+  header:{
+    position:'absolute', 
+    top:0, 
+    right:0,
+    width:'100%',
+    height: 50,
+    flexDirection:'column'
+  },
+  menu:{
+    position: 'absolute',
+    top:10,
+    right:10, 
+    height:50,
+    width:50
+  },
+  backButton:{
+    position: 'absolute',
+    top:10,
+    left:10, 
+  },
+  headerTitle:{
+    alignSelf: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+    color: 'white',
+    height: 25,
+    backgroundColor: theme.colors.card,
+    borderRadius: 15
+  },
+  headText:{
+    color: 'white',
+    textAlign: 'center', 
+    maxWidth: '60%', 
+    paddingHorizontal:20, 
+  }
+})

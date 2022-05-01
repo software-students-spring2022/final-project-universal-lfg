@@ -5,11 +5,9 @@ import { StreamChat } from 'stream-chat';
 import { useChatContext, Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider} from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { DeepPartial, Theme } from 'stream-chat-expo';
+import ChatRoom from './ChatRoom'
 const Stack = createStackNavigator()
 const API_KEY = 'fgmh55s8ehws'
-
-//Instance of chat client 
-const chatClient = StreamChat.getInstance(API_KEY);
 
 function SelectedChat({route, navigation}){
   const { channel } = useChatContext();
@@ -28,12 +26,23 @@ function SelectedChat({route, navigation}){
 }
 
 function ChatList(props) {
-  const {setActiveChannel} = useChatContext(); 
+  const {client} = useChatContext(); 
+  const filter = {
+    type:'messaging', 
+    members:{
+      $in: [client.user.id]
+    }
+  }
   return (
     <SafeAreaProvider>
-        <ChannelList onSelect={(channel) => {
-          props.navigation.navigate('ChatRoom')
-          setActiveChannel(channel)}} />
+        <ChannelList filters={filter} onSelect={(channel) => {
+          const {name} = channel.data
+          const lobbyParams = {
+            title: name,
+            lobbyId: channel.id
+          }
+          props.navigation.navigate('ChatRoom', {lobbyParams:lobbyParams})
+          }} />
     </SafeAreaProvider>
   );
 }
@@ -42,7 +51,7 @@ export default function ChatListStack({route, navigation}){
   return(
       <Stack.Navigator screenOptions={{initialRouteName: "ChatList"}}>
           <Stack.Screen name = 'ChatList' component={ChatList} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}}/>
-          <Stack.Screen name = 'ChatRoom' component={SelectedChat} options={{headerBackTitleVisible:false}}/>
+          <Stack.Screen name = 'ChatRoom' component={ChatRoom} options={{headerBackTitleVisible:false, headerShown:false}}/>
       </Stack.Navigator>
   )
 }
