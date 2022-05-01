@@ -19,7 +19,6 @@ function ChatRoom({route, navigation}) {
   const { title, lobbyId } = route.params.lobbyParams
   const channel = chatClient.channel('messaging', lobbyId)
   const [ready, setReady] = useState(false)
-  const [joined, setJoined] = useState(false)
   useEffect(() =>{
       async function connectUser(){
           await channel.watch()

@@ -80,13 +80,13 @@ export default function ChatSettings(props){
             <Text style={styles.header}>ONLINE - {onlineUsers.length}</Text>
             <View>
             {
-                onlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={true} owner={owner.user.id === user.user.id} />)   
+                onlineUsers.map((user) => <Member key={user.user.id} name={user.user.name} online={true} owner={owner.user.id === user.user.id} />)   
             }
             </View>
             <Text style={styles.header}>OFFLINE - {offlineUsers.length}</Text>
             <View>
             {
-                offlineUsers.map((user) => <Member key={user.id} name={user.user.name} online={false} owner={owner.user.id === user.user.id}/>)   
+                offlineUsers.map((user) => <Member key={user.user.id} name={user.user.name} online={false} owner={owner.user.id === user.user.id}/>)   
             }
             </View>
         </ScrollView>
