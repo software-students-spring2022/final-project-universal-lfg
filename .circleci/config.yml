@@ -35,7 +35,7 @@ jobs:
           command: npm install 
       - run:
           name: Install expo
-          command: npm install expo
+          command: npm install --global expo-cli
       - run: 
           name: Login into expo 
           command: npx expo login $EXPO_TOKEN && npx expo publish --non-interactive
