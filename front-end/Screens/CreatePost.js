@@ -111,6 +111,7 @@ function CreatePost({route, navigation}){
                         style={styles.inputLine}
                         placeholder="Number of Players"
                         value={numPlayers.value}
+                        keyboardType="numeric"
                         returnKeyType="done"
                         onChangeText={(text) => setNumPlayers({ value: text, error: '' })}
                     />
