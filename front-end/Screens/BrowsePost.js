@@ -73,9 +73,9 @@ export default function BrowsePost({route, navigation}){
                                     return(
                                         (post.user.username === user ? <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} 
                                         image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} body={post.body}
-                                        lobbyId={post._id.toString()} limit={post.numplayer} type='edit'/>
+                                        lobbyId={post._id.toString()} limit={post.numplayer} screen={'HostViewPost'}/>
                                         : <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} 
-                                           image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode} 
+                                           image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} detail={post.mode} body={post.body}
                                            lobbyId={post._id.toString()} limit={post.numplayer} screen={'ViewPost'}/>)
                                     )
                                 } )

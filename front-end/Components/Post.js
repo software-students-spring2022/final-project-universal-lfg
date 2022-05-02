@@ -27,7 +27,8 @@ export default function Post(props){
     if(!ready) return null
     return (
         <TouchableOpacity onPress={() => {props.navigation.navigate(props.screen, 
-        {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail, lobbyId: props.lobbyId, limit: props.limit})}}>
+        {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, 
+        detail: props.detail, lobbyId: props.lobbyId, limit: props.limit, body:props.body, mode:props.mode})}}>
             <Card>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Divider/>

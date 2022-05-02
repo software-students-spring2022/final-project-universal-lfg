@@ -41,12 +41,13 @@ export default function MyPosts({navigation}){
             <RefreshControl refreshing={isLoading} onRefresh={getPosts} />
           }> 
             <View>
+            <Text style={styles.myPostsTitle}>My Posts</Text>
                 {
                     POSTS.map((post) => {
                         return(
                             (post.user === undefined ? <></>
                             : <Post key={post._id.toString()} navigation={navigation} game={post.game} title={post.title} 
-                                image={post.user.img} name={client.user.name} rank={post.rank} detail={post.mode} 
+                                image={post.user.img} name={client.user.name} rank={post.rank} mode={post.mode} body={post.body}
                                 lobbyId={post._id.toString()} limit={post.numplayer} screen={'HostViewPost'}/>)
                         )
                     } )
@@ -60,5 +61,13 @@ const styles = StyleSheet.create({
     container: { 
         backgroundColor: theme.colors.background, 
         height: '100%'
-    }
+    },
+    myPostsTitle: { 
+        color: theme.colors.text,
+        fontSize: 35,
+        fontWeight: "bold",
+        paddingTop:20,
+        paddingBottom: 5,
+        paddingLeft: 13
+      }, 
 })
