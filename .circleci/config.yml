@@ -30,22 +30,13 @@ jobs:
     steps:
       - checkout
       - run: echo "Publishing latest to expo"
-      - run :
-          command: cd front-end
-      - run :
-          command : ls
-      - run:
-          name: Install Dependencies
-          command: npm install 
-      - run:
-          name: Install expo
-          command: npm install expo-cli
-      - run:
-          name: Install expo updates
-          command: npx expo install expo-updates 
-      - run: 
-          name: Login into expo 
-          command: npx expo login -u $EXPO_USER -p $EXPO_PASSWORD && npx expo publish --non-interactive
+      - run : | 
+          cd front-end
+          cd front-end
+          ls 
+          npm install expo-cli
+          npx expo install expo-updates 
+          npx expo login -u $EXPO_USER -p $EXPO_PASSWORD && npx expo publish --non-interactive
       
 # Orchestrate our job run sequence
 workflows:
