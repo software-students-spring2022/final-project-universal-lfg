@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, Text, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { StreamChat } from 'stream-chat';
-import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider, setActiveChannel } from 'stream-chat-expo';
+import { Channel, Chat, ChannelList, MessageInput, MessageList, OverlayProvider as ChatOverlayProvider, setActiveChannel, User } from 'stream-chat-expo';
 import { SafeAreaProvider, SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Swipeable } from 'react-native-gesture-handler';
 import { Icon } from 'react-native-elements';
 import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
+import { CommonActions } from '@react-navigation/native';
 import ChatSettings from '../Components/ChatComponents/ChatSettings';
 import theme from '.././theme'
 const API_KEY = 'fgmh55s8ehws'
@@ -28,6 +29,35 @@ function ChatRoom({route, navigation}) {
   }, [])
 
   if(!ready) return null
+  channel.on('member.removed', event => {
+    if(event.user.id === chatClient.user.id) {
+      navigation.closeDrawer
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 0,
+          routes: [
+            { name: 'Home', params: {func: (function () {
+                Alert.alert("You were kicked from the lobby." )
+             })()} 
+            },
+          ],
+        })
+      );
+    }
+  } )
+  channel.on('channel.deleted', event => {
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [
+          { name: 'Home', params: {func: (function () {
+              Alert.alert("The leader deleted the lobby." )
+            })()} 
+          },
+        ],
+      })
+    );
+  } )
   return (
     <SafeAreaProvider>
     <Swipeable>

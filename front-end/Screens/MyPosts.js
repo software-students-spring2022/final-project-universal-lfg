@@ -1,53 +1,58 @@
-import { React, useState, useEffect } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useChatContext } from 'stream-chat-expo';
-import Post from '../Components/Post';
+import {useChatContext} from 'stream-chat-expo'
 import theme from "../theme";
-import URL from '../url.json'
+import url from '../url.json'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Post from '../Components/Post'
 
-export default function MyPosts({navigation}){
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-    const getMyPosts = async () => {
+export default function MyPosts({navigation}){ 
+    const {client} = useChatContext();
+    const [POSTS, setPosts] = useState()
+    const [isLoading, setLoading] = useState(true)
+    const getPosts = async () => {
         try {
             const token = await AsyncStorage.getItem("token")
-            const response = await fetch(URL.url+'/myposts', {
+            const response = await fetch(url.url+'/viewposts', {
                 method: 'GET',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
-                    'x-access-token': token
+                    'x-access-token': token,
                 },
             });
             const json = await response.json();
-            setData(json.posts);
+            console.log(json)
+            setPosts(json.posts)
         } catch (error) {
             console.error(error);
         } finally {
             setLoading(false);
         }
     }
-
-    useEffect(() => {
-        getMyPosts();
-    }, []);
-
+    useEffect(() =>{
+        getPosts()
+    }, [])
+    if(isLoading) return null;
     return ( 
-        <View style={styles.container}> 
+        <ScrollView style={styles.container} refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={getPosts} />
+          }> 
             <View>
                 {
-                    data.map((post) => {
+                    POSTS.map((post) => {
                         return(
-                            <Post key={post._id.toString()} navigation={navigation} game={post.game} title={post.title} 
-                                           image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} body={post.body} 
-                                           lobbyId={post._id.toString()} limit={post.numplayer} type='edit'/>
+                            (post.user === undefined ? <></>
+                            : <Post key={post._id.toString()} navigation={navigation} game={post.game} title={post.title} 
+                                image={post.user.img} name={client.user.name} rank={post.rank} detail={post.mode} 
+                                lobbyId={post._id.toString()} limit={post.numplayer} screen={'HostViewPost'}/>)
                         )
                     } )
                 }
             </View>
-        </View>
+        </ScrollView>
     ); 
 }
 

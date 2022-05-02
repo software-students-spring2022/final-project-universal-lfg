@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, RefreshControl } from 'react-native';
 import { Card, ListItem, Button,  Icon } from 'react-native-elements'
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -40,13 +40,16 @@ export default function BrowsePost({route, navigation}){
     }
 
     useEffect(() => {
-        getPosts();
-      }, []);
+     getPosts();
+    }, []);
     
 
     return (
         <View>
-            <ScrollView>
+        
+            <ScrollView refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={getPosts} />
+                }>
                 <View style={styles.container}>
                     <View style={styles.titleBar}>
                         <View>
@@ -72,8 +75,8 @@ export default function BrowsePost({route, navigation}){
                                         image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} body={post.body}
                                         lobbyId={post._id.toString()} limit={post.numplayer} type='edit'/>
                                         : <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} 
-                                           image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} body={post.body} 
-                                           lobbyId={post._id.toString()} limit={post.numplayer} type='view'/>)
+                                           image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode} 
+                                           lobbyId={post._id.toString()} limit={post.numplayer} screen={'ViewPost'}/>)
                                     )
                                 } )
                             }
