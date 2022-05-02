@@ -420,6 +420,12 @@ app.post("/create", ensureAuthenticated, (req, res) => {
                     mode: mode,
                     rank: rank
                 });
+                //Save id of post in user 
+                user.posts.push(post._id.toString());
+                user.save((err) => {
+                    if(err) console.log(err)
+                    else console.log('Post saved to user DB successfully.')
+                })
                 post.save((err) => {
                     if (err) {
                         console.log(err);
@@ -444,7 +450,7 @@ app.post("/create", ensureAuthenticated, (req, res) => {
                                     }
                                 })
                             })
-                            .catch(err => { console.log(err) })
+                        .catch(err => { console.log(err) })
                     }
                 })
             }
@@ -454,6 +460,28 @@ app.post("/create", ensureAuthenticated, (req, res) => {
         res.status(400).json({
             error: err,
             status: 'Failed to create new post'
+        })
+    }
+})
+
+app.get('/viewposts', ensureAuthenticated, (req, res) => {
+    try {
+        const user = req.userId
+        //Find the user then populate their posts array 
+        User.find({ _id: user }).populate('posts').exec(function(err, fulluser) {
+            if (err) console.log(err)
+            else {
+                console.log("Sending user posts to " + user)
+                res.json({
+                    posts: fulluser[0].posts
+                })
+            }
+        })
+    } catch (err) {
+        console.log(err)
+        res.status(400).json({
+            error: err,
+            status: 'Failed to find users posts'
         })
     }
 })
@@ -530,12 +558,37 @@ app.get('/delete-post', ensureAuthenticated, (req, res)=>{
             console.log(err)
             res.status(502).json({
                 error: err,
-                status: 'Internal server error - Failed to delete post from database.'
+                status: 'Internal server error - Failed to delete post from post database.'
             })
         } else {
-            console.log("Deleted post from database.")
+            console.log("Deleted post from profile database.")
             res.status(200)
             res.send()
+        }
+    })
+    User.findById({_id:userId}, (err, user)=>{
+        if (err) {
+            console.log(err)
+            res.status(502).json({
+                error: err,
+                status: 'Internal server error - Failed to delete post from user database.'
+            })
+        } else {
+            let indx = user.posts.indexOf(userId)
+            user.posts.splice(indx, 1)
+            user.save((err) => {
+                if (err){
+                    console.log(err)
+                    res.status(502).json({
+                        error: err,
+                        status: 'Internal server error - Failed to delete post from user database.'
+                    })
+                } else {
+                    console.log("Deleted post from user database.")
+                    res.status(200)
+                    res.send()
+                }
+            })
         }
     })
 })

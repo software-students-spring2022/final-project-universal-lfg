@@ -1,46 +1,58 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView, RefreshControl, ActivityIndicator } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
+import {useChatContext} from 'stream-chat-expo'
 import theme from "../theme";
-
-const POSTS = [
-    {game: 'League of Legends', title: "MyPost1", name: "John Doe", initial: "JD", image: require("../assets/profilepic.png"), rank: "GOLD", detail: "detail1"},
-    {game: 'Minecraft', title: "MyPost2", name: "John Doe", initial: "JD", image: require("../assets/profilepic.png"), rank: "Beginner", detail: "detail2"},
-]
+import url from '../url.json'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Post from '../Components/Post'
 
 export default function MyPosts({navigation}){ 
+    const {client} = useChatContext();
+    const [POSTS, setPosts] = useState()
+    const [isLoading, setLoading] = useState(true)
+    const getPosts = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token")
+            const response = await fetch(url.url+'/viewposts', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-access-token': token,
+                },
+            });
+            const json = await response.json();
+            console.log(json)
+            setPosts(json.posts)
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
+    useEffect(() =>{
+        getPosts()
+    }, [])
+    if(isLoading) return null;
     return ( 
-        <View style={styles.container}> 
+        <ScrollView style={styles.container} refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={getPosts} />
+          }> 
             <View>
                 {
                     POSTS.map((post) => { 
                         return(
-                            <TouchableOpacity key={post.title} onPress={() => {navigation.navigate('HostViewPost', {game: post.game, title: post.title, name: post.name, initial: post.initial, image: post.image, rank: post.rank, detail: post.detail})}}>
-                                <Card containerStyle={{marginHorizontal: 10}}>
-                                    <Card.Title>{post.title}</Card.Title>
-                                    <Card.Divider/>
-                                    <Text style={{color: 'grey'}}>
-                                        {post.game}    
-                                    </Text>
-                                    <Text style={{marginVertical: 10}}>
-                                        {post.detail}
-                                    </Text>
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Avatar
-                                            size="small"
-                                            rounded
-                                            source={post.image}
-                                            containerStyle={{backgroundColor: 'lightgrey'}}
-                                        />
-                                        <Text style={{color: 'grey', textAlign: 'left', fontSize:14, textAlignVertical: 'center'}}> {post.name} </Text>
-                                    </View>
-                                </Card>
-                            </TouchableOpacity> 
+                            (post.user === undefined ? <></>
+                            : <Post key={post._id.toString()} navigation={navigation} game={post.game} title={post.title} 
+                                image={post.user.img} name={client.user.name} rank={post.rank} detail={post.mode} 
+                                lobbyId={post._id.toString()} limit={post.numplayer} screen={'HostViewPost'}/>)
                         )
                     } )
                 }
             </View>
-        </View>
+        </ScrollView>
     ); 
 }
 

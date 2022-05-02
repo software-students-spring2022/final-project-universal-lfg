@@ -149,11 +149,23 @@ const deleteLobby = (title, client, channel, navigation) =>
                         },
                     });
                     console.log('Lobby deleted successfully')
+                    channel.delete()
                     navigation.dispatch(
                         CommonActions.reset({
                           index: 0,
                           routes: [
-                            { name: 'Home' },
+                            { name: 'Home', params: {func: (function () {
+                                Alert.alert(
+                                    "Lobby deleted.", '',
+                                    [
+                                        {
+                                          text: "OK",
+                                          style: "cancel",
+                                        },
+                                      ],
+                                )
+                             })()} 
+                            },
                           ],
                         })
                       );
