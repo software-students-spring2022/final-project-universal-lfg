@@ -1,0 +1,32 @@
+{
+    "games": [
+        {
+            "title": "League of Legends", 
+            "image": "/static/images/league.png", 
+            "posts-pointer": "league", 
+            "ranks": [], 
+            "game modes": [] 
+        }, 
+        {
+            "title": "Minecraft", 
+            "image": "/static/images/minecraft.png", 
+            "posts-pointer": "minecraft", 
+            "ranks": [], 
+            "game modes": []
+        },
+        {
+            "title": "CS:GO", 
+            "image": "/static/images/counter-strike.png", 
+            "posts-pointer": "csgo", 
+            "ranks": [], 
+            "game modes": [] 
+        },
+        {
+            "title": "Valorant", 
+            "image": "/static/images/valorant.png", 
+            "posts-pointer": "valorant", 
+            "ranks": [], 
+            "game modes": [] 
+        }
+    ]
+}

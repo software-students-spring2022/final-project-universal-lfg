@@ -1,0 +1,66 @@
+{
+    "posts": {
+        "league": [
+            {
+                "title": "1 v 5", 
+                "creator": "Me123", 
+                "rank": "Gold", 
+                "Game mode": "Casual", 
+                "Description": "The quick brown fox jumped over the lazy dog"
+            },
+            {
+                "title": "5 v 5", 
+                "creator": "Me324", 
+                "rank": "Platinum", 
+                "Game mode": "Casual", 
+                "Description": "ooooooooooooo"
+            }
+    ],
+        "minecraft": [
+            {
+                "title": "Hunger games", 
+                "creator": "Me123", 
+                "rank": "Beginner", 
+                "Game mode": "Casual", 
+                "Description": "The quick brown fox jumped over the lazy dog"
+            },
+            {
+                "title": "Hunger games 2", 
+                "creator": "Me123", 
+                "rank": "Adept", 
+                "Game mode": "Casual", 
+                "Description": "The quick brown fox jumped over the lazy dog"
+            }
+        ], 
+        "valorant": [{
+            "title": "5 v 5", 
+            "creator": "Theo", 
+            "rank": "Radiant", 
+            "Game mode": "Competitive", 
+            "Description": "The quick brown fox jumped over the lazy dog"
+        }, 
+        {
+            "title": "Gold lobby", 
+            "creator": "John", 
+            "rank": "Gold", 
+            "Game mode": "Competitive", 
+            "Description": "The quick brown fox jumped over the lazy dog"
+        }], 
+        "csgo": [
+            {
+                "title": "Deathmatch", 
+                "creator": "JohnJohn", 
+                "rank": "Elite", 
+                "Game mode": "Casual", 
+                "Description": "The quick brown fox jumped over the lazy dog"
+            },
+            {
+                "title": "4 v 5 ", 
+                "creator": "JohnJohn", 
+                "rank": "Gold", 
+                "Game mode": "Casual", 
+                "Description": "The quick brown fox jumped over the lazy dog"
+            }
+        ]
+    }
+}

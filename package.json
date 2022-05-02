@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.2"
+  },
+  "dependencies": {
+    "react-native-gifted-chat": "^0.16.3"
+  }
+}

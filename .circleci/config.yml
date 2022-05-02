@@ -20,8 +20,8 @@ jobs:
       - run: |
           cd back-end
           npm install # install all dependencies listed in package.json
-          npm test # run all unit tests
-  build-react-js:
+  publish-react-native-expo:
+    
     docker:
       - image: cimg/node:16.13.0 # latest stable node at the time of writing
         # auth:
@@ -29,21 +29,19 @@ jobs:
         #   password: $DOCKERHUB_PASSWORD  # context / project UI env-var reference
     steps:
       - checkout
-      - run: echo "this is the build react.js job"
-      - run: |
-          cd back-end
-          pwd # for debugging: show current working directory
-          ls # for debugging: show sub-directories in here
-      - run: |
+      - run: echo "Publishing latest to expo"
+      - run : | 
           cd front-end
-          npm install # install all dependencies listed in package.json
-          npm run build # have react build the stand-alone front-end code
-
+          pwd 
+          ls 
+          npm install expo-cli
+          npx expo install expo-updates 
+          npx expo login -u $EXPO_USER -p $EXPO_PASSWORD && npx expo publish --non-interactive
+      
 # Orchestrate our job run sequence
 workflows:
   build-and-test-back-end:
     jobs:
       - build-and-test-express-js
-  build-front-end:
-    jobs:
-      - build-react-js
+      - publish-react-native-expo
+

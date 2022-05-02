@@ -1,0 +1,36 @@
+{
+    "users": [
+        {
+            "username": "Theo123", 
+            "email": "1234@gmail.com", 
+            "password": "12345", 
+            "profile icon": "image",
+            "age": 21,
+            "gender": "male"
+        }, 
+        {
+            "username": "Liz23", 
+            "email": "liz1234@gmail.com", 
+            "password": "12345", 
+            "profile icon": "image",
+            "age": 18,
+            "gender": "female"
+        }, 
+        {
+            "username": "John123", 
+            "email": "john1234@gmail.com", 
+            "password": "12345", 
+            "profile icon": "image",
+            "age": 22,
+            "gender": "male"
+        }, 
+        {
+            "username": "ben8989", 
+            "email": "ben8989@gmail.com", 
+            "password": "12345", 
+            "profile icon": "image",
+            "age": 27,
+            "gender": "male"
+        } 
+    ]
+}

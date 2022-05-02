@@ -1,0 +1,13 @@
+{
+  "expo": {
+    "name": "Circle",
+    "slug": "universal-lfg",
+    "owner": "universal-lfg",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "description": "",
+    "githubUrl": "https://github.com/software-assignments-spring2022/final-project-universal-lfg"
+  }
+}
