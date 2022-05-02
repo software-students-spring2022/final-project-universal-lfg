@@ -43,7 +43,7 @@ jobs:
           command: npx expo install expo-updates 
       - run: 
           name: Login into expo 
-          command: EXPO_TOKEN=$EXPO_TOKEN npx expo publish --non-interactive
+          command: npx expo login -u $EXPO_USER -p $EXPO_PASSWORD && npx expo publish --non-interactive
       
 # Orchestrate our job run sequence
 workflows:
