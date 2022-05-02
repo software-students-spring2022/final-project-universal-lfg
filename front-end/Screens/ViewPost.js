@@ -65,7 +65,7 @@ function ViewPost({route, navigation}){
                     <Avatar
                         size="small"
                         rounded
-                        source={image}
+                        source={{uri: image}}
                         // title={initial}
                         containerStyle={{backgroundColor: 'lightgrey'}}
                         title={name[0]}

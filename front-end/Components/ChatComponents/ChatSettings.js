@@ -10,8 +10,9 @@ import theme from '../../theme'
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import url from '../../url.json'
+
 function Member(props){
-    const {image, name, online, owner} = props
+    const {image, name, online, owner, isOwner, id, channel, client} = props
     if(online){
         return(
             <View style={styles.memberOnline}>  
@@ -26,6 +27,7 @@ function Member(props){
                 {name}
             </Text>
             {owner ? <Icon name='crown' type="foundation" size={15} containerStyle={styles.owner} color={theme.colors.primary}/> : null}
+            {isOwner ? <Icon name='deleteuser' type="antdesign" size={25} containerStyle={styles.kick} color={'crimson'} onPress={() => kickUser(id, name, channel, client)}/>: null}
             </View>
         )
     } else {
@@ -44,6 +46,7 @@ function Member(props){
                 {name}
             </Text>
             {owner ? <Icon name='crown' type="foundation" size={15} containerStyle={styles.ownerOffline} color={theme.colors.primary}/> : null}
+            {isOwner ? <Icon name='deleteuser' type="antdesign" size={25} containerStyle={styles.kick} color={'crimson'} onPress={() => kickUser(id, name, channel, client)}/>: null}
             </View>
         )
     }
@@ -53,13 +56,14 @@ export default function ChatSettings(props){
     const {lobbyId, navigation, title} = props
     const {client} = useChatContext()
     const channel = client.channel('messaging',lobbyId)
+    const [isRefresh, refresh] = useState(false)
     const [isReady, setReady] = useState(false)
     const [chatState, setChatState] = useState()
     const [onlineUsers, setOnlineUsers] = useState()
     const [offlineUsers, setOfflineUsers] = useState()
     const [owner, setOwner] = useState({id:'0'})
     const [readyToPlay, setReadyToPlay] = useState(false)
-    useEffect(() =>{
+    const getMembers = () => {
         client.queryChannels({id:lobbyId}, {}, {}).then((res) =>{
             const state = res[0].state
             const {members} = state 
@@ -68,28 +72,39 @@ export default function ChatSettings(props){
             for(let member in members){
                 if(members[member].user.online === true) onlineMembers.push(members[member])
                 else offlineMembers.push(members[member])
-                if(members[member].role === 'owner') setOwner(members[member])
+                if(members[member].role === 'owner') {
+                    setOwner(members[member])
+                }
             }
             setOnlineUsers(onlineMembers)
             setOfflineUsers(offlineMembers)
             setChatState(state)
             setReady(true)
         }).catch((err) => console.log(err))
+    }
+    useEffect(() =>{
+        getMembers()
     }, [])
+    useEffect(() =>{
+        getMembers()
+    }, [kickUser])
     if(!isReady) return null;
+    const isOwner = owner.user.id === client.user.id
     return(
         <>
         <ScrollView>
             <Text style={styles.header}>ONLINE - {onlineUsers.length}</Text>
             <View>
             {
-                onlineUsers.map((user) => <Member key={user.user.id} name={user.user.name} online={true} owner={owner.user.id === user.user.id} />)   
+                onlineUsers.map((user) => <Member key={user.user.id} id={user.user.id} name={user.user.name} channel={channel} client={client}
+                    online={true} owner={owner.user.id === user.user.id} isOwner={user.user.id === owner.user.id ? false : isOwner} />)  //isOwner is like this to prevent the ability to delete themself 
             }
             </View>
             <Text style={styles.header}>OFFLINE - {offlineUsers.length}</Text>
             <View>
             {
-                offlineUsers.map((user) => <Member key={user.user.id} name={user.user.name} online={false} owner={owner.user.id === user.user.id}/>)   
+                offlineUsers.map((user) => <Member key={user.user.id} id={user.user.id} name={user.user.name} channel={channel} client={client}
+                    online={false} owner={owner.user.id === user.user.id} isOwner={user.user.id === owner.user.id ? false : isOwner}/>)   //isOwner is like this to prevent the ability to delete themself 
             }
             </View>
         </ScrollView>
@@ -97,7 +112,7 @@ export default function ChatSettings(props){
             {!readyToPlay ? 
             <Button onPress={() => {
                     channel.update({},{ 
-                    text: `${client.user.name} is ready!`,
+                        text: `${client.user.name} is ready!`,
                     })
                     setReadyToPlay(true)
                 }} 
@@ -136,6 +151,10 @@ export default function ChatSettings(props){
     )
 }
 //--------------------------------------HELPER-------------------------------------------------------------
+function kickUser(userId, name, channel){
+    channel.removeMembers([userId], {text:`${name} has been kicked from the lobby.`})
+    Alert.alert(`${name} has been kicked.`)
+}
 function leaveLobby(client, channel){
     return new Promise(async (resolve, reject) =>{
         try {
@@ -263,5 +282,9 @@ const styles = StyleSheet.create({
     unready: {
         height: 50,
         backgroundColor: '#b01e13',
+    },
+    kick:{
+        position: 'absolute',
+        right: 30
     }
 })
