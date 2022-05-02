@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import { Card, Avatar, Icon} from 'react-native-elements';
 import { useChatContext } from 'stream-chat-expo';
 import theme from '../theme';
-import { ScrollView } from 'react-native-gesture-handler';
-import ProgressBar from '../Components/ProgressBar';
 
-export default function BrowsePost(props){
+export default function Post(props){
     const onViewPressed = () => {
-        console.log("Pressed")
+        props.navigation.navigate('ViewPost', {game: props.game, title: props.title, name: props.name, image: props.image, rank: props.rank, mode: props.mode, body: props.body, lobbyId: props.lobbyId, limit: props.limit})
     }
+    const onEditPressed = () => {
+        props.navigation.navigate('HostViewPost', {game: props.game, title: props.title, name: props.name, image: props.image, rank: props.rank, mode: props.mode, body: props.body, lobbyId: props.lobbyId, limit: props.limit})
+    }
+
     const[ready, setReady] = useState(false)
     const[slots, setSlots] = useState(0)
     const {client} = useChatContext()
@@ -24,8 +26,7 @@ export default function BrowsePost(props){
     }, [])
     if(!ready) return null
     return (
-        <TouchableOpacity onPress={() => {props.navigation.navigate('ViewPost', 
-        {game: props.game, title: props.title, name: props.name, initial: props.initial, image: props.image, rank: props.rank, detail: props.detail, lobbyId: props.lobbyId, limit: props.limit})}}>
+        <TouchableOpacity onPress={ props.type === 'view' ? onViewPressed : onEditPressed}>
             <Card>
                 <Card.Title>{props.title}</Card.Title>
                 <Card.Divider/>
@@ -40,9 +41,10 @@ export default function BrowsePost(props){
                     </View>
                 <Card.Divider/>
                 <Text style={styles.text}>Rank: {props.rank}</Text>
+                <Text style={styles.text}>Mode: {props.mode}</Text>
                 <Card.Divider/>
                 <Text style={{marginBottom: 10}}>
-                    {props.detail}
+                    {props.body}
                 </Text>
                 <View style={{flexDirection: 'row', marginHorizontal:15, marginVertical: 20}}>
                     <Icon type='feather' name={'users'} size={20} color='black'></Icon>
