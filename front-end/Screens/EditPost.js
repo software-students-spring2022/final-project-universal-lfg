@@ -39,7 +39,8 @@ export default function EditPost({route, navigation}){
             } else {
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: "Home" }]
+                    routes: [{ name: "Home", params: {func: (function () {
+                        Alert.alert("Lobby edited successfully.")})()}}]
                 })
             }
         } catch (err) { 
