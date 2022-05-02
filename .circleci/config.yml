@@ -32,6 +32,8 @@ jobs:
       - run: echo "Publishing latest to expo"
       - run :
           command: cd front-end
+      - run :
+          command : ls
       - run:
           name: Install Dependencies
           command: npm install 
