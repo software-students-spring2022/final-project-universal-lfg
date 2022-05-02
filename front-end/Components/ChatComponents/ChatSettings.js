@@ -58,6 +58,7 @@ export default function ChatSettings(props){
     const [onlineUsers, setOnlineUsers] = useState()
     const [offlineUsers, setOfflineUsers] = useState()
     const [owner, setOwner] = useState({id:'0'})
+    const [readyToPlay, setReadyToPlay] = useState(false)
     useEffect(() =>{
         client.queryChannels({id:lobbyId}, {}, {}).then((res) =>{
             const state = res[0].state
@@ -92,22 +93,45 @@ export default function ChatSettings(props){
             }
             </View>
         </ScrollView>
-        {client.user.id === owner.user.id ? 
+        <View>
+            {!readyToPlay ? 
             <Button onPress={() => {
-                deleteLobby(title, client, channel, navigation)}} 
-                title = "DELETE LOBBY"
-                buttonStyle={styles.deleteLobby}
+                    channel.update({},{ 
+                    text: `${client.user.name} is ready!`,
+                    })
+                    setReadyToPlay(true)
+                }} 
+                title = "READY"
+                buttonStyle={styles.ready}
             />
-        :
+            :
             <Button onPress={() => {
-                leaveLobby(client, channel)
-                .then(() => {
-                    navigation.goBack();
-                })}} 
-                title = "LEAVE"
-                buttonStyle={styles.leaveLobby}
+                 channel.update({},{ 
+                    text: `${client.user.name} is no longer ready.`,
+                    })
+                    setReadyToPlay(false)
+                }} 
+                title = "NOT READY"
+                buttonStyle={styles.unready}
             />
-        }
+            }
+            {client.user.id === owner.user.id ? 
+                <Button onPress={() => {
+                    deleteLobby(title, client, channel, navigation)}} 
+                    title = "DELETE LOBBY"
+                    buttonStyle={styles.deleteLobby}
+                />
+            :
+                <Button onPress={() => {
+                    leaveLobby(client, channel)
+                    .then(() => {
+                        navigation.goBack();
+                    })}} 
+                    title = "LEAVE"
+                    buttonStyle={styles.leaveLobby}
+                />
+            }
+        </View>
         </>
     )
 }
@@ -231,5 +255,13 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#ffc40c',
         marginBottom: 40
+    },
+    ready: {
+        height: 50,
+        backgroundColor: '#01796f',
+    },
+    unready: {
+        height: 50,
+        backgroundColor: '#b01e13',
     }
 })
