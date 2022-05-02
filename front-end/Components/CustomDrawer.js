@@ -1,4 +1,4 @@
-import { React, useState } from 'react'; 
+import { React, useState, useEffect } from 'react'; 
 import {View, Text, ImageBackground, Image, StyleSheet} from 'react-native'
 import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer'
 import { Icon, Button } from 'react-native-elements';
@@ -27,7 +27,9 @@ export default function CustomDrawer(props) {
         }
     }
 
-    fetchProfileData()
+    useEffect(() => {
+        fetchProfileData()
+    }, [])
 
     return (
         <View style={{flex: 1}}>
