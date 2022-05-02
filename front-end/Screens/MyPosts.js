@@ -42,7 +42,7 @@ export default function MyPosts({navigation}){
           }> 
             <View>
                 {
-                    POSTS.map((post) => { 
+                    POSTS.map((post) => {
                         return(
                             (post.user === undefined ? <></>
                             : <Post key={post._id.toString()} navigation={navigation} game={post.game} title={post.title} 

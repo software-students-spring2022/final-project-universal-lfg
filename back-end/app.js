@@ -343,6 +343,7 @@ app.post(
 //Routing for Browse game posts 
 app.get("/browse", ensureAuthenticated, (req, res) => {
     try {
+        const userId = req.userId
         var name = req.headers.game
         Post.find({ game: name }, function(err, data) {
             if (err) {
@@ -355,6 +356,51 @@ app.get("/browse", ensureAuthenticated, (req, res) => {
                 Post.find({ game: name }).populate('user').exec(function(err, fullpost) {
                     if (err) console.log(err)
                     else {
+                        User.findById( userId, (err, user) => {
+                            if (err) {
+                                console.log(err)
+                                res.status(502).json({
+                                    error: err,
+                                    status: 'Internal server error - Failed to retrieve user information from database'
+                                })
+                            } else {
+                                console.log("Sending ")
+                                console.log(fullpost)
+                                res.json({
+                                    loginuser: user.username,
+                                    posts: fullpost
+                                })
+                            }
+                        })
+                    }
+                })
+            }
+        })
+    } catch (err) {
+        console.error(err)
+        res.status(400).json({
+            error: err,
+            status: 'Failed to retrieve posts'
+        })
+    }
+})
+
+//Routing for getting my posts
+app.get("/myposts", ensureAuthenticated, (req, res) => {
+    try {
+        const userId = req.userId
+        Post.find({ user: userId }, function(err, data) {
+            if (err) {
+                console.log(err)
+                res.status(502).json({
+                    error: err,
+                    status: 'Internal server error - Failed to retrieve posts from database'
+                })
+            } else {
+                Post.find({ user: userId }).populate('user').exec(function(err, fullpost) {
+                    if (err) {
+                        console.log(err)
+                    } else {
                         console.log("Sending ")
                         console.log(fullpost)
                         res.json({
@@ -370,6 +416,27 @@ app.get("/browse", ensureAuthenticated, (req, res) => {
             error: err,
             status: 'Failed to retrieve posts'
         })
+    }
+})
+
+//Routing for edit post
+app.post("/editpost", ensureAuthenticated, (req, res) => {
+    try {
+        const { postId, title, rank, mode, body, numplayer } = req.body
+        Post.findByIdAndUpdate( postId, { $set: { title: title, rank: rank, mode: mode, body: body, numplayer: numplayer }}, function(err, updatedpost) {
+            if (err) {
+                console.log(err)
+                res.status(502).json({
+                    error: err,
+                    status: 'Internal server error - Failed to retrieve post from database'
+                })
+            } else {
+                console.log("successfully updated")
+                res.status(200).json(updatedpost)
+            }
+        })
+    } catch (err) {
+        console.log(err)
     }
 })
 
@@ -402,7 +469,7 @@ app.get("/homepage", ensureAuthenticated, (req, res) => {
 //Routing for create post 
 app.post("/create", ensureAuthenticated, (req, res) => {
     try {
-        const { game, title, numplayer, mode, rank } = req.body
+        const { game, title, numplayer, mode, rank, body } = req.body
         const userId = req.userId
         User.findById(userId, (err, user) => {
             if (err) {
@@ -418,7 +485,8 @@ app.post("/create", ensureAuthenticated, (req, res) => {
                     title: title,
                     numplayer: numplayer,
                     mode: mode,
-                    rank: rank
+                    rank: rank,
+                    body: body
                 });
                 //Save id of post in user 
                 user.posts.push(post._id.toString());
@@ -490,7 +558,6 @@ app.get('/viewposts', ensureAuthenticated, (req, res) => {
 app.get('/profiles', ensureAuthenticated, (req, res) => {
     try {
         const userId = req.userId
-        console.log(userId)
         User.findById(userId, (err, user) => {
             if (err) {
                 console.log(err)

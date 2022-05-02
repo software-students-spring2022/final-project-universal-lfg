@@ -12,6 +12,7 @@ export default function BrowsePost({route, navigation}){
     const { gameTitle } = route.params
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [user, setUser] = useState('');
     const getPosts = async () => {
         try {
             const token = await AsyncStorage.getItem("token")
@@ -26,6 +27,7 @@ export default function BrowsePost({route, navigation}){
             });
             const json = await response.json();
             setData(json.posts);
+            setUser(json.loginuser)
         } catch (error) {
             console.error(error);
         } finally {
@@ -69,7 +71,9 @@ export default function BrowsePost({route, navigation}){
                             {
                                 data.map((post, indx) => { 
                                     return(
-                                        (post.user === undefined ? <></>
+                                        (post.user.username === user ? <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} 
+                                        image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} body={post.body}
+                                        lobbyId={post._id.toString()} limit={post.numplayer} type='edit'/>
                                         : <Post key={post._id.toString()} navigation={navigation} game={gameTitle} title={post.title} 
                                            image={post.user.img} name={post.user.username} rank={post.rank} detail={post.mode} 
                                            lobbyId={post._id.toString()} limit={post.numplayer} screen={'ViewPost'}/>)

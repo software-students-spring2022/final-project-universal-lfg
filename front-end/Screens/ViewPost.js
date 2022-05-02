@@ -22,7 +22,7 @@ function ViewPost({route, navigation}){
     const [activeSpot, setActiveSpot] = useState(0);
     const [joined, setJoined] = useState(false);
     //Getting params
-    const { game, title, name, initial, image, rank, detail, lobbyId, limit, goBack } = route.params.route.params // This is because it passes through the stack screen first
+    const { game, title, name, image, rank, mode, body, lobbyId, limit, goBack } = route.params.route.params // This is because it passes through the stack screen first
     const limitNum = parseInt(limit)
     //Getting the chat room associated with the post 
     useFocusEffect(() => {
@@ -70,7 +70,7 @@ function ViewPost({route, navigation}){
                         containerStyle={{backgroundColor: 'lightgrey'}}
                         title={name[0]}
                     />
-                    <Text style={{color: '#d9d9d9', textAlign: 'left', marginLeft: 20, fontSize:12}}> {name}{"\n"}{game} </Text>
+                    <Text style={{color: 'white', textAlign: 'left', marginLeft: 10, fontSize:16}}> {name}{"\n "}<Text style={{color: '#d9d9d9', fontSize:12}}>{game}</Text></Text>
                     <Icon type='entypo' name={'dots-three-vertical'} size={25} color={'#d9d9d9'} containerStyle={{position: 'absolute', right: 20}} onPress={() => setIsVisible(true) }></Icon>
                 </View>
                 <BottomSheet
@@ -91,49 +91,49 @@ function ViewPost({route, navigation}){
                 </BottomSheet>
                 <ScrollView style={styles.content}>
                     <View style={styles.title}>
-                        <Text style={{fontWeight: 'bold', fontSize: 20, color: theme.colors.text,}}>{title}</Text>
-                        {/* <TouchableOpacity onPress={() => setIsVisible(true)} style={{justifyContent: "flex-end"}}>
-                            // Navigate to  Edit Page
-                            <Icon type='antdesign' name={'edit'} size={25} color={'#d9d9d9'} onPress={() => console.log('Edit Post')}></Icon>
-                        </TouchableOpacity> */}
+                        <Text style={{fontWeight: 'bold', fontSize: 20, color: theme.colors.text}}>{title}</Text>
                     </View>
                     <Icon type='material' name={'computer'} size={20} color='black' containerStyle={styles.icon}></Icon>
                     <Text style={{color: 'lightgrey'}}>Rank: {rank}</Text>
-                    <Text style={styles.detail}>{detail}</Text>
+                    <Text style={{color: 'lightgrey'}}>Mode: {mode}</Text>
+                    <Text style={styles.detail}>{body}</Text>
                 </ScrollView>
-                <View style={{ marginHorizontal:15, flexDirection: 'row', justifyContent: 'space-between' }}>
-                    <ScrollView horizontal>
-                        <ProgressBar key={title} activeSpot={activeSpot} totalSpots={limitNum} />
-                    </ScrollView>
+
+                <View style={{width: "100%", position:'absolute', bottom: 130}}>
+                    <View style={{ marginHorizontal:15, flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <ScrollView horizontal>
+                            <ProgressBar key={title} activeSpot={activeSpot} totalSpots={limitNum} />
+                        </ScrollView>
+                    </View>
+                    <View style={{flexDirection: 'row', marginHorizontal:15, marginVertical: 20}}>
+                        <Icon type='feather' name={'users'} size={20} color='grey'></Icon>
+                        <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>{activeSpot-1} in Lobby</Text>
+                    </View>
+                    {joined === true ? 
+                        <Button 
+                        onPress={() => navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})} // Navigate to chat page
+                        title = "VIEW LOBBY"
+                        buttonStyle={{backgroundColor: theme.colors.card}}
+                        />
+                        :(chatState.watcher_count === limitNum ? 
+                        <Button 
+                        onPress={() => console.log("Lobby is full.")} // Navigate to chat page
+                        title = "FULL LOBBY"
+                        buttonStyle={{backgroundColor: 'grey'}}
+                        />:
+                        <Button 
+                        onPress={() => {
+                            const channel = client.channel('messaging', lobbyId)
+                            channel.addMembers([client.user.id], {text:`${client.user.name} has joined the lobby -- Say Hi!`})
+                            navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})
+                            setJoined(true)
+                            setActiveSpot(activeSpot+1)
+                        }}// Navigate to chat page
+                        title = "JOIN LOBBY"
+                        buttonStyle={{backgroundColor: theme.colors.button}}
+                        />)
+                    }
                 </View>
-                <View style={{flexDirection: 'row', marginHorizontal:15, marginVertical: 20}}>
-                    <Icon type='feather' name={'users'} size={20} color='grey'></Icon>
-                    <Text style={{color: '#ECECEC', fontSize: 15, marginLeft: 10}}>{activeSpot-1} in Lobby</Text>
-                </View>
-                {joined === true ? 
-                    <Button 
-                    onPress={() => navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})} // Navigate to chat page
-                    title = "VIEW LOBBY"
-                    buttonStyle={{backgroundColor: theme.colors.card}}
-                    />
-                    :(chatState.watcher_count === limitNum ? 
-                    <Button 
-                    onPress={() => console.log("Lobby is full.")} // Navigate to chat page
-                    title = "FULL LOBBY"
-                    buttonStyle={{backgroundColor: 'grey'}}
-                    />:
-                    <Button 
-                    onPress={() => {
-                        const channel = client.channel('messaging', lobbyId)
-                        channel.addMembers([client.user.id], {text:`${client.user.name} has joined the lobby -- Say Hi!`})
-                        navigation.navigate('ChatRoomPost', {lobbyParams:lobbyParams})
-                        setJoined(true)
-                        setActiveSpot(activeSpot+1)
-                    }}// Navigate to chat page
-                    title = "JOIN LOBBY"
-                    buttonStyle={{backgroundColor: theme.colors.button}}
-                    />)
-                }
             </View>
         </SafeAreaProvider>
     )
@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
     },
     content: {
         marginHorizontal: 15,
-        marginVertical: 15
+        marginVertical: 15,
+        height: "100%"
     },
     title: {
         flexDirection: 'row', 

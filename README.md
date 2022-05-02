@@ -53,6 +53,16 @@ Users without iPhone devices:
 
 Note: For more help with opening the app in Android Studio, click [here](https://www.brainstormcreative.co.uk/react-native-expo/how-to-run-an-expo-app-on-an-android-emulator/).
 
+## Deployment
+
+The frontend of this project was deployed using Expo, an open-source platform for making universal native apps. 
+
+To view the frontend, click [here](https://expo.dev/@universal-lfg/universal-lfg) to view the QR code.
+
+If you have an iPhone, you must create an Expo account (can be done after downloading the Expo Go app from the App Store) and let a member of our team (see below) add your account email. From there, you will be able to scan the QR code with your phone and open the app in Expo Go.
+
+If you have an Android, after you download the Expo app from the Google Play store, you may scan the QR code and open the app in Expo.
+
 ## Team
 
 * [Helen Dong](https://github.com/helenyxd)

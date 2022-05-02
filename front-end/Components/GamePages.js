@@ -5,6 +5,7 @@ import BrowsePost from '../Screens/BrowsePost'
 import CreatePost from '../Screens/CreatePost'
 import ViewPost from '../Screens/ViewPost'
 import HostViewPost from '../Screens/HostViewPost'
+import EditPost from '../Screens/EditPost'
 import Home from '../Screens/Home';
 import LoadingHome from '../Screens/LoadingHome';
 import URL from '../url.json'
@@ -46,6 +47,7 @@ export default function GamePages(props){
                 }
                 <Stack.Screen name="ViewPost" component={ViewPost} />
                 <Stack.Screen name="HostViewPost" component={HostViewPost} />
+                <Stack.Screen name="EditPost" component={EditPost} />
                 <Stack.Screen name="CreatePost" component={CreatePost} />
              </>
           }

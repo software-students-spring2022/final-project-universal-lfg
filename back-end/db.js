@@ -30,7 +30,8 @@ const PostSchema = new Schema({
     title: { type: String, required: true },
     numplayer: { type: String, required: true },
     mode: { type: String },
-    rank: { type: String }
+    rank: { type: String },
+    body: { type: String }
 })
 
 // messages

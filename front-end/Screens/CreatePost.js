@@ -12,14 +12,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import URL from '../url.json'
 import { createStackNavigator } from '@react-navigation/stack';
 import ChatRoom from './ChatRoom';
-import ViewPost from './ViewPost'
+import HostViewPost from './HostViewPost'
 const Stack = createStackNavigator(); 
 
 export default function CreatePostStack({route, navigation}){
     return(
         <Stack.Navigator screenOptions={{initialRouteName: "CreatePostPage"}}>
             <Stack.Screen name="CreatePostPage" component={CreatePost} initialParams={{route:route, navigation:navigation}} options={{headerShown:false}} />
-            <Stack.Screen name="NewLobby" component={ViewPost} options={{headerBackTitleVisible:false, headerShown:false}} style={styles.backButton}/>
+            <Stack.Screen name="NewLobby" component={HostViewPost} options={{headerBackTitleVisible:false, headerShown:false}} style={styles.backButton}/>
         </Stack.Navigator>
     )
 }
@@ -27,15 +27,11 @@ export default function CreatePostStack({route, navigation}){
 function CreatePost({route, navigation}){
     const {gameTitle} = route.params.route.params
     const {client} =useChatContext()
-    //const [game, setGame] = useState({value: '', error: ''})
     const [title, setTitle] = useState({ value: '', error: '' })
     const [bodyText, setBodyText] = useState({ value: '', error: '' })
     const [gameMode, setGameMode] = useState({ value: '', error: '' })
     const [numPlayers, setNumPlayers] = useState({ value: '', error: '' })
     const [preferredRank, setPreferredRank] = useState({ value: '', error: '' })
-    
-    const [activeSpot, setActiveSpot] = useState(1);
-    const totalSpots = 5;
 
     function onSubmitPressed(){
             createCall()
@@ -43,7 +39,7 @@ function CreatePost({route, navigation}){
 
     async function createCall (){
         try {
-            const post = {"game": gameTitle, "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value}
+            const post = {"game": gameTitle, "title": title.value, "numplayer": numPlayers.value, "mode": gameMode.value, "rank": preferredRank.value, "body": bodyText.value}
             const token = await AsyncStorage.getItem("token")
             const res = await fetch(URL.url+'/create', {
               method: 'POST',
@@ -61,10 +57,11 @@ function CreatePost({route, navigation}){
             } else {
               let channelId = response._id.toString()
               console.log('Response received')
+              console.log(response)
               //Watch the channel 
               //Navigating to lobby for post 
               navigation.navigate('NewLobby', {game: gameTitle, name: client.user.name, title: title.value, image: '', 
-                rank: preferredRank.value, detail: bodyText.value, lobbyId: channelId, limit:numPlayers.value, 
+                rank: preferredRank.value, mode: gameMode.value, body: bodyText.value, lobbyId: channelId, limit:numPlayers.value, 
                 goBack: () => navigation.dispatch(
                     CommonActions.reset({
                       index: 0,
@@ -113,6 +110,7 @@ function CreatePost({route, navigation}){
                         value={numPlayers.value}
                         keyboardType="numeric"
                         returnKeyType="done"
+                        keyboardType='numeric'
                         onChangeText={(text) => setNumPlayers({ value: text, error: '' })}
                     />
                     <TextInput
@@ -125,7 +123,6 @@ function CreatePost({route, navigation}){
                     <AppButton
                         title='Submit Post'
                         onPress={onSubmitPressed}
-                        //onPress={navigation.goBack}
                     />
                 </View>
             </ScrollView>
