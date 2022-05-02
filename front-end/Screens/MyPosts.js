@@ -1,41 +1,48 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Card, Avatar } from 'react-native-elements';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useChatContext } from 'stream-chat-expo';
+import Post from '../Components/Post';
 import theme from "../theme";
+import URL from '../url.json'
 
-const POSTS = [
-    {game: 'League of Legends', title: "MyPost1", name: "John Doe", initial: "JD", image: require("../assets/profilepic.png"), rank: "GOLD", detail: "detail1"},
-    {game: 'Minecraft', title: "MyPost2", name: "John Doe", initial: "JD", image: require("../assets/profilepic.png"), rank: "Beginner", detail: "detail2"},
-]
+export default function MyPosts({navigation}){
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
+    const getMyPosts = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token")
+            const response = await fetch(URL.url+'/myposts', {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                    'x-access-token': token
+                },
+            });
+            const json = await response.json();
+            setData(json.posts);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
+    }
 
-export default function MyPosts({navigation}){ 
+    useEffect(() => {
+        getMyPosts();
+    }, []);
+
     return ( 
         <View style={styles.container}> 
             <View>
                 {
-                    POSTS.map((post) => { 
+                    data.map((post) => {
                         return(
-                            <TouchableOpacity key={post.title} onPress={() => {navigation.navigate('HostViewPost', {game: post.game, title: post.title, name: post.name, initial: post.initial, image: post.image, rank: post.rank, detail: post.detail})}}>
-                                <Card containerStyle={{marginHorizontal: 10}}>
-                                    <Card.Title>{post.title}</Card.Title>
-                                    <Card.Divider/>
-                                    <Text style={{color: 'grey'}}>
-                                        {post.game}    
-                                    </Text>
-                                    <Text style={{marginVertical: 10}}>
-                                        {post.detail}
-                                    </Text>
-                                    <View style={{flexDirection: 'row'}}>
-                                        <Avatar
-                                            size="small"
-                                            rounded
-                                            source={post.image}
-                                            containerStyle={{backgroundColor: 'lightgrey'}}
-                                        />
-                                        <Text style={{color: 'grey', textAlign: 'left', fontSize:14, textAlignVertical: 'center'}}> {post.name} </Text>
-                                    </View>
-                                </Card>
-                            </TouchableOpacity> 
+                            <Post key={post._id.toString()} navigation={navigation} game={post.game} title={post.title} 
+                                           image={post.user.img} name={post.user.username} rank={post.rank} mode={post.mode} body={post.body} 
+                                           lobbyId={post._id.toString()} limit={post.numplayer} type='edit'/>
                         )
                     } )
                 }
